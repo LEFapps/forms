@@ -14,7 +14,4 @@ const TextComponent = props => {
   )
 }
 
-const config = ({ translator, model }) => []
-
 export default TextComponent
-// export { config }

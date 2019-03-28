@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
-import Ajv from 'ajv'
-import { filter, map, set, get, reduce, isObject, isFunction, isEmpty } from 'lodash'
+import { filter, map, set, get, reduce, isFunction, isEmpty } from 'lodash'
 
-const requiredPaths = elements => map(filter(elements, { required: true }), 'name')
+const requiredPaths = elements =>
+  map(filter(elements, { required: true }), 'name')
 
 const missingPaths = (doc, elements) => {
   const paths = requiredPaths(elements)
-  return reduce(paths, (errors, path) => {
-    if (isEmpty(get(doc, path))) { set(errors, path, true) }
-    return errors
-  }, {})
+  return reduce(
+    paths,
+    (errors, path) => {
+      if (isEmpty(get(doc, path))) {
+        set(errors, path, true)
+      }
+      return errors
+    },
+    {}
+  )
 }
 /*
 const assembleSchema = elements => {
@@ -39,8 +45,14 @@ const validate = WrappedForm =>
       return errors
     }
     validatedOnStateChange (doc) {
-      if (this.state.submitted) { this.setState({ errors: this.validate(doc) }) }
-      if (isFunction(this.props.onStateChange)) { return this.props.onStateChange(doc) } else { return doc }
+      if (this.state.submitted) {
+        this.setState({ errors: this.validate(doc) })
+      }
+      if (isFunction(this.props.onStateChange)) {
+        return this.props.onStateChange(doc)
+      } else {
+        return doc
+      }
     }
     validatedOnSubmit (doc) {
       this.setState({ submitted: true })
@@ -60,12 +72,14 @@ const validate = WrappedForm =>
     }
     render () {
       const { onSubmit, onStateChange, ...xProps } = this.props
-      return <WrappedForm
-        onSubmit={this.validatedOnSubmit}
-        onStateChange={this.validatedOnStateChange}
-        errors={this.state.errors}
-        {...xProps}
-      />
+      return (
+        <WrappedForm
+          onSubmit={this.validatedOnSubmit}
+          onStateChange={this.validatedOnStateChange}
+          errors={this.state.errors}
+          {...xProps}
+        />
+      )
     }
   }
 

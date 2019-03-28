@@ -9,7 +9,7 @@ import TextInput from './components/Text'
 import Checkbox from './components/Checkbox'
 import CheckboxMC from './components/CheckboxMC'
 import Radio from './components/Radio'
-import Select from './components/Select'
+import Select, { transformOptions } from './components/Select'
 import Divider from './components/Divider'
 import InfoBox from './components/InfoBox'
 
@@ -21,7 +21,6 @@ import ValidateDecorator from './decorators/Validate'
 import NameDecorator from './decorators/Name'
 import PlaceholderDecorator from './decorators/Placeholder'
 
-import transformOptions from './components/Select'
 import translatorText from './helpers/translator'
 
 export {

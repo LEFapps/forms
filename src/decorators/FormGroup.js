@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormGroup, Label } from 'reactstrap'
-import { includes, union, flip, size, upperCase, get } from 'lodash'
+import { includes, union, flip, upperCase } from 'lodash'
 import { translatorText } from '../helpers/translator'
 
 const FormGroupDecorator = WrappedComponent => props => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { GenericInputNoChildren } from './GenericInput'
 import { transformOptions } from './Select'
-import { get, upperCase, kebabCase, includes } from 'lodash'
+import { get, upperCase, includes } from 'lodash'
 import { translatorText } from '../helpers/translator'
 import random from '../helpers/random'
 
@@ -38,18 +38,6 @@ const CheckboxMC = props => {
       />
     )
   })
-  const bindCheckedInput = name => {
-    return {
-      name,
-      label: translatorText(props.value),
-      checked: get(props.model, name),
-      onChange: e => props.setProperty(name, e.target.checked)
-    }
-  }
-  if (get(xProps, 'value', '')) {
-    xProps.value = translatorText(xProps.value, translator)
-  }
-  return <GenericInputNoChildren {...xProps} bindInput={bindCheckedInput} />
 }
 
 CheckboxMC.displayName = 'CheckboxMC'

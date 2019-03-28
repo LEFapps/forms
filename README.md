@@ -1,4 +1,4 @@
-# Forms v2
+# Forms
 
 This is a composition based form generator. Every composed form is also [reformed](https://github.com/davezuko/react-reformed), allowing for easy model bindings.
 
@@ -8,6 +8,22 @@ A library of default components and one for decorators is provided. You can exte
 
 A form editor is also available, with which you can modify form elements.
 
+***
+
+## Contents
+
+1. [**Easyform**: getting started](#easyform)
+  - [Available props](#props)
+  - [Configuration (library)](#configuration)
+  - [Elements blueprint](#elements)
+2. [Modifying **libraries**](#modifying-libraries)
+3. [**Editing** forms](#editing-forms)
+4. [Building your own **components**](#components)
+5. [Building your own **decorators**](#decorators)
+6. [Integrating **translations**](#translations)
+
+***
+
 ## EasyForm
 
 The easiest way of creating forms is using the `EasyForm`.
@@ -15,48 +31,44 @@ The easiest way of creating forms is using the `EasyForm`.
 Let's assume the form is configured with a hardcoded list of elements:
 
 ```JSX
-const formElements = [
-  {
-    key: 'unique_key_foo', // forms built with FormEditor are automatically taken care of
-    name: 'foo',
-    type: 'textarea',
-    attributes: {
-      rows: 5,
-    }
-  },
-  {
-    key: 'unique_key_bar',
-    name: 'bar',
-    type: 'text'
-  },
-]
+import { EasyForm } from '@lefapps/forms'
 
-const groupedFormEls = [
-  {}, // elements as above
-  { type: 'divider', key: 'divider_1' }, // adds 'hr'
-  {}, // elements as above
+const formElements = [
+  { name: 'foo', type: 'textarea' },
+  { name: 'bar', type: 'text' }
 ]
 
 const MyForm = new EasyForm().instance()
 
-class Example extends Component {
-  _onSubmit = (model) => {
+class Example extends React.Component {
+  _onSubmit = model => {
     // this gets called when the form is submitted
     // e.preventDefault() has already been called of course
-    console.log(model);
+    console.log(model)
   }
   render() {
     return (
       <MyForm
         elements={formElements}
         initialModel={{bar: "Example text"}}
-        onSubmit={this._onSubmit}
-        <Button type="submit">Submit</Button>
+        onSubmit={this._onSubmit}>
+        <button type="submit">Submit</button>
       </MyForm>
     )
   }
 }
 ```
+
+### Props
+
+Prop | Required? | Notes
+:---: | :---: | ---
+[elements](#elements) | yes | array of form elements
+onSubmit | yes | function to call when form gets submitted<br>_gets the form model as only parameter_
+initialModel || default form values (in the same format as the form model)
+onStateChange || perform transormations on the model<br>_gets the model as only parameter, **expects a (modified) model to be returned again**_
+
+### Configuration
 
 The `EasyForm` constructor accepts a configuration object with:
 
@@ -78,78 +90,93 @@ const MyForm = new EasyForm().instance({decorators:["formgroup"]})
 
 Note that the decorators are applied _in sequence_, either the "natural" sequence in the `DecoratorLibrary` or the sequence in the `instance` arguments (applied left to right). This is important if you need to be certain of the position of a wrapper in the hierarchy.
 
-`initialModel` is used to fill the initial values.
-
 Note that the `attributes` from the element are applied directly to the `Input` component by the `Textarea` component. This is an example of a _convention_ from this specific component library. Similarly, `name` and `type` are applied as you would expect.
+
+>**Architectural note:** you (probably) only need to make one `EasyForm` instance per "type" of form in your application. You can simply reuse it as a component throughout your application.
+
+### Elements
+
+Property | Required? | Default | Type | Notes
+--- | --- | --- | --- | ---
+**name** | yes || `String` | defines the structure in the form model[*](#model)
+**type** | yes || `String` | defines the type of input (see components folder)
+**label** ||| `String`<br>`Object`[*](#translations) | input label
+**options** | _select<br>chekbox(-mc)<br>radio_ | `[]` | `[String]`<br>`[Object]`[*](#translations) | available values
+**required** || `false` | `Bool` | default **validation decorator** is applied when `true`
+**schema** ||| `String`<br>`Object`[*](#translations) | help text when field is invalid
+**dependent** ||| `Object` | dynamically show or hide element, based on value of other element<br>needs **dependent decorator**
+**layout** ||| `Object` | config for default **layout decorator**<br>uses bootstrap grid
+**attributes** ||| `Object` | passed attributes are applied directly to input element<br>_e.g.: `rows` for textarea_
+**key** ||| `String` | only necessary if multiple elements with the same name are present<br>_e.g.: when using dependent fields_ (React needs different keys)
 
 Blueprint of an element:
 
 ```JSON
 {
-  "key" : "unique key: only needed if name can cause identical keys (e.g. when using dependent) OR when using form editor",
   "name" : "name.supports.nesting",
-  "type" : "text/textarea/select/checkbox/divider/infobox",
-  "label" : {
-    "nl" : "LabelText (NL)",
-    "en" : "LabelText (EN)"
-  },
+  "type" : "text|textarea|select|radio|checkbox|checkbox-mc|divider|infobox",
+  "label" : "LabelText",
   "attributes" : {
-    "placeholders" : {
-      "nl" : "PlaceholderText (NL)",
-      "en" : "PlaceholderText (EN)"
-    },
-    "multiple": true,
+    "placeholder" : "Placeholder",
     "size": 12,
     "rows" : 5
   },
   "required" : true,
   "dependent" : {
     "on" : "dependentOn",
-    "operator" : "in, gt, gte, lt, lte, is isnt, ''",
+    "operator" : "in|gt|gte|lt|lte|is|isnt|…",
     "values" : "value or array of values"
   },
-  "schema": {
-    "description": {
-      "nl" : "HelpText (NL)",
-      "en" : "HelpText (EN)"
-    }
-  },
+  "schema": { "description": "HelpText (NL)" },
   "layout" : {
     "col" : {
       "xs" : 12,
       "md" : 6
     }
   },
-  "options" : [
-    {
-      "_id" : "~red",
-      "nl" : "Rood",
-      "en" : "Red"
-    },
-    {
-      "_id" : "~blue",
-      "nl" : "Blauw",
-      "en" : "Blue"
-    }
-  ]
+  "options" : ["~red", "~blue"]
 }
 ```
 
-### Architectural note
 
-You (probably) only need to make one `EasyForm` instance per "type" of form in your application. You can simply reuse it as a component throughout your application.
+### Model
+
+```JS
+const elements = [
+  { name: 'name' },
+  { name: 'address.street' },
+  { name: 'address.number' },
+  { name: 'address.zip' },
+  { name: 'address.city' },
+]
+
+const onSubmit = model => {
+  // model is an object which reflects the structure of the element names
+  const { name, address } = model
+  const { street, number, zip, city } = address || {}
+  /* model = {
+   *  name: 'name',
+   *  address: {
+   *    street: 'street',
+   *    number: 'number',
+   *    zip: 'zip',
+   *    city: 'city' }
+   * }
+   */
+}
+```
 
 ## Modifying libraries
 
 If you wish to modify the standard component and decorator libraries, you can do things like this:
 
 ```JSX
-import { withTranslator } from 'meteor/lef:translations'
+import { withTranslator } from '@lefapps/translations'
 
 const MyFormConfig = new EasyForm()
-MyFormConfig.addComponent(name1,component)
+MyFormConfig.addComponent(name1, component)
 MyFormConfig.removeComponent(name2)
-MyFormConfig.addDecorator(name3,decorator)
+MyFormConfig.addDecorator(name3, decorator)
 MyFormConfig.removeDecorator(name4)
 const MyForm = MyFormConfig.instance()
 const MyTranslatedForm = withTranslator(MyForm)
@@ -163,12 +190,14 @@ const MyComponents = DefaultComponents.subset(["textarea","checkbox"])
 const MyForm = new EasyForm({library:MyComponents,decorators:MyDecorators}).instance()
 ```
 
+See [components](#components) and [decorators](#decorators) for more info.
+
 ## Editing forms
 
 It's extremely easy to get a form editor for the example form above:
 
 ```JSX
-import { withTranslator } from 'meteor/lef:translations'
+import { withTranslator } from '@lefapps/translations'
 
 const MyFormEditor = new EasyForm().editor()
 const MyTranslatedFormEditor = withTranslator(MyFormEditor)
@@ -223,25 +252,25 @@ const transform = (element, { translator, model }, saving) => {
 
 const config = ({ translator, model }) = return [
   {
-    key: "name",
-    name: "name",
-    type: "text",
-    label: "Field name", // or translator object { nl: "", en: "" }
+    key: 'name',
+    name: 'name',
+    type: 'text',
+    label: 'Field name', // or translator object { nl: '', en: '' }
     attributes: {
-      placeholder: "Technical name for field",
+      placeholder: 'Technical name for field',
       // OR
       placeholders: {
-        en: "Technical name for field",
+        en: 'Technical name for field',
       }
     },
     required: true,
     layout: { col: { xs: 12 } },
   },
   {
-    key: "attributes.placeholder",
-    name: "attributes.placeholders",
-    type: "text",
-    label: "Placeholder",
+    key: 'attributes.placeholder',
+    name: 'attributes.placeholders',
+    type: 'text',
+    label: 'Placeholder',
     layout: { col: { xs: 12 } }
   }
 ]
@@ -257,7 +286,7 @@ When adding a component, you can for example do it like this:
 ```JSX
 const easyForm = new EasyForm()
 const path = '../imports/components/TextComponent'
-easyForm.addComponent("mytext",{
+easyForm.addComponent('mytext', {
     component: require(path).default,
     config: require(path).config
 })
@@ -288,11 +317,11 @@ const transform = (element, { translator, model }, saving) => {
 
 const config = ({ translator, model }) => [
   {
-    key: "label",
-    name: "label",
-    type: "textarea",
-    label: "Field label or introduction",
-    layout: {col: {md:"12"}}
+    key: 'label',
+    name: 'label',
+    type: 'textarea',
+    label: 'Field label or introduction',
+    layout: { col: { md: 12 } }
   }
 ]
 
@@ -300,7 +329,7 @@ const config = ({ translator, model }) => [
 const combine = _.flip(_.union)
 
 // we're only interested in certain components:
-const filter = componentType => _.includes(["textarea", "text"], componentType)
+const filter = componentType => _.includes(['textarea', 'text'], componentType)
 
 export default FormGroupDecorator
 export { transform, config, combine, filter }
@@ -311,11 +340,11 @@ You also need to add it to the `DecoratorLibrary`, for example like this:
 ```JSX
 const easyForm = new EasyForm()
 const decorator = require('../imports/decorators/FormGroupDecorator')
-easyForm.addDecorator("myformgroup", {
-  decorator: decorator.default,
-  config: isArray(decorator.config) ? decorator.config : [],
-  combine: isFunction(decorator.combine) ? decorator.combine : union,
-  filter: isFunction(decorator.filter) ? decorator.filter : stubTrue,
+easyForm.addDecorator('myformgroup', {
+    decorator: decorator.default,
+    config: isArray(decorator.config) ? decorator.config : [],
+    combine: isFunction(decorator.combine) ? decorator.combine : union,
+    filter: isFunction(decorator.filter) ? decorator.filter : stubTrue,
 })
 ```
 
@@ -352,21 +381,17 @@ If you are creating a large component and/or decorator library, it might be wort
 
 ## Translations
 
-When wrapping the Form instance or editor in `lef:translation`’s `withTranslator`, you have access to the `translator` object inside library config fields. It is then recommended to pass `translator` as a prop to each `<Form />` component.
+When wrapping the Form instance or editor in [@lefapps/translations](https://www.npmjs.com/package/@lefapps/translations)’s `withTranslator`, you have access to the `translator` object inside library config fields. It is then recommended to pass `translator` as a prop to each `<Form />` component.
 
-There is a helper function available to make it easier to retrieve the correct language from `placeholders`, `label` and other fields.
+There is a helper function `translatorText` available to make it easier to retrieve the correct language from `placeholders`, `label` and other fields.
 
 ```JS
-import { translatorText } from '<root>/translator'
+import { translatorText } from '@lefapps/forms'
 
 const label = {
   nl: 'NL Label',
   en: 'EN Label'
 }
-
-// example function for demonstration purposes
-const getLabel = ({ translator }) => translatorText('Label String', translator)
-// returns label if label is a String
 
 const getLabel = ({ translator }) => translatorText(label, translator, false) || 'fallback'
 // returns 'NL Label' if translator.currentLanguage == 'nl'

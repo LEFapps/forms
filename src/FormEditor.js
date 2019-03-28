@@ -9,15 +9,12 @@ import {
   Col,
   Button,
   ButtonGroup,
-  CardHeader,
-  UncontrolledCollapse,
-  UncontrolledButtonDropdown,
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
-import { get, capitalize, cloneDeep } from 'lodash'
+import { capitalize, cloneDeep } from 'lodash'
 
 const transformElements = (elements, library, saving = true) =>
   elements.map(element => {
@@ -84,8 +81,8 @@ class FormEditor extends Component {
         prevstate.elements.splice(index + 1, 0, duplicate)
         return { elements: prevstate.elements }
       } else {
-        return { elements: prevstate.elements }
         console.error(`Element not found (${element.name}, ${index}).`)
+        return { elements: prevstate.elements }
       }
     })
     this.showPreview(false)
@@ -226,7 +223,8 @@ class ButtonMenu extends Component {
                 <DropdownItem
                   key={`add-${type}`}
                   onClick={() => {
-                    this.toggle(), addElement(type)
+                    this.toggle()
+                    addElement(type)
                   }}
                 >
                   {capitalize(type)}
@@ -239,8 +237,5 @@ class ButtonMenu extends Component {
     )
   }
 }
-
-// const configuration
-//
 
 export { FormEditor }

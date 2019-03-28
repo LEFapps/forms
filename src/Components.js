@@ -1,8 +1,8 @@
 import { Library } from './Library'
-import { isArray, isFunction, stubArray, identity } from 'lodash'
+import { isFunction, stubArray, identity } from 'lodash'
 
 // cannot be used by require() since it's not imported anywhere else
-import GenericInputNoChildren from './components/GenericInputNoChildren'
+import './components/GenericInputNoChildren'
 
 const library = new Library([
   ['divider', './components/Divider'],

@@ -1,7 +1,7 @@
 import React from 'react'
 import { GenericInputNoChildren } from './GenericInput'
 import { transformOptions } from './Select'
-import { get, upperCase, kebabCase } from 'lodash'
+import { get, upperCase } from 'lodash'
 import { translatorText } from '../helpers/translator'
 import random from '../helpers/random'
 
@@ -15,12 +15,12 @@ const Radio = props => {
       type: 'radio',
       value: optionValue,
       label: translatorText(option, translator),
-      checked: get(props.model, props.element.name) == optionValue
+      checked: get(props.model, props.element.name) === optionValue
     }
     const bindCheckedInput = name => {
       return {
         name,
-        checked: get(props.model, name) == optionValue,
+        checked: get(props.model, name) === optionValue,
         onChange: e =>
           props.setProperty(name, e.target.checked ? optionValue : undefined)
       }
@@ -37,7 +37,7 @@ const Radio = props => {
 
 Radio.displayName = 'Radio'
 
-const config = ({ translator, model }) => {
+const config = ({ translator }) => {
   const { languages } = translator || {}
   if (languages) {
     const headerField = [

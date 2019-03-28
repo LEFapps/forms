@@ -18,11 +18,11 @@ import { translatorText } from '../helpers/translator'
 const Select = props => {
   const { element, translator } = props
   const options = element.options || []
-  // if (get(element, 'attributes.multiple', false) == 'checkbox') {
+  // if (get(element, 'attributes.multiple', false) === 'checkbox') {
   //   return <SelectMulti {...props} />
   // } else {
   const hasEmptyOption = isArray(options)
-    ? options.find(option => !option || !option._id || option._id == '~')
+    ? options.find(option => !option || !option._id || option._id === '~')
     : !options
   return (
     <GenericInput {...props}>
@@ -171,7 +171,7 @@ const transformOptions = (defaultOptions, translator, saving) => {
     const reducer = (result, options, lang) => {
       options.split(optionDelimiter).map((option, key) => {
         if (!result[key]) result[key] = {}
-        result[key][lang] = lang == '_id' ? optionId(option) : option
+        result[key][lang] = lang === '_id' ? optionId(option) : option
       })
       return result
     }

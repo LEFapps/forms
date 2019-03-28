@@ -1,12 +1,5 @@
 import { DecoratorLibrary } from './Library'
-import {
-  union,
-  stubTrue,
-  stubArray,
-  identity,
-  isFunction,
-  isArray
-} from 'lodash'
+import { union, stubTrue, stubArray, identity, isFunction } from 'lodash'
 
 /* Note: the sequence here determines the sequence
  * in which they are applied in EasyForm!

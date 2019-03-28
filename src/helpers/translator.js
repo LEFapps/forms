@@ -1,13 +1,9 @@
 import React from 'react'
 import { isString, get, head, map } from 'lodash'
+import { Translate } from '@lefapps/translations'
 
-const translation = ({ translate }) => {
-  if (translate) {
-    import('meteor/lef:translations')
-      .then(({ Translate }) => <Translate _id={translate} />)
-      .catch(e => console.warn(e))
-  }
-}
+const translation = ({ translate }) =>
+  translate ? <Translate _id={translate} /> : null
 
 const translatorText = (text, translator, getDefault) => {
   if (text) {

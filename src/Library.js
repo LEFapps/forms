@@ -1,4 +1,4 @@
-import { map, isArray, isFunction, difference, cloneDeep } from 'lodash'
+import { map, isFunction, difference, cloneDeep } from 'lodash'
 
 class Library extends Map {
   /*
@@ -58,9 +58,7 @@ class DecoratorLibrary extends Library {
         if (filter(targetKey)) {
           // apply the decorator
           const originalDisplayName =
-            target.component.displayName ||
-            target.component.name ||
-            'Component'
+            target.component.displayName || target.component.name || 'Component'
           target.component = decorator(target.component)
           target.component.displayName = `${sourceKey}(${originalDisplayName})`
           // combine configurations

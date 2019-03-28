@@ -9,7 +9,7 @@
     "build": "cross-env BABEL_ENV=production babel src --out-dir lib",
     "build-dev": "cross-env BABEL_ENV=development babel src --out-dir lib",
     "dev": "watch 'npm run build-dev' src",
-    "prepublish": "npm run clean && npm run build"
+    "prepublish": "npm run clean && npm run lint && npm run build"
   },
   "keywords": [
     "forms",
@@ -26,12 +26,13 @@
   },
   "license": "MIT",
   "dependencies": {
-    "ajv": "^6.10.0",
+    "@lefapps/translations": "^3.0.0",
     "lodash": "^4.17.11",
-    "reactstrap": "^7.1.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "react-reformed": "2.0.0"
+    "react-reformed": "2.0.0",
+    "reactstrap": "^7.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -48,16 +49,15 @@
     "babel-preset-minify": "^0.5.0",
     "cross-env": "^5.2.0",
     "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard-react": "^7.0.2",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-standard": "^4.0.0",
+    "markdown-it": "^8.4.2",
     "react": "^16.8.5",
     "rimraf": "^2.6.3",
     "watch": "^1.0.2"
-  },
-  "peerDependencies": {
-    "markdown-it": "^8.4.2"
   }
 }

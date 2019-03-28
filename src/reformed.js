@@ -10,24 +10,24 @@ class ModelHandlerWrapper {
     this.setState = setState
     this.onStateChange = onStateChange
   }
-  setModel = model => {
+  setModel (model) {
     model = this.onStateChange(model)
     this.setState({ model })
     return model
   }
-  getModel = () => this.getState('model')
-  getModelValue = name => get(this.getModel(), name)
-  setModelValue = (name, value) => {
+  getModel () {
+    return this.getState('model')
+  }
+  getModelValue (name) {
+    return get(this.getModel(), name)
+  }
+  setModelValue (name, value) {
     return this.setModel(set(this.getModel(), name, value))
   }
 }
 
 const makeWrapper = middleware => WrappedComponent => {
   class FormWrapper extends React.Component {
-    static propTypes = {
-      initialModel: PropTypes.object
-    }
-
     constructor (props, ctx) {
       super(props, ctx)
       this.state = {
@@ -35,9 +35,9 @@ const makeWrapper = middleware => WrappedComponent => {
       }
     }
 
-    makeHelpers = modelHandler => {
+    makeHelpers (modelHandler) {
       const bindToChangeEvent = e => {
-        const { name, type, value } = e.target
+        const { name, value } = e.target
         modelHandler.setModelValue(name, value)
       }
       return {
@@ -79,6 +79,9 @@ const makeWrapper = middleware => WrappedComponent => {
     }
   }
 
+  FormWrapper.propTypes = {
+    initialModel: PropTypes.object
+  }
   FormWrapper.displayName = `Reformed(${getComponentName(WrappedComponent)})`
   return hoistNonReactStatics(FormWrapper, WrappedComponent)
 }

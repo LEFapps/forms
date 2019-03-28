@@ -42,25 +42,18 @@ const dependency = ({ on, operator, values }) => model => {
                 : castArray(values)
           )
         )
-        break
       case 'gt':
         return values > value
-        break
       case 'gte':
         return values >= value
-        break
       case 'lt':
         return values < value
-        break
       case 'lte':
         return values <= value
-        break
       case 'is':
-        return values == value
-        break
+        return values === value
       case 'isnt':
-        return values != value
-        break
+        return values !== value
       default:
         return !isEmpty(value)
     }
@@ -76,7 +69,7 @@ const Dependent = WrappedComponent => props => {
   return <WrappedComponent {...props} />
 }
 
-const config = ({ translator, model }) => [
+const config = ({ model }) => [
   {
     key: 'dependent.divider',
     type: 'divider',
@@ -95,12 +88,10 @@ const config = ({ translator, model }) => [
     label: 'Identifier of other field',
     options: model
       ? compact(
-          map(
-            model,
-            element =>
-              model.name ? merge({ _id: model.name }, model.label) : false
-          )
+        map(model, () =>
+          model.name ? merge({ _id: model.name }, model.label) : false
         )
+      )
       : [],
     attributes: {
       placeholder: 'Field identifier'
@@ -165,8 +156,6 @@ const config = ({ translator, model }) => [
     }
   }
 ]
-
-const filter = key => !includes([], key)
 
 export default Dependent
 export { config }

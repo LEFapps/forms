@@ -1,10 +1,10 @@
 import React from 'react'
 import { GenericInputNoChildren } from './GenericInput'
-import { get, upperCase, kebabCase } from 'lodash'
+import { get, kebabCase } from 'lodash'
 import { translatorText } from '../helpers/translator'
 
 const Checkbox = props => {
-  const { bindInput, ...xProps } = props
+  const { translator, bindInput, ...xProps } = props
   xProps.checked = get(props.model, props.element.name, false)
   const bindCheckedInput = name => {
     return {

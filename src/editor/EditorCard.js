@@ -9,8 +9,7 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
-  CardHeader,
-  UncontrolledCollapse
+  CardHeader
 } from 'reactstrap'
 import { size, get, flow, find, upperCase, upperFirst, isString } from 'lodash'
 import { translatorText } from '../helpers/translator'
@@ -66,7 +65,7 @@ class EditorCard extends Component {
       canMove
     } = this.props
     const toggle = `toggle-element-${index}-${element.type}`
-    const has = (element, field) => !!find(element, e => e.name == field)
+    const has = (element, field) => !!find(element, e => e.name === field)
     const dependentOn = get(element, 'dependent.on')
     // retrieve translate key first
     // because wo do not want to lag the form builder with translations
