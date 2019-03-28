@@ -30,7 +30,7 @@ The easiest way of creating forms is using the `EasyForm`.
 
 Let's assume the form is configured with a hardcoded list of elements:
 
-```JSX
+```jsx
 import { EasyForm } from '@lefapps/forms'
 
 const formElements = [
@@ -84,7 +84,7 @@ The component library defaults to `DefaultComponents`, which is a simple library
 
 For example, you might only want to apply the standard `FormGroup` decorator:
 
-```JSX
+```jsx
 const MyForm = new EasyForm().instance({decorators:["formgroup"]})
 ```
 
@@ -111,7 +111,7 @@ Property | Required? | Default | Type | Notes
 
 Blueprint of an element:
 
-```JSON
+```json
 {
   "name" : "name.supports.nesting",
   "type" : "text|textarea|select|radio|checkbox|checkbox-mc|divider|infobox",
@@ -141,7 +141,7 @@ Blueprint of an element:
 
 ### Model
 
-```JS
+```js
 const elements = [
   { name: 'name' },
   { name: 'address.street' },
@@ -170,7 +170,7 @@ const onSubmit = model => {
 
 If you wish to modify the standard component and decorator libraries, you can do things like this:
 
-```JSX
+```jsx
 import { withTranslator } from '@lefapps/translations'
 
 const MyFormConfig = new EasyForm()
@@ -184,7 +184,7 @@ const MyTranslatedForm = withTranslator(MyForm)
 
 or
 
-```JSX
+```jsx
 const MyDecorators = DefaultDecorators.subset(["formgroup","layout"])
 const MyComponents = DefaultComponents.subset(["textarea","checkbox"])
 const MyForm = new EasyForm({library:MyComponents,decorators:MyDecorators}).instance()
@@ -196,7 +196,7 @@ See [components](#components) and [decorators](#decorators) for more info.
 
 It's extremely easy to get a form editor for the example form above:
 
-```JSX
+```jsx
 import { withTranslator } from '@lefapps/translations'
 
 const MyFormEditor = new EasyForm().editor()
@@ -229,7 +229,7 @@ Also note that both components and decorators basically carry their own configur
 
 You can write components like this:
 
-```JSX
+```jsx
 class TextComponent extends Component {
   get type() {
     return "text"
@@ -283,7 +283,7 @@ Note that the `config` will determine what can be edited in the form editor.
 
 When adding a component, you can for example do it like this:
 
-```JSX
+```jsx
 const easyForm = new EasyForm()
 const path = '../imports/components/TextComponent'
 easyForm.addComponent('mytext', {
@@ -300,7 +300,7 @@ This is where the magic happens. Essentially what we can do is _modify_ the comp
 
 Let's assume for instance that we would like to wrap every form component in a `FormGroup` and add a label if is present in the element configuration. It would look something like this:
 
-```JSX
+```jsx
 const FormGroupDecorator = WrappedComponent => props => (
   <FormGroup>
     {props.element.label?<Label for={props.element.name}>{props.element.label}</Label>:null}
@@ -337,7 +337,7 @@ export { transform, config, combine, filter }
 
 You also need to add it to the `DecoratorLibrary`, for example like this:
 
-```JSX
+```jsx
 const easyForm = new EasyForm()
 const decorator = require('../imports/decorators/FormGroupDecorator')
 easyForm.addDecorator('myformgroup', {
@@ -355,7 +355,7 @@ Note the special (optional) configuration fields:
 
 To make use of the new `label` functionality, we can add them to the element configuration:
 
-```JSX
+```jsx
 const formElements = [
   {
     key: 'foo',
@@ -385,7 +385,7 @@ When wrapping the Form instance or editor in [@lefapps/translations](https://www
 
 There is a helper function `translatorText` available to make it easier to retrieve the correct language from `placeholders`, `label` and other fields.
 
-```JS
+```js
 import { translatorText } from '@lefapps/forms'
 
 const label = {
