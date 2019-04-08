@@ -5,26 +5,25 @@ import { isFunction, stubArray, identity } from 'lodash'
 import './components/GenericInputNoChildren'
 
 const library = new Library([
-  ['divider', './components/Divider'],
-  ['infobox', './components/InfoBox'],
-  ['number', './components/GenericInputNoChildren'],
-  ['text', './components/Text'],
-  ['textarea', './components/Textarea'],
-  ['radio', './components/Radio'],
-  ['checkbox', './components/Checkbox'],
-  ['checkbox-mc', './components/CheckboxMC'],
-  ['select', './components/Select'],
-  ['phone', './components/GenericInputNoChildren'],
-  ['email', './components/GenericInputNoChildren'],
-  ['password', './components/GenericInputNoChildren'],
-  ['url', './components/GenericInputNoChildren'],
-  ['datetime-local', './components/GenericInputNoChildren']
+  ['divider', require('./components/Divider')],
+  ['infobox', require('./components/InfoBox')],
+  ['number', require('./components/GenericInputNoChildren')],
+  ['text', require('./components/Text')],
+  ['textarea', require('./components/Textarea')],
+  ['radio', require('./components/Radio')],
+  ['checkbox', require('./components/Checkbox')],
+  ['checkbox-mc', require('./components/CheckboxMC')],
+  ['select', require('./components/Select')],
+  ['phone', require('./components/GenericInputNoChildren')],
+  ['email', require('./components/GenericInputNoChildren')],
+  ['password', require('./components/GenericInputNoChildren')],
+  ['url', require('./components/GenericInputNoChildren')],
+  ['datetime-local', require('./components/GenericInputNoChildren')]
 ])
 
 // replace the paths with components and their config
 
-library.forEach((path, name) => {
-  const component = require(path)
+library.forEach((component, name) => {
   library.set(name, {
     component: component.default,
     config: isFunction(component.config) ? component.config : stubArray,

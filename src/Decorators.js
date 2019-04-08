@@ -6,17 +6,16 @@ import { union, stubTrue, stubArray, identity, isFunction } from 'lodash'
  */
 
 const library = new DecoratorLibrary([
-  ['attributes', './decorators/Attributes'],
-  ['validate', './decorators/Validate'],
-  ['placeholder', './decorators/Placeholder'],
-  ['formgroup', './decorators/FormGroup'],
-  ['name', './decorators/Name'],
-  ['layout', './decorators/Layout'],
-  ['dependent', './decorators/Dependent']
+  ['attributes', require('./decorators/Attributes')],
+  ['validate', require('./decorators/Validate')],
+  ['placeholder', require('./decorators/Placeholder')],
+  ['formgroup', require('./decorators/FormGroup')],
+  ['name', require('./decorators/Name')],
+  ['layout', require('./decorators/Layout')],
+  ['dependent', require('./decorators/Dependent')]
 ])
 
-library.forEach((path, name) => {
-  const decorator = require(path)
+library.forEach((decorator, name) => {
   library.set(name, {
     decorator: decorator.default,
     config: isFunction(decorator.config) ? decorator.config : stubArray,
