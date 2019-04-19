@@ -91,7 +91,7 @@ class SubForm extends React.Component {
                 max <strong>{max}</strong>
               </Col>
             ) : null}
-            <Col xs={1}>
+            <Col xs={2} className={'text-right'}>
               <Button
                 color={'success'}
                 size={'sm'}

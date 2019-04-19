@@ -26,7 +26,7 @@ export default ({ items, remove, edit, element, translator }) => (
           {columns(element).map((col, j) => (
             <td key={`${i}.${j}`}>{d[col].toString()}</td>
           ))}
-          <td>
+          <td className={'text-right text-nowrap'}>
             <Button
               color={'danger'}
               size={'sm'}
