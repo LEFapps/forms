@@ -26,6 +26,7 @@ class FormComposer extends Component {
   }
   _onSubmit (e) {
     e.preventDefault()
+    e.stopPropagation()
     this.props.onSubmit(this.props.model)
   }
   renderElements (props) {

@@ -18,6 +18,7 @@ const library = new Library([
   ['email', require('./components/GenericInputNoChildren')],
   ['password', require('./components/GenericInputNoChildren')],
   ['url', require('./components/GenericInputNoChildren')],
+  ['subform', require('./components/subform/Subform')],
   ['datetime-local', require('./components/GenericInputNoChildren')]
 ])
 
