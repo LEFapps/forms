@@ -22,7 +22,7 @@ class SubForm extends React.Component {
     this._getValue = this._getValue.bind(this)
     this._modifyModel = this._modifyModel.bind(this)
   }
-  componentWillMount () {
+  componentDidMount () {
     const { value } = this._getValue()
     this.setState({ data: value })
   }
