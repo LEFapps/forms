@@ -127,7 +127,10 @@ Blueprint of an element:
     "operator" : "in|gt|gte|lt|lte|is|isnt|…",
     "values" : "value or array of values"
   },
-  "schema": { "description": "HelpText (NL)" },
+  "schema": {
+    "description": "HelpText",
+    "invalid": "HelpText when invalid"
+  },
   "layout" : {
     "col" : {
       "xs" : 12,
