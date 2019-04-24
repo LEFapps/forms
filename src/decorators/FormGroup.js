@@ -18,7 +18,7 @@ const FormGroupDecorator = WrappedComponent => props => {
         <WrappedComponent {...props} />
       </FormGroup>
     )
-  } else if (includes(['radio', 'checkbox'], props.element.type)) {
+  } else if (includes(['checkbox'], props.element.type)) {
     return (
       <FormGroup check>
         <Label check>
