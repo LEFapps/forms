@@ -12,6 +12,7 @@ import Radio from './components/Radio'
 import Select, { transformOptions } from './components/Select'
 import Divider from './components/Divider'
 import InfoBox from './components/InfoBox'
+import Subform from './components/subform/Subform'
 
 import FormGroupDecorator from './decorators/FormGroup'
 import AttributesDecorator from './decorators/Attributes'
@@ -40,7 +41,8 @@ export {
   Radio,
   Select,
   InfoBox,
-  Divider
+  Divider,
+  Subform
 }
 
 export {
