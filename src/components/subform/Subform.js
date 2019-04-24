@@ -45,9 +45,8 @@ class SubForm extends React.Component {
   }
   _modifyModel (action, { index, model, direction }) {
     const { name, value, onChange } = this._getValue()
-    switch (
-      action // CRUD naming + move + duplicate
-    ) {
+    // CRUD naming + move + duplicate
+    switch (action) {
       case 'create':
         if (model === undefined) {
           console.warn('This action requires the options {model} to be set')
@@ -107,7 +106,7 @@ class SubForm extends React.Component {
     const { currentIndex } = this.state
     if (currentIndex >= 0) {
       this._modifyModel('update', { index: currentIndex, model })
-    } else this._modifyModel('add', { model })
+    } else this._modifyModel('create', { model })
     this._closeForm()
   }
   duplicateItem (index) {
@@ -130,7 +129,7 @@ class SubForm extends React.Component {
             <Col>
               # <strong>{data.length}</strong>
             </Col>
-            {min >= 0 ? (
+            {min > 0 ? (
               <Col>
                 min <strong>{min}</strong>
               </Col>
@@ -145,7 +144,7 @@ class SubForm extends React.Component {
                 color={'success'}
                 size={'sm'}
                 onClick={() => this.toggleForm(-1)}
-                disabled={max && data.length >= max}
+                disabled={!!max && data.length >= max}
               >
                 {translatorText(
                   { nl: 'Toevoegen', fr: 'Ajouter', en: 'Add' },

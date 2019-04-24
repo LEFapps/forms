@@ -36,48 +36,11 @@ export default ({
             <td style={{ verticalAlign: 'middle' }}>{1 + i}.</td>
             {columns(element).map((col, j) => (
               <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
-                {d[col].toString()}
+                {translatorText(d[col], translator)}
               </td>
             ))}
             <td className={'text-right text-nowrap'}>
               <ButtonGroup>
-                <Button
-                  color={'warning'}
-                  size={'sm'}
-                  outline
-                  onClick={() => edit(i)}
-                  title={translatorText(
-                    { nl: 'Wijzigen', fr: 'Changer', en: 'Edit' },
-                    translator
-                  )}
-                >
-                  ✎
-                </Button>
-                <Button
-                  color={'danger'}
-                  size={'sm'}
-                  outline
-                  onClick={() => remove(i)}
-                  disabled={!remove}
-                  title={translatorText(
-                    { nl: 'Verwijderen', fr: 'Supprimer', en: 'Remove' },
-                    translator
-                  )}
-                >
-                  ✕
-                </Button>
-                <Button
-                  color={'success'}
-                  size={'sm'}
-                  outline
-                  onClick={() => duplicate(i)}
-                  title={translatorText(
-                    { nl: 'Dupliceren', fr: 'Copier', en: 'Copy' },
-                    translator
-                  )}
-                >
-                  ⧉
-                </Button>
                 <Button
                   color={'info'}
                   size={'sm'}
@@ -103,6 +66,43 @@ export default ({
                   )}
                 >
                   ▽
+                </Button>
+                <Button
+                  color={'success'}
+                  size={'sm'}
+                  outline
+                  onClick={() => duplicate(i)}
+                  title={translatorText(
+                    { nl: 'Dupliceren', fr: 'Copier', en: 'Copy' },
+                    translator
+                  )}
+                >
+                  ⧉
+                </Button>
+                <Button
+                  color={'danger'}
+                  size={'sm'}
+                  outline
+                  onClick={() => remove(i)}
+                  disabled={!remove}
+                  title={translatorText(
+                    { nl: 'Verwijderen', fr: 'Supprimer', en: 'Remove' },
+                    translator
+                  )}
+                >
+                  ✕
+                </Button>
+                <Button
+                  color={'warning'}
+                  size={'sm'}
+                  outline
+                  onClick={() => edit(i)}
+                  title={translatorText(
+                    { nl: 'Wijzigen', fr: 'Changer', en: 'Edit' },
+                    translator
+                  )}
+                >
+                  ✎
                 </Button>
               </ButtonGroup>
             </td>
