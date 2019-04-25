@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  Table,
-  Button,
-  ButtonGroup,
-  Input,
-  InputGroup,
-  InputGroupAddon
-} from 'reactstrap'
+import { Table, Button, ButtonGroup, Input, InputGroup } from 'reactstrap'
 
 import { translatorText } from '../../helpers/translator'
 

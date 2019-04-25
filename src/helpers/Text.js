@@ -3,7 +3,7 @@ import MarkdownIt from 'markdown-it'
 import MarkdownItAttrs from 'markdown-it-attrs'
 import MarkdownItVideo from 'markdown-it-video'
 
-const markdown = MarkdownIt({
+const md = MarkdownIt({
   html: true,
   linkify: true,
   typography: true
@@ -11,14 +11,11 @@ const markdown = MarkdownIt({
   .use(MarkdownItAttrs)
   .use(MarkdownItVideo)
 
-const Text = ({ content, className }) => {
-  const md = new MarkdownIt()
-  return (
-    <div
-      className={'text ' + (className || '')}
-      dangerouslySetInnerHTML={{ __html: md.render(content || '') }}
-    />
-  )
-}
+const Text = ({ content, className }) => (
+  <div
+    className={'text ' + (className || '')}
+    dangerouslySetInnerHTML={{ __html: md.render(content || '') }}
+  />
+)
 
 export default Text
