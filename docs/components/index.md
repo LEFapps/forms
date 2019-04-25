@@ -1,7 +1,7 @@
 # Components
 
 1. Text
-1. Textarea
+1. [Textarea](textarea)
 1. Select
 1. Checkbox
 1. Radio
