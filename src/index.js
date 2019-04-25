@@ -22,7 +22,7 @@ import ValidateDecorator from './decorators/Validate'
 import NameDecorator from './decorators/Name'
 import PlaceholderDecorator from './decorators/Placeholder'
 
-import translatorText from './helpers/translator'
+import { translatorText } from './helpers/translator'
 
 export {
   EasyForm,
