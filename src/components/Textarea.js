@@ -1,7 +1,26 @@
 import React from 'react'
 import { GenericInputNoChildren } from './GenericInput'
+import { Col, Row } from 'reactstrap'
+import Md from '../helpers/Text'
 
-const Textarea = props => <GenericInputNoChildren {...props} />
+const Textarea = props => {
+  const { element, bindInput } = props
+  const { name, md } = element || {}
+  const model = bindInput(name) || {}
+  if (!md) return <GenericInputNoChildren {...props} />
+  else {
+    return (
+      <Row>
+        <Col xs={12} md={6}>
+          <GenericInputNoChildren {...props} />
+        </Col>
+        <Col xs={12} md={6} className={'md-preview'}>
+          <Md content={model.value} className={'md-preview-content'} />
+        </Col>
+      </Row>
+    )
+  }
+}
 
 const config = () => [
   {
