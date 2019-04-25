@@ -124,22 +124,32 @@ class SubForm extends React.Component {
     const max = get(element, 'attributes.max', 0)
     return (
       <Card>
-        <CardHeader className={'small'}>
+        <CardHeader>
           <Row>
-            <Col>
-              # <strong>{data.length}</strong>
+            <Col xs={6} sm={2} className={'small'}>
+              <strong>{data.length}</strong>{' '}
+              {data.length === 1 ? 'item' : 'items'}
+              <br />
+              {min > 0 ? (
+                <>
+                  min <strong>{min}</strong>
+                </>
+              ) : null}
+              {min && max ? ' - ' : null}
+              {max > 0 ? (
+                <>
+                  max <strong>{max}</strong>
+                </>
+              ) : null}
             </Col>
-            {min > 0 ? (
-              <Col>
-                min <strong>{min}</strong>
-              </Col>
-            ) : null}
-            {max > 0 ? (
-              <Col>
-                max <strong>{max}</strong>
-              </Col>
-            ) : null}
-            <Col xs={2} className={'text-right'}>
+            <Col
+              className={'text-center order-first order-sm-0'}
+              xs={12}
+              sm={8}
+            >
+              {translatorText(element.label, translator)}
+            </Col>
+            <Col xs={6} sm={2} className={'text-right'}>
               <Button
                 color={'success'}
                 size={'sm'}
@@ -160,7 +170,7 @@ class SubForm extends React.Component {
             remove={data.length > min ? this.removeItem : false}
             edit={this.toggleForm}
             move={this.moveItem}
-            duplicate={this.duplicateItem}
+            duplicate={!!max && data.length >= max ? false : this.duplicateItem}
             element={element}
             translator={translator}
           />

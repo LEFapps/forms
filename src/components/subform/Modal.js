@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Modal, ModalHeader, ModalBody, Button } from 'reactstrap'
+import { isEmpty } from 'lodash'
 
 import { FormComposer } from '../../FormComposer'
 import reformed from '../../reformed'
@@ -41,7 +42,9 @@ const ActualForm = ({
           </Button>{' '}
           <Button color={'success'} type={'submit'}>
             {translatorText(
-              { nl: 'Bewaren', fr: 'Sauvegarder', en: 'Save' },
+              isEmpty(model)
+                ? { nl: 'Toevoegen', fr: 'Ajouter', en: 'Add' }
+                : { nl: 'Bijwerken', fr: 'Actualiser', en: 'Update' },
               translator
             )}
           </Button>
