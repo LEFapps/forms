@@ -1,3 +1,8 @@
+---
+sidebar:
+  nav: "docs"
+---
+
 # Composition based forms
 
 This is a composition based form generator. Every composed form is also [reformed](https://github.com/davezuko/react-reformed), allowing for easy model bindings.
