@@ -1,0 +1,51 @@
+docs:
+  - title: Introduction
+    url: /
+  - title: Configuration
+    children:
+      - title: elements
+        url: /setup/elements
+      - title: libraries
+        url: /setup/libraries
+      - title: editor
+        url: /setup/editor
+  - title: Decorators
+    children:
+      - title: attributes
+        url: /decorators/attributes
+      - title: dependent
+        url: /decorators/dependent
+      - title: formgroup
+        url: /decorators/formgroup
+      - title: layout
+        url: /decorators/layout
+      - title: name
+        url: /decorators/name
+      - title: placeholder
+        url: /decorators/placeholder
+      - title: validate
+        url: /decorators/validate
+      - title: build your own
+        url: /decorators/custom
+  - title: Components
+    children:
+      - title: text
+        url: /components/text
+      - title: textarea
+        url: /components/textarea
+      - title: select
+        url: /components/select
+      - title: checkbox
+        url: /components/checkbox
+      - title: radio
+        url: /components/radio
+      - title: date
+        url: /components/date
+      - title: subform
+        url: /components/subform
+      - title: divider
+        url: /components/divider
+      - title: infobox
+        url: /components/infobox
+      - title: build your own
+        url: /components/custom
