@@ -7,7 +7,7 @@ import { translatorText } from '../../helpers/translator'
 const columns = ({ elements, attributes }) =>
   attributes && attributes.columns
     ? attributes.columns
-    : elements.map(({ name }) => name) || []
+    : elements.map(({ label, name }) => label || name) || []
 
 const matchSearch = (key, values) => {
   if (!key) return true
