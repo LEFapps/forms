@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table, Button, ButtonGroup, Input, InputGroup } from 'reactstrap'
+import get from 'lodash/get'
 
 import { translatorText } from '../../helpers/translator'
 
@@ -81,7 +82,7 @@ class Items extends React.Component {
               </td>
               {columns(element).map((col, j) => (
                 <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
-                  {translatorText(d[col], translator)}
+                  {translatorText(get(d, col), translator)}
                 </td>
               ))}
               <td className={'text-right text-nowrap'}>
