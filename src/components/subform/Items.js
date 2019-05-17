@@ -5,9 +5,7 @@ import get from 'lodash/get'
 import { translatorText } from '../../helpers/translator'
 
 const columns = ({ elements, attributes }) =>
-  attributes && attributes.columns
-    ? attributes.columns
-    : elements.map(({ label, name }) => label || name) || []
+  attributes && attributes.columns ? attributes.columns : elements || []
 
 const matchSearch = (key, values) => {
   if (!key) return true
@@ -52,9 +50,9 @@ class Items extends React.Component {
         <thead>
           <tr>
             <th style={{ verticalAlign: 'middle', textAlign: 'right' }}>#</th>
-            {columns(element).map((col, i) => (
+            {columns(element).map(({ label, name }, i) => (
               <th style={{ verticalAlign: 'middle' }} key={i}>
-                {translatorText(col, translator)}
+                {translatorText(label || name, translator)}
               </th>
             ))}
             <th>
@@ -80,9 +78,9 @@ class Items extends React.Component {
               <td style={{ verticalAlign: 'middle', textAlign: 'right' }}>
                 {1 + i}.
               </td>
-              {columns(element).map((col, j) => (
+              {columns(element).map(({ name }, j) => (
                 <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
-                  {translatorText(get(d, col), translator)}
+                  {translatorText(get(d, name), translator)}
                 </td>
               ))}
               <td className={'text-right text-nowrap'}>
