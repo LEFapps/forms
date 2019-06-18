@@ -2,3 +2,5 @@ src
 .babelrc
 .gitignore
 docs
+_site
+_pages

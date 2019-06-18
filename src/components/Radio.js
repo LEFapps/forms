@@ -39,97 +39,62 @@ Radio.displayName = 'Radio'
 
 const config = ({ translator }) => {
   const { languages } = translator || {}
-  if (languages) {
-    const headerField = [
-      {
-        key: 'radio.divider',
-        type: 'divider',
-        layout: { col: { xs: 12 } }
+  return [
+    {
+      key: 'radio.divider',
+      type: 'divider',
+      layout: { col: { xs: 12 } }
+    },
+    {
+      key: 'radio.infobox',
+      type: 'infobox',
+      label: {
+        nl: '**Opties**',
+        fr: '**Choix**',
+        en: '**Options**'
       },
-      {
-        key: 'radio.infobox',
-        type: 'infobox',
-        label: {
-          nl: '**Opties**',
-          fr: '**Choix**',
-          en: '**Options**'
-        },
-        layout: { col: { xs: 12 } }
-      }
-    ]
-    const idField = [
-      {
-        key: 'select.options._id',
-        name: 'options._id',
-        type: 'textarea',
-        label: 'ID (~value)',
-        layout: {
-          col: { xs: Math.max(3, Math.round(12 / (languages.length + 1))) }
-        },
-        attributes: {
-          rows: 8,
-          placeholders: {
-            nl: 'Eén optie per lijn',
-            fr: 'One item per line',
-            en: 'One item per line'
-          },
-          style: { whiteSpace: 'nowrap' }
-        },
-        required: true
-      }
-    ]
-    const languageFields = languages.map(language => ({
-      key: 'radio.options.' + language,
-      name: 'options.' + language,
-      type: 'textarea',
-      label: upperCase(language),
-      layout: {
-        col: { xs: Math.max(3, Math.round(12 / (languages.length + 1))) }
-      },
+      layout: { col: { xs: 12 } }
+    },
+    {
+      key: 'radio.options',
+      name: 'options',
+      type: 'subform',
+      label: { nl: 'Keuzemogelijkheden', fr: 'Choix', en: 'Options' },
       attributes: {
-        rows: 8,
-        placeholders: {
-          nl: 'Eén optie per lijn',
-          fr: 'One item per line',
-          en: 'One item per line'
-        },
-        style: { whiteSpace: 'nowrap' }
+        min: 1,
+        columns: ['_id', 'default'],
+        size: 'sm'
       },
-      required: true
-    }))
-    return headerField.concat(idField.concat(languageFields))
-  } else {
-    return [
-      {
-        key: 'radio.divider',
-        type: 'divider',
-        layout: { col: { xs: 12 } }
-      },
-      {
-        key: 'radio.options',
-        name: 'options',
-        type: 'textarea',
-        label: {
-          nl: 'Opties',
-          fr: 'Choix',
-          en: 'Options'
-        },
-        layout: {
-          col: { xs: 12 }
-        },
-        attributes: {
-          rows: 8,
-          placeholders: {
-            nl: 'Eén optie per lijn',
-            fr: 'One item per line',
-            en: 'One item per line'
-          },
-          style: { whiteSpace: 'nowrap' }
-        },
-        required: true
+      elements: [
+        {
+          type: 'text',
+          name: '_id',
+          label: 'ID (~value)',
+          layout: {
+            col: {
+              xs: 12
+            }
+          }
+        }
+      ].concat(
+        (languages || []).map(language => ({
+          type: 'text',
+          name: language,
+          label: `Label ${upperCase(language)}`,
+          layout: {
+            col: {
+              xs: 12
+            }
+          }
+        }))
+      ),
+      layout: {
+        col: {
+          xs: 12
+        }
       }
-    ]
-  }
+    }
+  ]
 }
 
 const transform = (element, { translator }, saving) => {

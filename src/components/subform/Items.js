@@ -80,18 +80,11 @@ class Items extends React.Component {
               <td style={{ verticalAlign: 'middle', textAlign: 'right' }}>
                 {1 + i}.
               </td>
-              {columns(element).map(({ name }, j) => {
-                const dName = get(d, name)
-                return (
-                  <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
-                    {isString(dName)
-                      ? translatorText(dName, translator)
-                      : isArray(dName)
-                        ? dName.join(', ')
-                        : String(dName)}
-                  </td>
-                )
-              })}
+              {columns(element).map(({ name }, j) => (
+                <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
+                  {translatorText(get(d, name), translator)}
+                </td>
+              ))}
 
               <td className={'text-right text-nowrap'}>
                 <ButtonGroup>
