@@ -20,9 +20,11 @@ const ActualForm = ({
   const body = document.getElementsByTagName('body')[0]
   const ReformedFormComposer = reformed()(FormComposer)
   const componentLib = components.clone()
+  const size =
+    element && element.attributes ? element.attributes.size || 'lg' : 'lg'
   decorators.apply(componentLib)
   const modalForm = (
-    <Modal isOpen={modal} toggle={onCancel}>
+    <Modal isOpen={modal} toggle={onCancel} size={size}>
       <ModalHeader toggle={onCancel}>
         {translatorText(element.label, translator)}
       </ModalHeader>
