@@ -1,5 +1,7 @@
 import React from 'react'
 import { Table, Button, ButtonGroup, Input, InputGroup } from 'reactstrap'
+import isString from 'lodash/isString'
+import isArray from 'lodash/isArray'
 import get from 'lodash/get'
 
 import { translatorText } from '../../helpers/translator'
@@ -78,11 +80,19 @@ class Items extends React.Component {
               <td style={{ verticalAlign: 'middle', textAlign: 'right' }}>
                 {1 + i}.
               </td>
-              {columns(element).map(({ name }, j) => (
-                <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
-                  {translatorText(get(d, name), translator)}
-                </td>
-              ))}
+              {columns(element).map(({ name }, j) => {
+                const dName = get(d, name)
+                return (
+                  <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
+                    {isString(dName)
+                      ? translatorText(dName, translator)
+                      : isArray(dName)
+                        ? dName.join(', ')
+                        : String(dName)}
+                  </td>
+                )
+              })}
+
               <td className={'text-right text-nowrap'}>
                 <ButtonGroup>
                   <Button
