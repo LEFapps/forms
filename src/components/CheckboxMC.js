@@ -67,7 +67,13 @@ const config = ({ translator, model }) => {
       label: { nl: 'Keuzemogelijkheden', fr: 'Choix', en: 'Options' },
       attributes: {
         min: 1,
-        columns: ['_id', 'default'],
+        columns: [
+          {
+            name: '_id',
+            label: { nl: 'Waarde', fr: 'Valeur', default: 'Value' }
+          },
+          { name: 'default', label: 'Label' }
+        ],
         size: 'sm'
       },
       elements: [
@@ -75,6 +81,16 @@ const config = ({ translator, model }) => {
           type: 'text',
           name: '_id',
           label: 'ID (~value)',
+          layout: {
+            col: {
+              xs: 12
+            }
+          }
+        },
+        {
+          type: 'text',
+          name: 'default',
+          label: 'Label',
           layout: {
             col: {
               xs: 12
