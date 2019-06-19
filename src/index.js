@@ -13,6 +13,7 @@ import Select, { transformOptions } from './components/Select'
 import Divider from './components/Divider'
 import InfoBox from './components/InfoBox'
 import Subform from './components/subform/Subform'
+import Editor from './components/Editor'
 
 import FormGroupDecorator from './decorators/FormGroup'
 import AttributesDecorator from './decorators/Attributes'
@@ -42,7 +43,8 @@ export {
   Select,
   InfoBox,
   Divider,
-  Subform
+  Subform,
+  Editor
 }
 
 export {

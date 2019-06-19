@@ -68,7 +68,8 @@ const filter = key =>
       'checkbox-mc-collection',
       'radio',
       'divider',
-      'infobox'
+      'infobox',
+      'subform'
     ],
     key
   )

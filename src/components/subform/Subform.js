@@ -126,7 +126,7 @@ class SubForm extends React.Component {
       <Card>
         <CardHeader>
           <Row>
-            <Col xs={6} sm={2} className={'small'}>
+            <Col xs={8} className={'small'}>
               <strong>{data.length}</strong>{' '}
               {data.length === 1 ? 'item' : 'items'}
               <br />
@@ -135,21 +135,14 @@ class SubForm extends React.Component {
                   min <strong>{min}</strong>
                 </>
               ) : null}
-              {min && max ? ' - ' : null}
+              {min > 0 && max > 0 ? ' - ' : null}
               {max > 0 ? (
                 <>
                   max <strong>{max}</strong>
                 </>
               ) : null}
             </Col>
-            <Col
-              className={'text-center order-first order-sm-0'}
-              xs={12}
-              sm={8}
-            >
-              {translatorText(element.label, translator)}
-            </Col>
-            <Col xs={6} sm={2} className={'text-right'}>
+            <Col xs={4} className={'text-right'}>
               <Button
                 color={'success'}
                 size={'sm'}
@@ -190,4 +183,58 @@ class SubForm extends React.Component {
 
 SubForm.displayName = 'SubForm'
 
+const config = ({ translator, model }) => [
+  {
+    key: 'subform.divider.1',
+    type: 'divider',
+    layout: { col: { xs: 12 } }
+  },
+  {
+    key: 'subform.infobox.1',
+    type: 'infobox',
+    label: {
+      nl: '**Items**',
+      fr: '**Items**',
+      en: '**Items**'
+    },
+    layout: { col: { xs: 12 } }
+  },
+  {
+    key: 'subform.min',
+    type: 'number',
+    name: 'attributes.min',
+    label: 'Min.',
+    layout: { col: { xs: 6 } }
+  },
+  {
+    key: 'subform.max',
+    type: 'number',
+    name: 'attributes.max',
+    label: 'Max.',
+    layout: { col: { xs: 6 } }
+  },
+  {
+    key: 'subform.divider.2',
+    type: 'divider',
+    layout: { col: { xs: 12 } }
+  },
+  {
+    key: 'subform.infobox.2',
+    type: 'infobox',
+    label: {
+      nl: '**Componenten**',
+      fr: '**Eléments du formulaire**',
+      en: '**Form elements**'
+    },
+    layout: { col: { xs: 12 } }
+  },
+  {
+    key: 'subform.elements',
+    type: 'editor',
+    name: 'elements'
+  }
+]
+
 export default SubForm
+
+export { config }
