@@ -3,6 +3,7 @@ import random from './helpers/random'
 import { FormComposer } from './FormComposer'
 import reformed from './reformed'
 import EditorCard from './editor/EditorCard'
+import { translatorText } from './helpers/translator'
 import {
   Container,
   Row,
@@ -14,7 +15,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
-import { capitalize, cloneDeep } from 'lodash'
+import { capitalize, cloneDeep, size } from 'lodash'
 
 const transformElements = (elements, library, saving = true) =>
   elements.map(element => {
@@ -103,12 +104,22 @@ class FormEditor extends Component {
     this.moveElement(element, 1)
   }
   removeElement (element) {
-    if (
-      confirm(
-        `Are you sure you want to remove the element "${element.name ||
-          'empty ' + element.type}"`
-      )
-    ) {
+    const confirmText = translatorText(
+      {
+        nl: `Bent u zeker dat u deze component wil verwijderen? (${(element.name ||
+          'Leeg') +
+          ', ' +
+          element.type})`,
+        fr: `Are you sure you want to remove this element? (${element.name ||
+          'empty' + ', ' + element.type})`,
+        default: `Are you sure you want to remove this element? (${element.name ||
+          'empty' + ', ' + element.type})`
+      },
+      this.props.translator,
+      false,
+      true
+    )
+    if (confirm(confirmText)) {
       this.setState(prevstate => {
         const index = this.state.elements.indexOf(element)
         if (index >= 0) {
@@ -160,37 +171,65 @@ class FormEditor extends Component {
         })}
         <Row>
           <Col md={12}>
-            <Button onClick={this.save}>Save</Button>
+            <Button color={'success'} onClick={this.save}>
+              {translatorText(
+                { nl: 'Bewaren', fr: 'Sauvegarder', default: 'Save' },
+                this.props.translator
+              )}
+            </Button>
           </Col>
         </Row>
-        <hr />
-        {this.state.showPreview ? (
-          <Row>
-            <Col xs={12}>
-              <h3>Preview</h3>
-              <ReformedFormComposer
-                library={previewLibrary}
-                elements={transformElements(
-                  this.state.elements,
-                  this.props.library
+        {size(this.state.elements) ? (
+          <>
+            <hr />
+            <Row>
+              <Col xs={12}>
+                <h3>
+                  {translatorText(
+                    { nl: 'Voorbeeld', fr: 'Exemple', default: 'Preview' },
+                    this.props.translator
+                  )}
+                </h3>
+                {this.state.showPreview ? (
+                  <ReformedFormComposer
+                    library={previewLibrary}
+                    elements={transformElements(
+                      this.state.elements,
+                      this.props.library
+                    )}
+                    translator={this.props.translator}
+                  />
+                ) : (
+                  <>
+                    <p>
+                      {translatorText(
+                        {
+                          nl:
+                            'De configuratie van het formulier is gewijzigd. Klik op onderstaande knop een voorbeeld te laden.',
+                          fr:
+                            'Le configuration du formulaire a été modifié. Cliquez le bouton ci-dessous pour charger une exemple.',
+                          default:
+                            'The form has changed. Click the button below to load preview again.'
+                        },
+                        this.props.translator
+                      )}
+                    </p>
+                    <Button color={'info'} onClick={this.showPreview}>
+                      {translatorText(
+                        {
+                          nl: 'Toon voorbeeld',
+                          fr: 'Montrer une exemple',
+                          default: 'Show preview'
+                        },
+                        this.props.translator
+                      )}
+                    </Button>
+                  </>
                 )}
-                translator={this.props.translator}
-              />
-            </Col>
-          </Row>
-        ) : (
-          <Row>
-            <Col xs={12}>
-              <p>
-                The form has changed. Click the button below to load preview
-                again.
-              </p>
-            </Col>
-            <Col>
-              <Button onClick={this.showPreview}>Load preview</Button>
-            </Col>
-          </Row>
-        )}
+              </Col>
+            </Row>
+          </>
+        ) : null}
       </Container>
     )
   }
@@ -215,7 +254,17 @@ class ButtonMenu extends Component {
         toggle={this.toggle}
         direction='right'
       >
-        <DropdownToggle caret>Add an Element&nbsp;</DropdownToggle>
+        <DropdownToggle caret>
+          {translatorText(
+            {
+              nl: 'Component invoegen',
+              fr: 'Ajouter un élément',
+              default: 'Add an element'
+            },
+            this.props.translator
+          )}
+          &nbsp;
+        </DropdownToggle>
         <DropdownMenu>
           <ButtonGroup vertical>
             {Array.from(library.keys()).map(type => {
