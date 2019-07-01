@@ -1,5 +1,14 @@
 import React, { Component } from 'react'
-import { filter, map, set, get, reduce, isFunction, isEmpty } from 'lodash'
+import {
+  filter,
+  get,
+  isEmpty,
+  isFunction,
+  map,
+  reduce,
+  set,
+  trim
+} from 'lodash'
 
 const requiredPaths = elements =>
   map(filter(elements, { required: true }), 'name')
@@ -9,9 +18,14 @@ const missingPaths = (doc, elements) => {
   return reduce(
     paths,
     (errors, path) => {
-      if (isEmpty(get(doc, path))) {
-        set(errors, path, true)
-      }
+      const value = get(doc, path)
+      if (value === undefined) set(errors, path, true)
+      else if (value === false) set(errors, path, true)
+      else if (value === null) set(errors, path, true)
+      else if (value === NaN) set(errors, path, true)
+      else if (trim(value) === '') set(errors, path, true)
+      else if (value === []) set(errors, path, true)
+      else if (value === {}) set(errors, path, true)
       return errors
     },
     {}
@@ -35,7 +49,7 @@ const validate = WrappedForm =>
   class Validate extends Component {
     constructor (props) {
       super(props)
-      this.state = { errors: [], submitted: false }
+      this.state = { errors: {}, submitted: false }
       this.validate = this.validate.bind(this)
       this.validatedOnStateChange = this.validatedOnStateChange.bind(this)
       this.validatedOnSubmit = this.validatedOnSubmit.bind(this)
@@ -72,11 +86,12 @@ const validate = WrappedForm =>
     }
     render () {
       const { onSubmit, onStateChange, ...xProps } = this.props
+      const { errors } = this.state
       return (
         <WrappedForm
           onSubmit={this.validatedOnSubmit}
           onStateChange={this.validatedOnStateChange}
-          errors={this.state.errors}
+          errors={errors}
           {...xProps}
         />
       )
