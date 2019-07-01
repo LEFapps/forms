@@ -22,7 +22,6 @@ const missingPaths = (doc, elements) => {
       if (value === undefined) set(errors, path, true)
       else if (value === false) set(errors, path, true)
       else if (value === null) set(errors, path, true)
-      else if (value === NaN) set(errors, path, true)
       else if (trim(value) === '') set(errors, path, true)
       else if (value === []) set(errors, path, true)
       else if (value === {}) set(errors, path, true)
