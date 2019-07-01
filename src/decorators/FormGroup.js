@@ -70,7 +70,7 @@ const config = ({ translator, model }) => {
 // Configuration of label is put in front
 const combine = flip(union)
 
-const filter = key => !includes(['divider', 'infobox'], key)
+const filter = key => !includes(['divider', 'infobox', 'checkbox'], key)
 
 export default FormGroupDecorator
 export { config, filter, combine }

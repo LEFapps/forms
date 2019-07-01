@@ -6,6 +6,12 @@ import { translatorText } from '../helpers/translator'
 const Checkbox = props => {
   const { translator, bindInput, ...xProps } = props
   xProps.checked = get(props.model, props.element.name, false)
+  xProps.custom = {
+    id: props.element.name,
+    type: 'checkbox',
+    label: translatorText(props.element.label, translator),
+    checked: get(props.model, name, false)
+  }
   const bindCheckedInput = name => {
     return {
       name,
