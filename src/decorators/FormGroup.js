@@ -5,42 +5,20 @@ import { translatorText } from '../helpers/translator'
 
 const FormGroupDecorator = WrappedComponent => props => {
   const { element, translator } = props
-  const { label = '', required } = element || {}
+  const { label = '', required, name } = element || {}
   const req = r =>
     r ? <strong className={'text-primary'}>&nbsp;*</strong> : null
-  if (element.custom) {
-    return (
-      <FormGroup>
-        <Label>
+  return (
+    <FormGroup>
+      {label ? (
+        <Label for={name}>
           {translatorText(label, translator) || element.type}
           {req(required)}
         </Label>
-        <WrappedComponent {...props} />
-      </FormGroup>
-    )
-  } else if (includes(['checkbox'], props.element.type)) {
-    return (
-      <FormGroup check>
-        <Label check>
-          <WrappedComponent {...props} />
-          {translatorText(label, translator) || element.type}
-          {req(required)}
-        </Label>
-      </FormGroup>
-    )
-  } else {
-    return (
-      <FormGroup>
-        {label ? (
-          <Label>
-            {translatorText(label, translator) || element.type}
-            {req(required)}
-          </Label>
-        ) : null}
-        <WrappedComponent {...props} />
-      </FormGroup>
-    )
-  }
+      ) : null}
+      <WrappedComponent {...props} />
+    </FormGroup>
+  )
 }
 
 const config = ({ translator, model }) => {
