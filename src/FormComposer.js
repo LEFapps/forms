@@ -11,7 +11,7 @@ const renderElements = (element, library, additionalProps, index) => {
     }
     return <Component key={key} element={element} {...additionalProps} />
   } else {
-    console.log(
+    console.warn(
       `Unknown element type: ${element.type}`,
       get(element, 'name', index)
     )
