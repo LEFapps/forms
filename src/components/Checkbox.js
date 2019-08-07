@@ -10,7 +10,8 @@ const Checkbox = props => {
     id: props.element.name,
     type: 'checkbox',
     label: translatorText(props.element.label, translator),
-    checked: get(props.model, name, false)
+    checked: get(props.model, name, false),
+    inline: !!get(props.element, 'layout.inline', undefined)
   }
   const bindCheckedInput = name => {
     return {

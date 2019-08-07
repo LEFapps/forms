@@ -15,7 +15,8 @@ const Radio = props => {
       type: 'radio',
       value: optionValue,
       label: translatorText(option, translator),
-      checked: get(props.model, props.element.name) === optionValue
+      checked: get(props.model, props.element.name) === optionValue,
+      inline: !!get(props.element, 'layout.inline', undefined)
     }
     const bindCheckedInput = name => {
       return {

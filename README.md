@@ -135,7 +135,8 @@ Blueprint of an element:
     "col" : {
       "xs" : 12,
       "md" : 6
-    }
+    },
+    "inline" : true
   },
   "options" : ["~red", "~blue"]
 }

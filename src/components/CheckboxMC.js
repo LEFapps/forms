@@ -16,7 +16,8 @@ const CheckboxMC = props => {
       type: 'checkbox',
       value: optionValue,
       label: translatorText(option, translator),
-      checked: includes(thisModel, optionValue)
+      checked: includes(thisModel, optionValue),
+      inline: !!get(props.element, 'layout.inline', undefined)
     }
     const bindCheckedInput = name => ({
       name,
