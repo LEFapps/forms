@@ -15,7 +15,7 @@ const FormGroupDecorator = WrappedComponent => props => {
       <>&nbsp;</>
     ) : (
       <>
-        {translatorText(labelText, translator) || element.type}
+        {translatorText(label, translator) || element.type}
         {req(required)}
       </>
     )
@@ -76,7 +76,7 @@ const config = ({ translator, model }) => {
 // Configuration of label is put in front
 const combine = flip(union)
 
-const filter = key => !includes(['divider', 'infobox' /* 'checkbox' */], key)
+const filter = key => !includes(['divider', 'infobox'], key)
 
 export default FormGroupDecorator
 export { config, filter, combine }
