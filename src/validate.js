@@ -80,7 +80,16 @@ const validate = WrappedForm =>
         // this.setState({})
         this.props.onSubmit(doc)
       } else {
-        this.setState({ errors })
+        this.setState({ errors }, () => {
+          const invalidElement = document.querySelector('.is-invalid')
+          if (invalidElement) {
+            invalidElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            })
+            setTimeout(() => invalidElement.focus(), 200)
+          }
+        })
       }
     }
     render () {
