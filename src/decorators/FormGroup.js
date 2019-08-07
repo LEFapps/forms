@@ -5,17 +5,23 @@ import { translatorText } from '../helpers/translator'
 
 const FormGroupDecorator = WrappedComponent => props => {
   const { element, translator } = props
-  const { label = '', required, name } = element || {}
+  const { label = '', required, name, type } = element || {}
   const req = r =>
-    r ? <strong className={'text-primary'}>&nbsp;*</strong> : null
+    r ? (
+      <strong className={'text-primary label-required'}>&nbsp;*</strong>
+    ) : null
+  const labelText =
+    type === 'checkbox' ? (
+      <>&nbsp;</>
+    ) : (
+      <>
+        {translatorText(labelText, translator) || element.type}
+        {req(required)}
+      </>
+    )
   return (
     <FormGroup>
-      {label ? (
-        <Label for={name}>
-          {translatorText(label, translator) || element.type}
-          {req(required)}
-        </Label>
-      ) : null}
+      {label ? <Label for={name}>{labelText}</Label> : null}
       <WrappedComponent {...props} />
     </FormGroup>
   )
@@ -70,7 +76,7 @@ const config = ({ translator, model }) => {
 // Configuration of label is put in front
 const combine = flip(union)
 
-const filter = key => !includes(['divider', 'infobox', 'checkbox'], key)
+const filter = key => !includes(['divider', 'infobox' /* 'checkbox' */], key)
 
 export default FormGroupDecorator
 export { config, filter, combine }

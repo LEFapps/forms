@@ -8,7 +8,7 @@ const Checkbox = props => {
   xProps.checked = get(props.model, props.element.name, false)
   xProps.custom = {
     id: props.element.name,
-    type: 'checkbox',
+    type: 'switch',
     label: translatorText(props.element.label, translator),
     checked: get(props.model, name, false),
     inline: !!get(props.element, 'layout.inline', undefined)
