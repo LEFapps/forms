@@ -9,8 +9,16 @@ const translatorText = (text, translator, getDefault, getString) => {
   if (text) {
     if (isString(text)) return text
     const lang = getDefault
-      ? get(translator, 'default', 'currentLanguage')
-      : get(translator, 'currentLanguage', 'default')
+      ? get(
+        translator,
+        'default',
+        get(translator, 'currentLanguage', 'default')
+      )
+      : get(
+        translator,
+        'currentLanguage',
+        get(translator, 'default', 'default')
+      )
     return (
       text[lang] ||
       text.default ||

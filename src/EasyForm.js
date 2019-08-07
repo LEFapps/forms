@@ -17,7 +17,7 @@ class EasyForm {
   }
   addComponent (name, component) {
     if (this.library.has(name)) {
-      console.log(`Warning: Replacing default ${name} component`)
+      console.debug(`Warning: Replacing default ${name} component`)
     }
     this.library.set(name, component)
   }
@@ -26,7 +26,7 @@ class EasyForm {
   }
   addDecorator (name, decorator) {
     if (this.decorators.has(name)) {
-      console.log(`Warning: Replacing default ${name} decorator`)
+      console.debug(`Warning: Replacing default ${name} decorator`)
     }
     this.decorators.set(name, decorator)
   }
