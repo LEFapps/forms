@@ -1,9 +1,5 @@
 import React from 'react'
 import { isString, get, head, map } from 'lodash'
-import { Translate } from '@lefapps/translations'
-
-const translation = ({ translate }) =>
-  translate ? <Translate _id={translate} /> : null
 
 const translatorText = (text, translator, getDefault, getString) => {
   if (text) {
@@ -22,7 +18,11 @@ const translatorText = (text, translator, getDefault, getString) => {
     return (
       text[lang] ||
       text.default ||
-      (getString ? false : translation(text)) ||
+      (translator.component ? (
+        <translator.component _id={text.translate} getString={getString} />
+      ) : (
+        false
+      )) ||
       head(map(text))
     )
   } else return ''

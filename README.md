@@ -385,7 +385,30 @@ If you are creating a large component and/or decorator library, it might be wort
 
 ## Translations
 
-When wrapping the Form instance or editor in [@lefapps/translations](https://www.npmjs.com/package/@lefapps/translations)’s `withTranslator`, you have access to the `translator` object inside library config fields. It is then recommended to pass `translator` as a prop to each `<Form />` component.
+### Injecting translator
+
+When wrapping the Form instance or editor in [@lefapps/translations](https://www.npmjs.com/package/@lefapps/translations)’s `withTranslator`, you have access to the `translator` object inside library config fields. It is then recommended to pass `translator` as a prop to each `<Form />` component. **You should extend this translator object with your own** `<Translate />` **component.**
+
+Below is an example of a reusable translated form instance.
+
+```JSX
+import React from 'react'
+import { EasyForm } from '@lefapps/forms'
+import { withTranslator, Translate } from '@lefapps/translations'
+
+const withTranslateComponent = WrappedForm => ({ translator, ...props }) => (
+  <WrappedForm
+    {...props}
+    translator={Object.assign(translator, { component: Translate })}
+  />
+)
+
+export default withTranslator(withTranslateComponent(new EasyForm().instance()))
+```
+
+_If you want to use your own translator package, check our [@lefapps/translations](https://www.npmjs.com/package/@lefapps/translations) package to see how the translator object should be set up._
+
+### Getting translations
 
 There is a helper function `translatorText` available to make it easier to retrieve the correct language from `placeholders`, `label` and other fields.
 
@@ -397,7 +420,7 @@ const label = {
   en: 'EN Label'
 }
 
-const getLabel = ({ translator }) => translatorText(label, translator, false) || 'fallback'
+const getLabel = ({ translator }) => translatorText(label, translator, forceDefault) || 'fallback'
 // returns 'NL Label' if translator.currentLanguage == 'nl'
 // returns 'EN Label' if translator.currentLanguage is undefined, but default language == 'en'
 // returns label.default if translator is undefined
