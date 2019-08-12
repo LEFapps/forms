@@ -429,3 +429,15 @@ const getLabel = ({ translator }) => translatorText(label, translator, forceDefa
 
 // The last parameter forces 'default' as first key to check
 ```
+
+## Notes
+
+### MarkDown
+
+Setting `md: true` on a **textarea** will provide you with an experimental(!) MarkDown editor. Include the following Fontawesome Icons when using this:
+```JSX
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faBold, faGripLines, faHeading, faItalic, faLink, faList, faListOl, faPencilAlt, faQuoteRight, faStrikethrough } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faBold, faGripLines, faHeading, faItalic, faLink, faList, faListOl, faPencilAlt, faQuoteRight, faStrikethrough)
+```
