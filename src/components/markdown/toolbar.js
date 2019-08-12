@@ -4,8 +4,7 @@ const toolbarGroups = [
       icon: 'heading',
       title: 'Heading',
       prepend: '### ',
-      append: '',
-      selectAfter: 4
+      append: ''
     }
   ],
   [
@@ -13,22 +12,19 @@ const toolbarGroups = [
       icon: 'bold',
       title: 'Bold',
       prepend: '**',
-      append: '**',
-      selectAfter: 4
+      append: '**'
     },
     {
       icon: 'italic',
       title: 'Italic',
       prepend: '_',
-      append: '_',
-      selectAfter: 2
+      append: '_'
     },
     {
       icon: 'strikethrough',
       title: 'Strikethrough',
       prepend: '~~',
-      append: '~~',
-      selectAfter: 2
+      append: '~~'
     }
   ],
   [
@@ -36,8 +32,7 @@ const toolbarGroups = [
       icon: 'link',
       title: 'Link',
       prepend: '[',
-      append: '](https://)',
-      selectAfter: 11
+      append: '](http://)'
     }
   ],
   [
@@ -45,15 +40,13 @@ const toolbarGroups = [
       icon: 'list',
       title: 'List',
       prepend: '- ',
-      append: '',
-      selectAfter: 2
+      append: ''
     },
     {
       icon: 'list-ol',
       title: 'Numbered list',
       prepend: '1. ',
-      append: '',
-      selectAfter: 2
+      append: ''
     }
   ],
   [
@@ -61,17 +54,15 @@ const toolbarGroups = [
       icon: 'quote-right',
       title: 'Quote',
       prepend: '>',
-      append: '',
-      selectAfter: 1
+      append: ''
     }
   ],
   [
     {
       icon: 'grip-lines',
-      title: 'Quote',
+      title: 'Rule',
       prepend: '\n***\n',
-      append: '',
-      selectAfter: 4
+      append: ''
     }
   ]
 ]
