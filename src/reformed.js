@@ -10,9 +10,9 @@ class ModelHandlerWrapper {
     this.setState = setState
     this.onStateChange = onStateChange
   }
-  setModel (model) {
+  setModel (model, callback) {
     model = this.onStateChange(model)
-    this.setState({ model })
+    this.setState({ model }, callback)
     return model
   }
   getModel () {
@@ -21,8 +21,8 @@ class ModelHandlerWrapper {
   getModelValue (name) {
     return get(this.getModel(), name)
   }
-  setModelValue (name, value) {
-    return this.setModel(set(this.getModel(), name, value))
+  setModelValue (name, value, callback) {
+    return this.setModel(set(this.getModel(), name, value), callback)
   }
 }
 
@@ -36,9 +36,9 @@ const makeWrapper = middleware => WrappedComponent => {
     }
 
     makeHelpers (modelHandler) {
-      const bindToChangeEvent = e => {
+      const bindToChangeEvent = (e, f) => {
         const { name, value } = e.target
-        modelHandler.setModelValue(name, value)
+        modelHandler.setModelValue(name, value, f)
       }
       return {
         setModel: model => modelHandler.setModel(model),
