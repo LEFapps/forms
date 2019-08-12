@@ -5,8 +5,7 @@ const toolbar = [
     prepend: '### ',
     append: '',
     replace: false,
-    selectbefore: 4,
-    selectAfter: 0
+    selectAfter: 4
   },
   {
     icon: 'bold',
@@ -14,8 +13,7 @@ const toolbar = [
     prepend: '**',
     append: '**',
     replace: false,
-    selectbefore: 2,
-    selectAfter: 2
+    selectAfter: 4
   },
   {
     icon: 'italic',
@@ -23,8 +21,7 @@ const toolbar = [
     prepend: '_',
     append: '_',
     replace: false,
-    selectbefore: 1,
-    selectAfter: 1
+    selectAfter: 2
   },
   {
     icon: 'strikethrough',
@@ -32,7 +29,6 @@ const toolbar = [
     prepend: '~~',
     append: '~~',
     replace: false,
-    selectbefore: 2,
     selectAfter: 2
   },
   {
@@ -41,7 +37,22 @@ const toolbar = [
     prepend: '[',
     append: ']()',
     replace: false,
-    selectbefore: 0,
+    selectAfter: 3
+  },
+  {
+    icon: 'list',
+    title: 'List',
+    prepend: '- ',
+    append: '',
+    replace: false,
+    selectAfter: 2
+  },
+  {
+    icon: 'list-ol',
+    title: 'Numbered list',
+    prepend: '1. ',
+    append: '',
+    replace: false,
     selectAfter: 2
   },
   {
@@ -50,8 +61,7 @@ const toolbar = [
     prepend: '>',
     append: '',
     replace: false,
-    selectbefore: 0,
-    selectAfter: 0
+    selectAfter: 1
   }
 ]
 
@@ -121,8 +131,12 @@ const _toolParts = (value, cursor, { prepend, append }) => {
 }
 
 const _checkTool = (part, { prepend, append }) => {
-  const checkPrepend = prepend ? part.indexOf(prepend) >= 0 : true
-  const checkAppend = append ? part.indexOf(append) >= 0 : true
+  const checkPrepend = part
+    ? prepend
+      ? part.indexOf(prepend) >= 0
+      : true
+    : false
+  const checkAppend = part ? (append ? part.indexOf(append) >= 0 : true) : false
   return checkPrepend && checkAppend
 }
 
@@ -133,17 +147,16 @@ const applyTool = (value, cursor, { prepend, append, replace }) => {
   const toolApplied = _toolParts(value, cursor, { prepend, append })
   const checked = _checkTool(toolApplied[1], { prepend, append })
 
-  // undo tool
-  if (checked) {
-    return (
-      toolApplied[0] +
-      toolApplied[1].replace(prepend, '').replace(append, '') +
-      toolApplied[2]
-    )
-  }
-
   // apply tool — inline
   if (prepend && append) {
+    // undo tool
+    if (checked) {
+      return (
+        toolApplied[0] +
+        toolApplied[1].replace(prepend, '').replace(append, '') +
+        toolApplied[2]
+      )
+    }
     return (
       value.slice(0, cursor[0]) +
       prepend +
@@ -166,7 +179,9 @@ const applyTool = (value, cursor, { prepend, append, replace }) => {
           .slice(startLine, endLine + 1)
           .map(
             l =>
-              prepend + l.replace(prepend, '').replace(append, '') + append
+              (checked ? '' : prepend) +
+                l.replace(prepend, '').replace(append, '') +
+                (checked ? '' : append)
           )
     )
     .concat(lines.slice(endLine + 1))

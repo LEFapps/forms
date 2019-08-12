@@ -43,10 +43,12 @@ class MarkDown extends React.Component {
     if (!input) return false
     const cursor = [input.selectionStart, input.selectionEnd]
     const newValue = applyTool(value, cursor, tool)
-    onChange({ target: { name, value: newValue } })
-    input.focus()
-    input.selectionStart = cursor[1] + tool.selectAfter
-    input.selectionEnd = cursor[1] + tool.selectAfter
+    onChange({ target: { name, value: newValue } }, () => {
+      input.focus()
+      const cursorPos = cursor[1] + (tool.selectAfter || 0)
+      input.setSelectionRange(cursorPos, cursorPos)
+      this.checkTool({ target: input })
+    })
   }
   render () {
     const { preview, id, hasTools } = this.state
