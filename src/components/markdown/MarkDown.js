@@ -9,7 +9,6 @@ import {
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { GenericInputNoChildren } from '../GenericInput'
 import applyTool, { toolbar, hasTool } from './toolbar'
 import Md from '../../helpers/Text'
 
