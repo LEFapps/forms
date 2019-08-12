@@ -2,7 +2,7 @@ import React from 'react'
 import { get } from 'lodash'
 
 import { GenericInputNoChildren } from './GenericInput'
-import MarkDown from './_MarkDown'
+import MarkDown from './markdown/MarkDown'
 
 const Textarea = props =>
   get(props, 'element.md') ? (
