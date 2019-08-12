@@ -9,7 +9,7 @@ import {
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import applyTool, { toolbar, hasTool } from './toolbar'
+import applyTool, { toolbar, toolbarGroups, hasTool } from './toolbar'
 import Md from '../../helpers/Text'
 
 class MarkDown extends React.Component {
@@ -43,9 +43,9 @@ class MarkDown extends React.Component {
     const cursor = [input.selectionStart, input.selectionEnd]
     const newValue = applyTool(value, cursor, tool)
     onChange({ target: { name, value: newValue } }, () => {
+      const newCursor = cursor[1] + newValue.length - value.length
+      input.setSelectionRange(newCursor, newCursor)
       input.focus()
-      const cursorPos = cursor[1] + (tool.selectAfter || 0)
-      input.setSelectionRange(cursorPos, cursorPos)
       this.checkTool({ target: input })
     })
   }
@@ -56,44 +56,49 @@ class MarkDown extends React.Component {
     elementAttributes.rows = elementAttributes.rows || 16
     const model = bindInput(name) || {}
     return (
-      <Card>
-        <CardHeader className={'d-flex'}>
-          <ButtonGroup>
-            {toolbar.map(({ icon, title, ...tool }, i) => (
-              <Button
-                key={i}
-                onClick={() => this.applyTool(tool, model)}
-                active={hasTools.includes(icon)}
-                title={title}
-              >
-                <FontAwesomeIcon icon={icon} />
-              </Button>
-            ))}
-          </ButtonGroup>
+      <Card className={'md-editor'}>
+        <CardHeader className={'d-flex md-editor__head'}>
+          {toolbarGroups.map((group, j) => (
+            <ButtonGroup key={j}>
+              {group.map(({ icon, title, ...tool }, i) => (
+                <Button
+                  key={i}
+                  onClick={() => this.applyTool(tool, model)}
+                  active={hasTools.includes(icon)}
+                  title={title}
+                  disabled={preview}
+                >
+                  <FontAwesomeIcon icon={icon} />
+                </Button>
+              ))}
+            </ButtonGroup>
+          ))}
           <Button
             style={{ marginLeft: 'auto' }}
+            className={'md-editor__toggle'}
             onClick={() => this.setState({ preview: !preview })}
           >
             <FontAwesomeIcon icon={preview ? 'pencil-alt' : 'eye'} />
           </Button>
         </CardHeader>
-        {preview ? (
-          <CardBody className={'p-4'}>
-            <Md content={model.value} className={'md-preview-content'} />
-          </CardBody>
-        ) : (
-          <CardBody className={'p-0'}>
-            <Input
-              type={type}
-              {...bindInput(name)}
-              {...elementAttributes}
-              {...attributes}
-              id={id}
-              onKeyUp={this.checkTool}
-              onMouseUp={this.checkTool}
-            />
-          </CardBody>
-        )}
+        <CardBody
+          className={
+            'md-editor__body p-0 md-editor__toggle-' +
+            (preview ? 'preview' : 'editor')
+          }
+        >
+          <Input
+            type={type}
+            {...bindInput(name)}
+            {...elementAttributes}
+            {...attributes}
+            id={id}
+            onKeyUp={this.checkTool}
+            onMouseUp={this.checkTool}
+            className={'md-editor__input'}
+          />
+          <Md content={model.value} className={'md-editor__preview p-4'} />
+        </CardBody>
       </Card>
     )
   }

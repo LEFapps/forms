@@ -1,72 +1,85 @@
-const toolbar = [
-  {
-    icon: 'heading',
-    title: 'Heading',
-    prepend: '### ',
-    append: '',
-    replace: false,
-    selectAfter: 4
-  },
-  {
-    icon: 'bold',
-    title: 'Bold',
-    prepend: '**',
-    append: '**',
-    replace: false,
-    selectAfter: 4
-  },
-  {
-    icon: 'italic',
-    title: 'Italic',
-    prepend: '_',
-    append: '_',
-    replace: false,
-    selectAfter: 2
-  },
-  {
-    icon: 'strikethrough',
-    title: 'Strikethrough',
-    prepend: '~~',
-    append: '~~',
-    replace: false,
-    selectAfter: 2
-  },
-  {
-    icon: 'link',
-    title: 'Link',
-    prepend: '[',
-    append: ']()',
-    replace: false,
-    selectAfter: 3
-  },
-  {
-    icon: 'list',
-    title: 'List',
-    prepend: '- ',
-    append: '',
-    replace: false,
-    selectAfter: 2
-  },
-  {
-    icon: 'list-ol',
-    title: 'Numbered list',
-    prepend: '1. ',
-    append: '',
-    replace: false,
-    selectAfter: 2
-  },
-  {
-    icon: 'quote-right',
-    title: 'Quote',
-    prepend: '>',
-    append: '',
-    replace: false,
-    selectAfter: 1
-  }
+const toolbarGroups = [
+  [
+    {
+      icon: 'heading',
+      title: 'Heading',
+      prepend: '### ',
+      append: '',
+      selectAfter: 4
+    }
+  ],
+  [
+    {
+      icon: 'bold',
+      title: 'Bold',
+      prepend: '**',
+      append: '**',
+      selectAfter: 4
+    },
+    {
+      icon: 'italic',
+      title: 'Italic',
+      prepend: '_',
+      append: '_',
+      selectAfter: 2
+    },
+    {
+      icon: 'strikethrough',
+      title: 'Strikethrough',
+      prepend: '~~',
+      append: '~~',
+      selectAfter: 2
+    }
+  ],
+  [
+    {
+      icon: 'link',
+      title: 'Link',
+      prepend: '[',
+      append: '](https://)',
+      selectAfter: 11
+    }
+  ],
+  [
+    {
+      icon: 'list',
+      title: 'List',
+      prepend: '- ',
+      append: '',
+      selectAfter: 2
+    },
+    {
+      icon: 'list-ol',
+      title: 'Numbered list',
+      prepend: '1. ',
+      append: '',
+      selectAfter: 2
+    }
+  ],
+  [
+    {
+      icon: 'quote-right',
+      title: 'Quote',
+      prepend: '>',
+      append: '',
+      selectAfter: 1
+    }
+  ],
+  [
+    {
+      icon: 'grip-lines',
+      title: 'Quote',
+      prepend: '\n***\n',
+      append: '',
+      selectAfter: 4
+    }
+  ]
 ]
 
+const toolbar = toolbarGroups.flatten()
+
 const _find = (lines, pos, removed) => {
-  let cumul = 0
+  let cumul = -1
   let line = 0
   while (cumul < pos && line < lines.length) {
     cumul += lines[line].length + removed.length
@@ -80,11 +93,14 @@ const _split = (value, splitter) => {
   let end = 0
   const parts = []
   while (end < value.length) {
-    const search = splitter[key % splitter.length]
     const start = end
-    end = value.indexOf(search, start)
+    const splitKey = key % splitter.length
+    const search = splitter[splitKey]
+    const prevSearch = splitKey ? splitter[splitKey - 1] : ''
+    end = value.indexOf(search, start + prevSearch.length)
     if (end < 0) end = value.length
-    else end += key ? search.length : 0
+    else end += splitKey ? search.length : 0
+    // else end += key ? search.length : 0
     parts.push(value.slice(start, end))
     key++
   }
@@ -143,14 +159,14 @@ const _checkTool = (part, { prepend, append }) => {
 const hasTool = (value, cursor, tool) =>
   _checkTool(_toolParts(value, cursor, tool)[1], tool)
 
-const applyTool = (value, cursor, { prepend, append, replace }) => {
+const applyTool = (value, cursor, { prepend, append }) => {
   const toolApplied = _toolParts(value, cursor, { prepend, append })
-  const checked = _checkTool(toolApplied[1], { prepend, append })
+  const applied = _checkTool(toolApplied[1], { prepend, append })
 
   // apply tool — inline
   if (prepend && append) {
     // undo tool
-    if (checked) {
+    if (applied) {
       return (
         toolApplied[0] +
         toolApplied[1].replace(prepend, '').replace(append, '') +
@@ -160,7 +176,7 @@ const applyTool = (value, cursor, { prepend, append, replace }) => {
     return (
       value.slice(0, cursor[0]) +
       prepend +
-      (replace ? '' : value.slice(cursor[0], cursor[1])) +
+      value.slice(cursor[0], cursor[1]) +
       append +
       value.slice(cursor[1])
     )
@@ -173,20 +189,18 @@ const applyTool = (value, cursor, { prepend, append, replace }) => {
   return lines
     .slice(0, startLine)
     .concat(
-      replace
-        ? ['']
-        : lines
-          .slice(startLine, endLine + 1)
-          .map(
-            l =>
-              (checked ? '' : prepend) +
-                l.replace(prepend, '').replace(append, '') +
-                (checked ? '' : append)
-          )
+      lines
+        .slice(startLine, endLine + 1)
+        .map(
+          l =>
+            (applied ? '' : prepend) +
+            l.replace(prepend, '').replace(append, '') +
+            (applied ? '' : append)
+        )
     )
     .concat(lines.slice(endLine + 1))
     .join('\n')
 }
 
 export default applyTool
-export { hasTool, toolbar }
+export { hasTool, toolbar, toolbarGroups }
