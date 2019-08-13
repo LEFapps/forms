@@ -1,6 +1,8 @@
 import React from 'react'
 import { Table, Button, ButtonGroup, Input, InputGroup } from 'reactstrap'
 import isString from 'lodash/isString'
+import isArray from 'lodash/isArray'
+import isPlainObject from 'lodash/isPlainObject'
 import get from 'lodash/get'
 
 import { translatorText } from '../../helpers/translator'
@@ -10,7 +12,9 @@ const columns = ({ elements, attributes }) =>
     col => {
       const name = isString(col) ? col : col.name
       const label = isString(col) ? col : col.label
-      return { name, label }
+      const el = elements.find(e => e.name === name) || {}
+      const type = col.type || el.type
+      return { name, label, type }
     }
   )
 
@@ -90,11 +94,22 @@ class Items extends React.Component {
                 <td style={{ verticalAlign: 'middle', textAlign: 'right' }}>
                   {1 + i}.
                 </td>
-                {cols.map(({ name }, j) => (
-                  <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
-                    {translatorText(get(d, name), translator)}
-                  </td>
-                ))}
+                {cols.map(({ name, type }, j) => {
+                  const colValue = get(d, name)
+                  return (
+                    <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
+                      {type === 'subform'
+                        ? colValue
+                          ? `${colValue.length} ×`
+                          : '—'
+                        : isArray(colValue)
+                          ? colValue.join(', ')
+                          : isPlainObject(colValue)
+                            ? JSON.stringify(colValue).substring(0, 64)
+                            : translatorText(get(d, name), translator)}
+                    </td>
+                  )
+                })}
 
                 <td className={'text-right text-nowrap'}>
                   <ButtonGroup>
