@@ -122,6 +122,7 @@ class SubForm extends React.Component {
     const { data, currentIndex } = this.state
     const min = get(element, 'attributes.min', 0)
     const max = get(element, 'attributes.max', 0)
+    const duplicates = get(element, 'attributes.duplicates', true)
     return (
       <Card>
         <CardHeader>
@@ -163,7 +164,11 @@ class SubForm extends React.Component {
             remove={data.length > min ? this.removeItem : false}
             edit={this.toggleForm}
             move={this.moveItem}
-            duplicate={!!max && data.length >= max ? false : this.duplicateItem}
+            duplicate={
+              (!!max && data.length >= max) || !duplicates
+                ? false
+                : this.duplicateItem
+            }
             element={element}
             translator={translator}
           />
