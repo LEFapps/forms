@@ -2,6 +2,7 @@ import React from 'react'
 import { Table, Button, ButtonGroup, Input, InputGroup } from 'reactstrap'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
+import isBoolean from 'lodash/isBoolean'
 import isPlainObject from 'lodash/isPlainObject'
 import get from 'lodash/get'
 
@@ -98,15 +99,25 @@ class Items extends React.Component {
                   const colValue = get(d, name)
                   return (
                     <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
-                      {type === 'subform'
-                        ? colValue
-                          ? `${colValue.length} ×`
-                          : '—'
-                        : isArray(colValue)
-                          ? colValue.join(', ')
-                          : isPlainObject(colValue)
-                            ? JSON.stringify(colValue).substring(0, 64)
-                            : translatorText(get(d, name), translator)}
+                      {type === 'subform' ? (
+                        colValue ? (
+                          `${colValue.length} ×`
+                        ) : (
+                          '—'
+                        )
+                      ) : isArray(colValue) ? (
+                        colValue.join(', ')
+                      ) : isPlainObject(colValue) ? (
+                        JSON.stringify(colValue).substring(0, 64)
+                      ) : isBoolean(colValue) ? (
+                        colValue ? (
+                          <span className={'text-success'}>✓</span>
+                        ) : (
+                          <span className={'text-danger'}>✗</span>
+                        )
+                      ) : (
+                        translatorText(get(d, name), translator)
+                      )}
                     </td>
                   )
                 })}
