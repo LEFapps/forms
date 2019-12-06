@@ -15,7 +15,8 @@ const ActualForm = ({
   model,
   onCancel,
   onSave,
-  translator
+  translator,
+  readOnly
 }) => {
   const body = document.getElementsByTagName('body')[0]
   const ReformedFormComposer = reformed()(FormComposer)
@@ -35,21 +36,26 @@ const ActualForm = ({
           initialModel={model}
           onSubmit={onSave}
           translator={translator}
+          readOnly={readOnly}
         >
-          <Button color={'warning'} onClick={onCancel}>
-            {translatorText(
-              { nl: 'Annuleren', fr: 'Annuler', en: 'Cancel' },
-              translator
-            )}
-          </Button>{' '}
-          <Button color={'success'} type={'submit'}>
-            {translatorText(
-              isEmpty(model)
-                ? { nl: 'Toevoegen', fr: 'Ajouter', en: 'Add' }
-                : { nl: 'Bijwerken', fr: 'Actualiser', en: 'Update' },
-              translator
-            )}
-          </Button>
+          {readOnly ? null : (
+            <>
+              <Button color={'warning'} onClick={onCancel}>
+                {translatorText(
+                  { nl: 'Annuleren', fr: 'Annuler', en: 'Cancel' },
+                  translator
+                )}
+              </Button>{' '}
+              <Button color={'success'} type={'submit'}>
+                {translatorText(
+                  isEmpty(model)
+                    ? { nl: 'Toevoegen', fr: 'Ajouter', en: 'Add' }
+                    : { nl: 'Bijwerken', fr: 'Actualiser', en: 'Update' },
+                  translator
+                )}
+              </Button>
+            </>
+          )}
         </ReformedFormComposer>
       </ModalBody>
     </Modal>
