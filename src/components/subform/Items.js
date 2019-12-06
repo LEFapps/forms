@@ -56,7 +56,7 @@ class Items extends React.Component {
     } = this.props
     const { search } = this.state
     const canMove = (index, dir) =>
-      dir < 0 ? index > 0 : index < items.length - 1
+      !move ? false : dir < 0 ? index > 0 : index < items.length - 1
     const cols = columns(element)
     return (
       <Table>
@@ -124,70 +124,80 @@ class Items extends React.Component {
 
                 <td className={'text-right text-nowrap'}>
                   <ButtonGroup>
-                    <Button
-                      color={'info'}
-                      size={'sm'}
-                      outline
-                      onClick={() => move(i, -1)}
-                      disabled={!canMove(i, -1)}
-                      title={translatorText(
-                        { nl: 'Omhoog', fr: 'En haut', en: 'Move up' },
-                        translator
-                      )}
-                    >
-                      △
-                    </Button>
-                    <Button
-                      color={'info'}
-                      size={'sm'}
-                      outline
-                      onClick={() => move(i, 1)}
-                      disabled={!canMove(i, 1)}
-                      title={translatorText(
-                        { nl: 'Omlaag', fr: 'En bas', en: 'Move down' },
-                        translator
-                      )}
-                    >
-                      ▽
-                    </Button>
-                    <Button
-                      color={'success'}
-                      size={'sm'}
-                      outline
-                      onClick={() => duplicate(i)}
-                      title={translatorText(
-                        { nl: 'Dupliceren', fr: 'Copier', en: 'Copy' },
-                        translator
-                      )}
-                      disabled={!duplicate}
-                    >
-                      ⧉
-                    </Button>
-                    <Button
-                      color={'danger'}
-                      size={'sm'}
-                      outline
-                      onClick={() => remove(i)}
-                      disabled={!remove}
-                      title={translatorText(
-                        { nl: 'Verwijderen', fr: 'Supprimer', en: 'Remove' },
-                        translator
-                      )}
-                    >
-                      ✕
-                    </Button>
-                    <Button
-                      color={'warning'}
-                      size={'sm'}
-                      outline
-                      onClick={() => edit(i)}
-                      title={translatorText(
-                        { nl: 'Wijzigen', fr: 'Changer', en: 'Edit' },
-                        translator
-                      )}
-                    >
-                      ✎
-                    </Button>
+                    {!canMove ? null : (
+                      <Button
+                        color={'info'}
+                        size={'sm'}
+                        outline
+                        onClick={() => move(i, -1)}
+                        disabled={!canMove(i, -1)}
+                        title={translatorText(
+                          { nl: 'Omhoog', fr: 'En haut', en: 'Move up' },
+                          translator
+                        )}
+                      >
+                        △
+                      </Button>
+                    )}
+                    {!canMove ? null : (
+                      <Button
+                        color={'info'}
+                        size={'sm'}
+                        outline
+                        onClick={() => move(i, 1)}
+                        disabled={!canMove(i, 1)}
+                        title={translatorText(
+                          { nl: 'Omlaag', fr: 'En bas', en: 'Move down' },
+                          translator
+                        )}
+                      >
+                        ▽
+                      </Button>
+                    )}
+                    {!duplicate ? null : (
+                      <Button
+                        color={'success'}
+                        size={'sm'}
+                        outline
+                        onClick={() => duplicate(i)}
+                        title={translatorText(
+                          { nl: 'Dupliceren', fr: 'Copier', en: 'Copy' },
+                          translator
+                        )}
+                        disabled={!duplicate}
+                      >
+                        ⧉
+                      </Button>
+                    )}
+                    {!remove ? null : (
+                      <Button
+                        color={'danger'}
+                        size={'sm'}
+                        outline
+                        onClick={() => remove(i)}
+                        disabled={!remove}
+                        title={translatorText(
+                          { nl: 'Verwijderen', fr: 'Supprimer', en: 'Remove' },
+                          translator
+                        )}
+                      >
+                        ✕
+                      </Button>
+                    )}
+                    {!edit ? null : (
+                      <Button
+                        color={'warning'}
+                        size={'sm'}
+                        outline
+                        onClick={() => edit(i)}
+                        title={translatorText(
+                          { nl: 'Wijzigen', fr: 'Changer', en: 'Edit' },
+                          translator
+                        )}
+                      >
+                        {get(element, 'attributes.disabled') ? '⚯' : '✎'}
+                      </Button>
+                    )}
                   </ButtonGroup>
                 </td>
               </tr>
