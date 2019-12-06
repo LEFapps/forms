@@ -122,7 +122,11 @@ class SubForm extends React.Component {
     const { data, currentIndex } = this.state
     const min = get(element, 'attributes.min', 0)
     const max = get(element, 'attributes.max', 0)
+    const readOnly = get(element, 'attributes.disabled')
     const duplicates = get(element, 'attributes.duplicates', true)
+    const move = get(element, 'attributes.move', true)
+    const remove = get(element, 'attributes.remove', true)
+    const edit = get(element, 'attributes.edit', true)
     return (
       <Card>
         <CardHeader>
@@ -148,7 +152,7 @@ class SubForm extends React.Component {
                 color={'success'}
                 size={'sm'}
                 onClick={() => this.toggleForm(-1)}
-                disabled={!!max && data.length >= max}
+                disabled={readOnly || (!!max && data.length >= max)}
               >
                 {translatorText(
                   { nl: 'Toevoegen', fr: 'Ajouter', en: 'Add' },
@@ -161,11 +165,15 @@ class SubForm extends React.Component {
         <CardBody className={'small'}>
           <Items
             items={data}
-            remove={data.length > min ? this.removeItem : false}
-            edit={this.toggleForm}
-            move={this.moveItem}
+            remove={
+              !remove || readOnly || data.length <= min
+                ? false
+                : this.removeItem
+            }
+            edit={!edit ? false : this.toggleForm}
+            move={!move || readOnly ? false : this.moveItem}
             duplicate={
-              (!!max && data.length >= max) || !duplicates
+              !duplicates || readOnly || (!!max && data.length >= max)
                 ? false
                 : this.duplicateItem
             }
@@ -180,6 +188,7 @@ class SubForm extends React.Component {
           onCancel={this._closeForm}
           onSave={this.saveItem}
           translator={translator}
+          readOnly={readOnly}
         />
       </Card>
     )
