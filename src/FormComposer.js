@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Form, Row } from 'reactstrap'
 import { get, set } from 'lodash'
 
-const renderElements = (element, library, additionalProps, index) => {
+const renderElement = (element, library, additionalProps, index) => {
   if (library.has(element.type)) {
     let Component = library.get(element.type).component
     const key = `${element.name}${element.key || index}`
@@ -32,7 +32,7 @@ class FormComposer extends Component {
   renderElements (props) {
     const { elements, library, ...additionalProps } = props
     return elements.map((element, index) =>
-      renderElements(element, library, additionalProps, index)
+      renderElement(element, library, additionalProps, index)
     )
   }
   render () {
