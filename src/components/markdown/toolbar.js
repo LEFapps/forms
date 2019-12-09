@@ -67,7 +67,7 @@ const toolbarGroups = [
   ]
 ]
 
-const toolbar = toolbarGroups.flatten()
+const toolbar = toolbarGroups.flat()
 
 const _find = (lines, pos, removed) => {
   let cumul = -1
