@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import GenericInput from './GenericInput'
 import {
   isArray,
@@ -15,12 +15,19 @@ import {
 } from 'lodash'
 import { translatorText } from '../helpers/translator'
 
+const Option = ({ translator, _id, ...option }) => {
+  const [translation, setTranslation] = useState()
+  useEffect(() => {
+    if (!translation) {
+      setTranslation(translatorText(option, translator, null, true))
+    }
+  })
+  return <option value={_id}>{translation || _id}</option>
+}
+
 const Select = props => {
   const { element, translator } = props
   const options = element.options || []
-  // if (get(element, 'attributes.multiple', false) === 'checkbox') {
-  //   return <SelectMulti {...props} />
-  // } else {
   const hasEmptyOption = isArray(options)
     ? options.find(option => !option || !option._id || option._id === '~')
     : !options
@@ -32,16 +39,10 @@ const Select = props => {
         </option>
       ) : null}
       {options.map((option, index) => (
-        <option
-          key={`${element.name}${element.key}-option-${index}`}
-          value={option._id}
-        >
-          {translatorText(option, translator)}
-        </option>
+        <Option {...option} key={index} translator={translator} />
       ))}
     </GenericInput>
   )
-  // }
 }
 
 const config = ({ translator }) => {

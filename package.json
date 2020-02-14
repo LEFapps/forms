@@ -28,8 +28,6 @@
   "dependencies": {
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
-    "react": "^16.8.5",
-    "react-dom": "^16.8.5",
     "react-reformed": "2.0.0",
     "reactstrap": "^7.1.0"
   },
@@ -55,7 +53,6 @@
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-standard": "^4.0.0",
     "markdown-it": "^8.4.2",
-    "react": "^16.8.5",
     "rimraf": "^2.6.3",
     "watch": "^1.0.2"
   }
