@@ -30,9 +30,7 @@ const makeWrapper = middleware => WrappedComponent => {
   class FormWrapper extends React.Component {
     constructor (props, ctx) {
       super(props, ctx)
-      this.state = {
-        model: props.initialModel || {}
-      }
+      this.state = { model: props.initialModel || {} }
     }
 
     makeHelpers (modelHandler) {
@@ -75,6 +73,7 @@ const makeWrapper = middleware => WrappedComponent => {
         },
         this.makeHelpers(modelHandler)
       )
+
       return React.createElement(WrappedComponent, nextProps)
     }
   }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import random from './helpers/random'
 import { FormComposer } from './FormComposer'
 import reformed from './reformed'
@@ -115,9 +115,7 @@ class FormEditor extends Component {
         default: `Are you sure you want to remove this element? (${element.name ||
           'empty' + ', ' + element.type})`
       },
-      this.props.translator,
-      false,
-      true
+      { getString: true }
     )
     if (confirm(confirmText)) {
       this.setState(prevstate => {
@@ -164,7 +162,6 @@ class FormEditor extends Component {
                 onDuplicate={this.duplicateElement}
                 onMoveElement={this.moveElement}
                 key={`element-${element.key || index}`}
-                translator={this.props.translator}
               />
             )
           } else return null
@@ -172,10 +169,11 @@ class FormEditor extends Component {
         <Row>
           <Col md={12}>
             <Button color={'success'} onClick={this.save}>
-              {translatorText(
-                { nl: 'Bewaren', fr: 'Sauvegarder', default: 'Save' },
-                this.props.translator
-              )}
+              {translatorText({
+                nl: 'Bewaren',
+                fr: 'Sauvegarder',
+                default: 'Save'
+              })}
             </Button>
           </Col>
         </Row>
@@ -185,10 +183,11 @@ class FormEditor extends Component {
             <Row>
               <Col xs={12}>
                 <h3>
-                  {translatorText(
-                    { nl: 'Voorbeeld', fr: 'Exemple', default: 'Preview' },
-                    this.props.translator
-                  )}
+                  {translatorText({
+                    nl: 'Voorbeeld',
+                    fr: 'Exemple',
+                    default: 'Preview'
+                  })}
                 </h3>
                 {this.state.showPreview ? (
                   <ReformedFormComposer
@@ -197,32 +196,25 @@ class FormEditor extends Component {
                       this.state.elements,
                       this.props.library
                     )}
-                    translator={this.props.translator}
                   />
                 ) : (
                   <>
                     <p>
-                      {translatorText(
-                        {
-                          nl:
-                            'De configuratie van het formulier is gewijzigd. Klik op onderstaande knop een voorbeeld te laden.',
-                          fr:
-                            'Le configuration du formulaire a été modifié. Cliquez le bouton ci-dessous pour charger une exemple.',
-                          default:
-                            'The form has changed. Click the button below to load preview again.'
-                        },
-                        this.props.translator
-                      )}
+                      {translatorText({
+                        nl:
+                          'De configuratie van het formulier is gewijzigd. Klik op onderstaande knop een voorbeeld te laden.',
+                        fr:
+                          'Le configuration du formulaire a été modifié. Cliquez le bouton ci-dessous pour charger une exemple.',
+                        default:
+                          'The form has changed. Click the button below to load preview again.'
+                      })}
                     </p>
                     <Button color={'info'} onClick={this.showPreview}>
-                      {translatorText(
-                        {
-                          nl: 'Toon voorbeeld',
-                          fr: 'Montrer une exemple',
-                          default: 'Show preview'
-                        },
-                        this.props.translator
-                      )}
+                      {translatorText({
+                        nl: 'Toon voorbeeld',
+                        fr: 'Montrer une exemple',
+                        default: 'Show preview'
+                      })}
                     </Button>
                   </>
                 )}
@@ -235,56 +227,38 @@ class FormEditor extends Component {
   }
 }
 
-class ButtonMenu extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      isOpen: false
-    }
-    this.toggle = this.toggle.bind(this)
-  }
-  toggle () {
-    this.setState(prevstate => ({ isOpen: !prevstate.isOpen }))
-  }
-  render () {
-    const { library, addElement } = this.props
-    return (
-      <ButtonDropdown
-        isOpen={this.state.isOpen}
-        toggle={this.toggle}
-        direction='right'
-      >
-        <DropdownToggle caret>
-          {translatorText(
-            {
-              nl: 'Component invoegen',
-              fr: 'Ajouter un élément',
-              default: 'Add an element'
-            },
-            this.props.translator
-          )}
-          &nbsp;
-        </DropdownToggle>
-        <DropdownMenu>
-          <ButtonGroup vertical>
-            {Array.from(library.keys()).map(type => {
-              return (
-                <DropdownItem
-                  key={`add-${type}`}
-                  onClick={() => {
-                    this.toggle()
-                    addElement(type)
-                  }}
-                >
-                  {capitalize(type)}
-                </DropdownItem>
-              )
-            })}
-          </ButtonGroup>
-        </DropdownMenu>
-      </ButtonDropdown>
-    )
-  }
+const ButtonMenu = ({ library, addElement }) => {
+  const [isOpen, setOpen] = useState(false)
+  const toggle = () => setOpen(!isOpen)
+  return (
+    <ButtonDropdown isOpen={isOpen} toggle={toggle} direction='right'>
+      <DropdownToggle caret>
+        {translatorText({
+          nl: 'Component invoegen',
+          fr: 'Ajouter un élément',
+          default: 'Add an element'
+        })}
+        &nbsp;
+      </DropdownToggle>
+      <DropdownMenu>
+        <ButtonGroup vertical>
+          {Array.from(library.keys()).map(type => {
+            return (
+              <DropdownItem
+                key={`add-${type}`}
+                onClick={() => {
+                  toggle()
+                  addElement(type)
+                }}
+              >
+                {capitalize(type)}
+              </DropdownItem>
+            )
+          })}
+        </ButtonGroup>
+      </DropdownMenu>
+    </ButtonDropdown>
+  )
 }
 
 export { FormEditor }

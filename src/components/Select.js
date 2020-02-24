@@ -15,22 +15,24 @@ import {
 } from 'lodash'
 import { translatorText } from '../helpers/translator'
 
-const Option = ({ option, translator }) => {
+const Option = ({ option }) => {
   const [translation, setTranslation] = useState()
   useEffect(() => {
     if (!translation) {
-      setTranslation(translatorText(option, translator, null, true))
+      setTranslation(translatorText(option, { getString: true }))
     }
   })
   return (
     <option value={option._id || option}>
-      {translation || option._id || option}
+      {(isString(translation) && translation) ||
+        (isString(option._id) && option._id) ||
+        (isString(option) && option)}
     </option>
   )
 }
 
 const Select = props => {
-  const { element, translator } = props
+  const { element } = props
   const options = element.options || []
   const hasEmptyOption = isArray(options)
     ? options.find(option => !option || !option._id || option._id === '~')
@@ -43,7 +45,7 @@ const Select = props => {
         </option>
       ) : null}
       {options.map((option, index) => (
-        <Option key={index} option={option} translator={translator} />
+        <Option key={index} option={option} />
       ))}
     </GenericInput>
   )
@@ -192,7 +194,7 @@ const transformOptions = (defaultOptions, translator, saving) => {
         }
       })
       if (size(option) && !size(result)) {
-        result = translatorText(option, translator)
+        result = translatorText(option)
       }
       return result
     }

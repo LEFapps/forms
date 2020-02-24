@@ -6,7 +6,7 @@ import { translatorText } from '../helpers/translator'
 import random from '../helpers/random'
 
 const CheckboxMC = props => {
-  const { translator, bindInput, ...xProps } = props
+  const { bindInput, ...xProps } = props
   const thisModel = get(props.model, props.element.name, [])
   return (props.element.options || []).map((option, i) => {
     const optionValue = option._id || option.default || option
@@ -15,7 +15,7 @@ const CheckboxMC = props => {
       id: key,
       type: 'checkbox',
       value: optionValue,
-      label: translatorText(option, translator),
+      label: translatorText(option),
       checked: includes(thisModel, optionValue),
       inline: !!get(props.element, 'layout.inline', undefined)
     }
@@ -27,7 +27,10 @@ const CheckboxMC = props => {
           thisModel.push(optionValue)
           return props.setProperty(name, thisModel)
         } else {
-          props.setProperty(name, thisModel.filter(o => o !== optionValue))
+          props.setProperty(
+            name,
+            thisModel.filter(o => o !== optionValue)
+          )
         }
       }
     })

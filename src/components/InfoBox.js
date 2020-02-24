@@ -5,7 +5,6 @@ import Text from '../helpers/Text'
 import { upperCase } from 'lodash'
 
 const InfoBoxComponent = ({
-  translator,
   bindInput,
   element,
   attributes: propsAttributes
@@ -13,7 +12,7 @@ const InfoBoxComponent = ({
   const { attributes: elementAttributes } = element
   return (
     <div {...elementAttributes} {...propsAttributes}>
-      <Text content={translatorText(element.label, translator)} />
+      <Text content={translatorText(element.label)} />
     </div>
   )
 }

@@ -9,15 +9,7 @@ import decorators from '../../Decorators'
 import components from '../../Components'
 import { translatorText } from '../../helpers/translator'
 
-const ActualForm = ({
-  element,
-  modal,
-  model,
-  onCancel,
-  onSave,
-  translator,
-  readOnly
-}) => {
+const ActualForm = ({ element, modal, model, onCancel, onSave, readOnly }) => {
   const body = document.getElementsByTagName('body')[0]
   const ReformedFormComposer = reformed()(FormComposer)
   const componentLib = components.clone()
@@ -27,7 +19,7 @@ const ActualForm = ({
   const modalForm = (
     <Modal isOpen={modal} toggle={onCancel} size={size}>
       <ModalHeader toggle={onCancel}>
-        {translatorText(element.label, translator)}
+        {translatorText(element.label)}
       </ModalHeader>
       <ModalBody>
         <ReformedFormComposer
@@ -35,23 +27,22 @@ const ActualForm = ({
           elements={element.elements}
           initialModel={model}
           onSubmit={onSave}
-          translator={translator}
           readOnly={readOnly}
         >
           {readOnly ? null : (
             <>
               <Button color={'warning'} onClick={onCancel}>
-                {translatorText(
-                  { nl: 'Annuleren', fr: 'Annuler', en: 'Cancel' },
-                  translator
-                )}
+                {translatorText({
+                  nl: 'Annuleren',
+                  fr: 'Annuler',
+                  en: 'Cancel'
+                })}
               </Button>{' '}
               <Button color={'success'} type={'submit'}>
                 {translatorText(
                   isEmpty(model)
                     ? { nl: 'Toevoegen', fr: 'Ajouter', en: 'Add' }
-                    : { nl: 'Bijwerken', fr: 'Actualiser', en: 'Update' },
-                  translator
+                    : { nl: 'Bijwerken', fr: 'Actualiser', en: 'Update' }
                 )}
               </Button>
             </>

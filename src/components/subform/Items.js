@@ -45,15 +45,7 @@ class Items extends React.Component {
     this.setState({ search: target.value })
   }
   render () {
-    const {
-      items,
-      remove,
-      edit,
-      element,
-      translator,
-      move,
-      duplicate
-    } = this.props
+    const { items, remove, edit, element, move, duplicate } = this.props
     const { search } = this.state
     const canMove = (index, dir) =>
       !move ? false : dir < 0 ? index > 0 : index < items.length - 1
@@ -65,7 +57,7 @@ class Items extends React.Component {
             <th style={{ verticalAlign: 'middle', textAlign: 'right' }}>#</th>
             {cols.map(({ label, name }, i) => (
               <th style={{ verticalAlign: 'middle' }} key={i}>
-                {translatorText(label || name, translator)}
+                {translatorText(label || name)}
               </th>
             ))}
             <th>
@@ -76,10 +68,11 @@ class Items extends React.Component {
                 <Input
                   type={'search'}
                   onChange={this.initSearch}
-                  placeholder={translatorText(
-                    { nl: 'Zoeken', fr: 'Rechercher', en: 'Live Search' },
-                    translator
-                  )}
+                  placeholder={translatorText({
+                    nl: 'Zoeken',
+                    fr: 'Rechercher',
+                    en: 'Live Search'
+                  })}
                 />
               </InputGroup>
             </th>
@@ -116,7 +109,7 @@ class Items extends React.Component {
                           <span className={'text-danger'}>✗</span>
                         )
                       ) : (
-                        translatorText(get(d, name), translator)
+                        translatorText(get(d, name))
                       )}
                     </td>
                   )
@@ -131,10 +124,11 @@ class Items extends React.Component {
                         outline
                         onClick={() => move(i, -1)}
                         disabled={!canMove(i, -1)}
-                        title={translatorText(
-                          { nl: 'Omhoog', fr: 'En haut', en: 'Move up' },
-                          translator
-                        )}
+                        title={translatorText({
+                          nl: 'Omhoog',
+                          fr: 'En haut',
+                          en: 'Move up'
+                        })}
                       >
                         △
                       </Button>
@@ -146,10 +140,11 @@ class Items extends React.Component {
                         outline
                         onClick={() => move(i, 1)}
                         disabled={!canMove(i, 1)}
-                        title={translatorText(
-                          { nl: 'Omlaag', fr: 'En bas', en: 'Move down' },
-                          translator
-                        )}
+                        title={translatorText({
+                          nl: 'Omlaag',
+                          fr: 'En bas',
+                          en: 'Move down'
+                        })}
                       >
                         ▽
                       </Button>
@@ -160,10 +155,11 @@ class Items extends React.Component {
                         size={'sm'}
                         outline
                         onClick={() => duplicate(i)}
-                        title={translatorText(
-                          { nl: 'Dupliceren', fr: 'Copier', en: 'Copy' },
-                          translator
-                        )}
+                        title={translatorText({
+                          nl: 'Dupliceren',
+                          fr: 'Copier',
+                          en: 'Copy'
+                        })}
                         disabled={!duplicate}
                       >
                         ⧉
@@ -176,10 +172,11 @@ class Items extends React.Component {
                         outline
                         onClick={() => remove(i)}
                         disabled={!remove}
-                        title={translatorText(
-                          { nl: 'Verwijderen', fr: 'Supprimer', en: 'Remove' },
-                          translator
-                        )}
+                        title={translatorText({
+                          nl: 'Verwijderen',
+                          fr: 'Supprimer',
+                          en: 'Remove'
+                        })}
                       >
                         ✕
                       </Button>
@@ -190,10 +187,11 @@ class Items extends React.Component {
                         size={'sm'}
                         outline
                         onClick={() => edit(i)}
-                        title={translatorText(
-                          { nl: 'Wijzigen', fr: 'Changer', en: 'Edit' },
-                          translator
-                        )}
+                        title={translatorText({
+                          nl: 'Wijzigen',
+                          fr: 'Changer',
+                          en: 'Edit'
+                        })}
                       >
                         {get(element, 'attributes.disabled') ? '⚯' : '✎'}
                       </Button>
@@ -208,15 +206,12 @@ class Items extends React.Component {
                 colSpan={cols.length + 2}
                 className={'text-center text-muted'}
               >
-                {translatorText(
-                  {
-                    default: 'None',
-                    nl: 'Geen items',
-                    fr: 'Aucun choix',
-                    en: 'No options'
-                  },
-                  translator
-                )}
+                {translatorText({
+                  default: 'None',
+                  nl: 'Geen items',
+                  fr: 'Aucun choix',
+                  en: 'No options'
+                })}
               </td>
             </tr>
           )}

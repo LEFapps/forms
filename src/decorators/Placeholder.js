@@ -6,10 +6,8 @@ const PlaceholderDecorator = WrappedComponent => props => {
   set(
     props,
     'element.attributes.placeholder',
-    translatorText(
-      get(props.element, 'attributes.placeholders'),
-      props.translator
-    ) || get(props, 'element.attributes.placeholder', '')
+    translatorText(get(props.element, 'attributes.placeholders')) ||
+      get(props, 'element.attributes.placeholder', '')
   )
   return <WrappedComponent {...props} />
 }

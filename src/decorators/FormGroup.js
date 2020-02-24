@@ -4,7 +4,7 @@ import { includes, union, flip, upperCase } from 'lodash'
 import { translatorText } from '../helpers/translator'
 
 const FormGroupDecorator = WrappedComponent => props => {
-  const { element, translator } = props
+  const { element } = props
   const { label = '', required, name, type } = element || {}
   const req = r =>
     r ? (
@@ -15,7 +15,7 @@ const FormGroupDecorator = WrappedComponent => props => {
       <>&nbsp;</>
     ) : (
       <>
-        {translatorText(label, translator) || element.type}
+        {translatorText(label) || element.type}
         {req(required)}
       </>
     )

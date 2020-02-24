@@ -91,14 +91,11 @@ class SubForm extends React.Component {
   }
   removeItem (index) {
     const { value } = this._getValue()
-    const removeText = translatorText(
-      {
-        nl: `Bent u zeker dat u item ${1 + index} wil verwijderen?`,
-        fr: `Supprimer item ${1 + index}?`,
-        en: `Are you sure you want to remove item ${1 + index}?`
-      },
-      this.props.translator
-    )
+    const removeText = translatorText({
+      nl: `Bent u zeker dat u item ${1 + index} wil verwijderen?`,
+      fr: `Supprimer item ${1 + index}?`,
+      en: `Are you sure you want to remove item ${1 + index}?`
+    })
     const confirmed = confirm(removeText)
     if (value[index] && confirmed) this._modifyModel('delete', { index })
   }
@@ -118,7 +115,7 @@ class SubForm extends React.Component {
     if (value) this._modifyModel('move', { index, direction, model: value })
   }
   render () {
-    const { element, translator } = this.props
+    const { element } = this.props
     const { data, currentIndex } = this.state
     const min = get(element, 'attributes.min', 0)
     const max = get(element, 'attributes.max', 0)
@@ -154,10 +151,7 @@ class SubForm extends React.Component {
                 onClick={() => this.toggleForm(-1)}
                 disabled={readOnly || (!!max && data.length >= max)}
               >
-                {translatorText(
-                  { nl: 'Toevoegen', fr: 'Ajouter', en: 'Add' },
-                  translator
-                )}
+                {translatorText({ nl: 'Toevoegen', fr: 'Ajouter', en: 'Add' })}
               </Button>
             </Col>
           </Row>
@@ -178,7 +172,6 @@ class SubForm extends React.Component {
                 : this.duplicateItem
             }
             element={element}
-            translator={translator}
           />
         </CardBody>
         <ActualForm
@@ -187,7 +180,6 @@ class SubForm extends React.Component {
           modal={this.state.modalIsOpen}
           onCancel={this._closeForm}
           onSave={this.saveItem}
-          translator={translator}
           readOnly={readOnly}
         />
       </Card>

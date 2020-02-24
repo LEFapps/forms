@@ -18,7 +18,7 @@ const Validate = WrappedComponent => props => {
       <WrappedComponent {...xProps} attributes={attributes} />
       {feedback ? (
         <feedback.component>
-          {translatorText(feedback.description, props.translator)}
+          {translatorText(feedback.description)}
         </feedback.component>
       ) : null}
     </>

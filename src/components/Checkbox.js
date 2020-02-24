@@ -4,12 +4,12 @@ import { get, kebabCase } from 'lodash'
 import { translatorText } from '../helpers/translator'
 
 const Checkbox = props => {
-  const { translator, bindInput, ...xProps } = props
+  const { bindInput, ...xProps } = props
   xProps.checked = get(props.model, props.element.name, false)
   xProps.custom = {
     id: props.element.name,
     type: 'switch',
-    label: translatorText(props.element.label, translator),
+    label: translatorText(props.element.label),
     checked: get(props.model, name, false),
     inline: !!get(props.element, 'layout.inline', undefined)
   }
@@ -21,7 +21,7 @@ const Checkbox = props => {
     }
   }
   if (get(xProps, 'value', '')) {
-    xProps.value = translatorText(xProps.value, translator)
+    xProps.value = translatorText(xProps.value)
   }
   return <GenericInputNoChildren {...xProps} bindInput={bindCheckedInput} />
 }
@@ -31,7 +31,7 @@ Checkbox.displayName = 'Checkbox'
 const transform = (element, { translator }, saving) => {
   if (element.label) {
     element.value = `~${kebabCase(
-      translatorText(element.label, translator, true)
+      translatorText(element.label, { getDefault: true })
     )}`
   }
   return element

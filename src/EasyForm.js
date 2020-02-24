@@ -51,9 +51,11 @@ class EasyForm {
       set(config, 'translator', props.translator)
       const components = this.modifyLibrary(config)
       return (
-        <ReformedFormComposer library={components} {...props}>
-          {props.readOnly ? null : props.children}
-        </ReformedFormComposer>
+        <translatorContext.Provider value={config.translator}>
+          <ReformedFormComposer library={components} {...props}>
+            {props.readOnly ? null : props.children}
+          </ReformedFormComposer>
+        </translatorContext.Provider>
       )
     }
   }
@@ -62,9 +64,11 @@ class EasyForm {
       set(config, 'translator', props.translator)
       const components = this.modifyLibrary(config)
       return (
-        <FormEditor library={components} {...props}>
-          {props.children}
-        </FormEditor>
+        <translatorContext.Provider value={config.translator}>
+          <FormEditor library={components} {...props}>
+            {props.children}
+          </FormEditor>
+        </translatorContext.Provider>
       )
     }
   }

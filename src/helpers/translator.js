@@ -1,14 +1,32 @@
-import React from 'react'
-import { isString, get, head, map } from 'lodash'
+import React, { createContext, useContext } from 'react'
+import isString from 'lodash/isString'
+import get from 'lodash/get'
+import head from 'lodash/head'
+import map from 'lodash/map'
+import identity from 'lodash/identity'
 
-const translatorText = (text, translator, getDefault, getString) => {
+export const translatorContext = createContext({
+  languages: ['default'],
+  currentLanguage: 'default',
+  component: identity,
+  getTranslation: identity,
+  translations: []
+})
+
+export const translatorText = (text, options) => {
   if (!text) return ''
   if (isString(text)) return text
+
+  const { translator: customTranslator, getDefault, getString } = options || {}
+
+  const translator = customTranslator || useContext(translatorContext)
 
   const { component: Translate, getTranslation, translations } = translator
   const lang = getDefault
     ? get(translator, 'default', get(translator, 'currentLanguage', 'default'))
     : get(translator, 'currentLanguage', get(translator, 'default', 'default'))
+
+  const def = text.default || text.translate
 
   if (text[lang]) return text[lang]
   if (text.translate) {
@@ -19,16 +37,16 @@ const translatorText = (text, translator, getDefault, getString) => {
           { language: lang, skipSettings: true }
         )
         return (
-          translations[text.translate] && translations[text.translate][lang]
+          (translations[text.translate] &&
+            translations[text.translate][lang]) ||
+          def
         )
-      } else return text.default || text.translate
+      } else return def
     } else {
       if (Translate) {
         return <Translate _id={text.translate} getString={getString} />
-      } else return text.default || text.translate
+      } else return def
     }
   } else if (text.default) return text.default
   return head(map(text))
 }
-
-export { translatorText }

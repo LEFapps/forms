@@ -6,7 +6,7 @@ import { translatorText } from '../helpers/translator'
 import random from '../helpers/random'
 
 const Radio = props => {
-  const { translator, bindInput, ...xProps } = props
+  const { bindInput, ...xProps } = props
   return (props.element.options || []).map((option, i) => {
     const optionValue = option._id || option.default || option
     const key = (props.element.key || random()) + i
@@ -14,7 +14,7 @@ const Radio = props => {
       id: key,
       type: 'radio',
       value: optionValue,
-      label: translatorText(option, translator),
+      label: translatorText(option),
       checked: get(props.model, props.element.name) === optionValue,
       inline: !!get(props.element, 'layout.inline', undefined)
     }

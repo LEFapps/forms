@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ReactDOM from 'react-dom'
 import { FormEditor } from '../FormEditor'
 import components from '../Components'
 import decorators from '../Decorators'
 import { Modal, ModalHeader, ModalBody, Button } from 'reactstrap'
-import { translatorText } from '../helpers/translator'
+import { translatorText, translatorContext } from '../helpers/translator'
 
 const EditorModal = props => {
-  const { bindInput, element, el, translator, modal, onCancel } = props
+  const translator = useContext(translatorContext)
+  const { bindInput, element, el, modal, onCancel } = props
   const body = document.getElementsByTagName('body')[0]
   const componentLib = components.clone()
   decorators.apply(componentLib, { translator })
@@ -15,7 +16,7 @@ const EditorModal = props => {
   const editorForm = (
     <Modal isOpen={modal} toggle={onCancel} size={'lg'}>
       <ModalHeader toggle={onCancel}>
-        {translatorText(el ? el.label : element.label, translator)}
+        {translatorText(el ? el.label : element.label)}
       </ModalHeader>
       <ModalBody>
         <FormEditor
@@ -47,7 +48,7 @@ class Editor extends React.Component {
     return (
       <div>
         <Button onClick={() => this.setState({ modal: true })} color={'info'}>
-          {translatorText(buttonText, this.props.translator)}
+          {translatorText(buttonText)}
         </Button>
         <EditorModal
           key={this.props.element.name + 'Editor'}
