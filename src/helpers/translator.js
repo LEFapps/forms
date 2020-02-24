@@ -14,14 +14,13 @@ export const translatorContext = createContext({
 })
 
 export const translatorText = (text, options) => {
+  const { translator: customTranslator, getDefault, getString } = options || {}
+  const translator = customTranslator || useContext(translatorContext)
+  const { component: Translate, getTranslation, translations } = translator
+
   if (!text) return ''
   if (isString(text)) return text
 
-  const { translator: customTranslator, getDefault, getString } = options || {}
-
-  const translator = customTranslator || useContext(translatorContext)
-
-  const { component: Translate, getTranslation, translations } = translator
   const lang = getDefault
     ? get(translator, 'default', get(translator, 'currentLanguage', 'default'))
     : get(translator, 'currentLanguage', get(translator, 'default', 'default'))

@@ -4,8 +4,9 @@ import validate from './validate'
 import ComponentLibrary from './Components'
 import DecoratorLibrary from './Decorators'
 import { FormComposer } from './FormComposer'
-import { FormEditor } from './FormEditor'
+import FormEditor from './editor'
 import { isEmpty, set } from 'lodash'
+import { translatorContext } from './helpers/translator'
 
 class EasyForm {
   constructor ({
