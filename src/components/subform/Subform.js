@@ -1,14 +1,18 @@
 import React from 'react'
-import { get, castArray, clone, cloneDeep } from 'lodash'
 import { Row, Col, Card, CardHeader, CardBody, Button } from 'reactstrap'
+import get from 'lodash/get'
+import castArray from 'lodash/castArray'
+import clone from 'lodash/clone'
+import cloneDeep from 'lodash/cloneDeep'
 
 import ActualForm from './Modal'
 import Items from './Items'
-import { translatorText } from '../../helpers/translator'
+import translatorText from '../../helpers/translator'
 
-class SubForm extends React.Component {
+export default class SubForm extends React.Component {
   constructor (props) {
     super(props)
+    this.displayName = 'SubForm'
     this.state = {
       currentIndex: -1,
       modalIsOpen: false,
@@ -187,9 +191,7 @@ class SubForm extends React.Component {
   }
 }
 
-SubForm.displayName = 'SubForm'
-
-const config = ({ translator, model }) => [
+export const config = ({ translator, model }) => [
   {
     key: 'subform.divider.1',
     type: 'divider',
@@ -241,6 +243,4 @@ const config = ({ translator, model }) => [
   }
 ]
 
-export default SubForm
-
-export { config }
+export const filter = d => ['placeholder'].includes(d)

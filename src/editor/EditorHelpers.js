@@ -8,7 +8,7 @@ import {
   ModalFooter
 } from 'reactstrap'
 import { sortableHandle } from 'react-sortable-hoc'
-import { translatorText } from '../helpers/translator'
+import translatorText from '../helpers/translator'
 
 export const DragHandle = sortableHandle(({ color }) => (
   <div className={`btn btn-outline-${color || 'light'}`} title={'Move Element'}>
@@ -23,11 +23,13 @@ export const Mods = ({
   moveDown,
   canMoveUp,
   canMoveDown,
-  children
+  children,
+  ...props
 }) => {
   const [isDeleting, setDeleting] = useState(false)
+  const { canMove, update, ...attrs } = props || {}
   return (
-    <div className={'float-right'} style={{ zIndex: 20 }}>
+    <div {...attrs}>
       <ButtonGroup>
         {children}
         <Button

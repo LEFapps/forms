@@ -1,7 +1,10 @@
 import React from 'react'
 import { FormGroup, Label } from 'reactstrap'
-import { includes, union, flip, upperCase } from 'lodash'
-import { translatorText } from '../helpers/translator'
+import union from 'lodash/union'
+import flip from 'lodash/flip'
+import upperCase from 'lodash/upperCase'
+
+import translatorText from '../helpers/translator'
 
 const FormGroupDecorator = WrappedComponent => props => {
   const { element } = props
@@ -26,8 +29,9 @@ const FormGroupDecorator = WrappedComponent => props => {
     </FormGroup>
   )
 }
+export default FormGroupDecorator
 
-const config = ({ translator, model }) => {
+export const config = ({ translator, model }) => {
   const { languages } = translator || {}
   if (languages) {
     const headerField = [
@@ -74,9 +78,4 @@ const config = ({ translator, model }) => {
 }
 
 // Configuration of label is put in front
-const combine = flip(union)
-
-const filter = key => !includes(['divider', 'infobox'], key)
-
-export default FormGroupDecorator
-export { config, filter, combine }
+export const combine = flip(union)

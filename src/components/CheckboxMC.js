@@ -1,8 +1,11 @@
 import React from 'react'
+import get from 'lodash/get'
+import upperCase from 'lodash/upperCase'
+import includes from 'lodash/includes'
+
 import { GenericInputNoChildren } from './GenericInput'
-import { transformOptions } from './Select'
-import { get, upperCase, includes } from 'lodash'
-import { translatorText } from '../helpers/translator'
+import transformOptions from '../helpers/transformOptions'
+import translatorText from '../helpers/translator'
 import random from '../helpers/random'
 
 const CheckboxMC = props => {
@@ -43,10 +46,9 @@ const CheckboxMC = props => {
     )
   })
 }
+export default CheckboxMC
 
-CheckboxMC.displayName = 'CheckboxMC'
-
-const config = ({ translator, model }) => {
+export const config = ({ translator, model }) => {
   const { languages } = translator || {}
   return [
     {
@@ -122,7 +124,7 @@ const config = ({ translator, model }) => {
   ]
 }
 
-const transform = (element, { translator }, saving) => {
+export const transform = (element, { translator }, saving) => {
   if (element.options) {
     const result = transformOptions(element.options, translator || {}, saving)
     element.options = result
@@ -132,5 +134,4 @@ const transform = (element, { translator }, saving) => {
   return element
 }
 
-export default CheckboxMC
-export { config, transform }
+export const filter = d => ['placeholder'].includes(d)

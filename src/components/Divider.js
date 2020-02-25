@@ -5,5 +5,7 @@ const DividerComponent = props => {
   const { attributes: elementAttributes } = element
   return <hr {...elementAttributes} {...propsAttributes} />
 }
-
 export default DividerComponent
+
+export const filter = d =>
+  ['attributes', 'formgroup', 'name', 'placeholder', 'validate'].includes(d)

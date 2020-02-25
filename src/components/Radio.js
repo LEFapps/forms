@@ -1,8 +1,10 @@
 import React from 'react'
+import get from 'lodash/get'
+import upperCase from 'lodash/upperCase'
+
 import { GenericInputNoChildren } from './GenericInput'
-import { transformOptions } from './Select'
-import { get, upperCase } from 'lodash'
-import { translatorText } from '../helpers/translator'
+import transformOptions from '../helpers/transformOptions'
+import translatorText from '../helpers/translator'
 import random from '../helpers/random'
 
 const Radio = props => {
@@ -10,6 +12,7 @@ const Radio = props => {
   return (props.element.options || []).map((option, i) => {
     const optionValue = option._id || option.default || option
     const key = (props.element.key || random()) + i
+    console.log(option)
     xProps.custom = {
       id: key,
       type: 'radio',
@@ -35,10 +38,9 @@ const Radio = props => {
     )
   })
 }
+export default Radio
 
-Radio.displayName = 'Radio'
-
-const config = ({ translator }) => {
+export const config = ({ translator }) => {
   const { languages } = translator || {}
   return [
     {
@@ -114,7 +116,7 @@ const config = ({ translator }) => {
   ]
 }
 
-const transform = (element, { translator }, saving) => {
+export const transform = (element, { translator }, saving) => {
   if (element.options) {
     const result = transformOptions(element.options, translator || {}, saving)
     element.options = result
@@ -124,5 +126,4 @@ const transform = (element, { translator }, saving) => {
   return element
 }
 
-export default Radio
-export { config, transform }
+export const filter = d => ['placeholder'].includes(d)

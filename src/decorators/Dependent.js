@@ -1,16 +1,14 @@
 import React from 'react'
-import {
-  get,
-  isEmpty,
-  isUndefined,
-  isArray,
-  castArray,
-  intersection,
-  includes,
-  compact,
-  map,
-  merge
-} from 'lodash'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import isUndefined from 'lodash/isUndefined'
+import isArray from 'lodash/isArray'
+import castArray from 'lodash/castArray'
+import intersection from 'lodash/intersection'
+import includes from 'lodash/includes'
+import compact from 'lodash/compact'
+import map from 'lodash/map'
+import merge from 'lodash/merge'
 
 const dependency = ({ on, operator, values }) => model => {
   const value = get(model, on)
@@ -24,8 +22,8 @@ const dependency = ({ on, operator, values }) => model => {
           isArray(values)
             ? values
             : includes(values, ',')
-              ? values.split(',')
-              : castArray(values)
+            ? values.split(',')
+            : castArray(values)
         )
       )
     }
@@ -38,8 +36,8 @@ const dependency = ({ on, operator, values }) => model => {
             isArray(values)
               ? values
               : includes(values, ',')
-                ? values.split(',')
-                : castArray(values)
+              ? values.split(',')
+              : castArray(values)
           )
         )
       case 'gt':
@@ -68,8 +66,9 @@ const Dependent = WrappedComponent => props => {
   }
   return <WrappedComponent {...props} />
 }
+export default Dependent
 
-const config = ({ model }) => [
+export const config = ({ model }) => [
   {
     key: 'dependent.divider',
     type: 'divider',
@@ -88,10 +87,10 @@ const config = ({ model }) => [
     label: 'Identifier of other field',
     options: model
       ? compact(
-        map(model, () =>
-          model.name ? merge({ _id: model.name }, model.label) : false
+          map(model, () =>
+            model.name ? merge({ _id: model.name }, model.label) : false
+          )
         )
-      )
       : [],
     attributes: {
       placeholder: 'Field identifier'
@@ -156,6 +155,3 @@ const config = ({ model }) => [
     }
   }
 ]
-
-export default Dependent
-export { config }

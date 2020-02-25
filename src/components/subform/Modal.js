@@ -5,9 +5,9 @@ import { isEmpty } from 'lodash'
 
 import { FormComposer } from '../../FormComposer'
 import reformed from '../../reformed'
-import decorators from '../../Decorators'
-import components from '../../Components'
-import { translatorText } from '../../helpers/translator'
+import decorators from '../../decorators'
+import components from '../../components'
+import translatorText from '../../helpers/translator'
 
 const ActualForm = ({ element, modal, model, onCancel, onSave, readOnly }) => {
   const body = document.getElementsByTagName('body')[0]

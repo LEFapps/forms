@@ -1,8 +1,8 @@
 import React from 'react'
 import reformed from './reformed'
 import validate from './validate'
-import ComponentLibrary from './Components'
-import DecoratorLibrary from './Decorators'
+import ComponentLibrary from './components'
+import DecoratorLibrary from './decorators'
 import { FormComposer } from './FormComposer'
 import FormEditor from './editor'
 import { isEmpty, set } from 'lodash'
@@ -52,7 +52,7 @@ class EasyForm {
       set(config, 'translator', props.translator)
       const components = this.modifyLibrary(config)
       return (
-        <translatorContext.Provider value={config.translator}>
+        <translatorContext.Provider value={props.translator}>
           <ReformedFormComposer library={components} {...props}>
             {props.readOnly ? null : props.children}
           </ReformedFormComposer>
@@ -65,7 +65,7 @@ class EasyForm {
       set(config, 'translator', props.translator)
       const components = this.modifyLibrary(config)
       return (
-        <translatorContext.Provider value={config.translator}>
+        <translatorContext.Provider value={props.translator}>
           <FormEditor library={components} {...props}>
             {props.children}
           </FormEditor>

@@ -1,14 +1,10 @@
 import React from 'react'
-import { translatorText } from '../helpers/translator'
+import upperCase from 'lodash/upperCase'
+
+import translatorText from '../helpers/translator'
 import Text from '../helpers/Text'
 
-import { upperCase } from 'lodash'
-
-const InfoBoxComponent = ({
-  bindInput,
-  element,
-  attributes: propsAttributes
-}) => {
+const InfoBoxComponent = ({ element, attributes: propsAttributes }) => {
   const { attributes: elementAttributes } = element
   return (
     <div {...elementAttributes} {...propsAttributes}>
@@ -16,8 +12,9 @@ const InfoBoxComponent = ({
     </div>
   )
 }
+export default InfoBoxComponent
 
-const config = ({ translator, model }) => {
+export const config = ({ translator, model }) => {
   const { languages } = translator || {}
   if (languages) {
     return languages.map(language => ({
@@ -42,5 +39,5 @@ const config = ({ translator, model }) => {
   }
 }
 
-export default InfoBoxComponent
-export { config }
+export const filter = d =>
+  ['attributes', 'formgroup', 'name', 'placeholder', 'validate'].includes(d)

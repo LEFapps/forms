@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Row } from 'reactstrap'
-import { get, set } from 'lodash'
+import get from 'lodash/get'
+import set from 'lodash/set'
 
 const renderElement = (element, library, additionalProps, index) => {
   if (library.has(element.type)) {

@@ -1,5 +1,7 @@
 import React from 'react'
-import { includes, flip, union } from 'lodash'
+import includes from 'lodash/includes'
+import flip from 'lodash/flip'
+import union from 'lodash/union'
 
 const AttributesDecorator = WrappedComponent => props => {
   const { getAttributes } = props
@@ -10,9 +12,6 @@ const AttributesDecorator = WrappedComponent => props => {
     <WrappedComponent {...props} attributes={getAttributes(props.element)} />
   )
 }
-
-const filter = key => !includes(['divider', 'infobox'], key)
-const combine = flip(union)
-
 export default AttributesDecorator
-export { filter, combine }
+
+export const combine = flip(union)

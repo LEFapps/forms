@@ -1,13 +1,16 @@
 import React from 'react'
+import get from 'lodash/get'
+import kebabCase from 'lodash/kebabCase'
+
+import random from '../helpers/random'
 import { GenericInputNoChildren } from './GenericInput'
-import { get, kebabCase } from 'lodash'
-import { translatorText } from '../helpers/translator'
+import translatorText from '../helpers/translator'
 
 const Checkbox = props => {
   const { bindInput, ...xProps } = props
   xProps.checked = get(props.model, props.element.name, false)
   xProps.custom = {
-    id: props.element.name,
+    id: `${props.element.name}-${random()}`,
     type: 'switch',
     label: translatorText(props.element.label),
     checked: get(props.model, name, false),
@@ -25,10 +28,9 @@ const Checkbox = props => {
   }
   return <GenericInputNoChildren {...xProps} bindInput={bindCheckedInput} />
 }
+export default Checkbox
 
-Checkbox.displayName = 'Checkbox'
-
-const transform = (element, { translator }, saving) => {
+export const transform = (element, { translator }, saving) => {
   if (element.label) {
     element.value = `~${kebabCase(
       translatorText(element.label, { getDefault: true })
@@ -37,5 +39,4 @@ const transform = (element, { translator }, saving) => {
   return element
 }
 
-export default Checkbox
-export { transform }
+export const filter = d => ['placeholder'].includes(d)

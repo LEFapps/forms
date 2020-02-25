@@ -1,6 +1,11 @@
 import React from 'react'
-import { includes, flip, union, upperCase, get, set } from 'lodash'
-import { translatorText } from '../helpers/translator'
+import flip from 'lodash/flip'
+import union from 'lodash/union'
+import upperCase from 'lodash/upperCase'
+import get from 'lodash/get'
+import set from 'lodash/set'
+
+import translatorText from '../helpers/translator'
 
 const PlaceholderDecorator = WrappedComponent => props => {
   set(
@@ -11,8 +16,9 @@ const PlaceholderDecorator = WrappedComponent => props => {
   )
   return <WrappedComponent {...props} />
 }
+export default PlaceholderDecorator
 
-const config = ({ translator, model }) => {
+export const config = ({ translator, model }) => {
   const { languages } = translator || {}
   if (languages) {
     const headerField = [
@@ -56,22 +62,4 @@ const config = ({ translator, model }) => {
   }
 }
 
-const filter = key =>
-  !includes(
-    [
-      'select',
-      'select-collection',
-      'checkbox',
-      'checkbox-mc',
-      'checkbox-mc-collection',
-      'radio',
-      'divider',
-      'infobox',
-      'subform'
-    ],
-    key
-  )
-const combine = flip(union)
-
-export default PlaceholderDecorator
-export { filter, config, combine }
+export const combine = flip(union)

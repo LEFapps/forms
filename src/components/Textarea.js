@@ -1,5 +1,5 @@
 import React from 'react'
-import { get } from 'lodash'
+import get from 'lodash/get'
 
 import { GenericInputNoChildren } from './GenericInput'
 import MarkDown from './markdown/MarkDown'
@@ -10,8 +10,9 @@ const Textarea = props =>
   ) : (
     <GenericInputNoChildren {...props} />
   )
+export default Textarea
 
-const config = () => [
+export const config = () => [
   {
     key: 'textarea.divider',
     type: 'divider',
@@ -32,6 +33,3 @@ const config = () => [
     layout: { col: { xs: 6, md: 4 } }
   }
 ]
-
-export default Textarea
-export { config }

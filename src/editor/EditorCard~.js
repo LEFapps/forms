@@ -12,7 +12,7 @@ import {
   CardHeader
 } from 'reactstrap'
 import { size, get, flow, find, upperCase, upperFirst, isString } from 'lodash'
-import { translatorText } from '../helpers/translator'
+import translatorText from '../helpers/translator'
 
 class ElementEditor extends Component {
   constructor (props) {

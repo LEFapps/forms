@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import {
-  filter,
-  get,
-  isEmpty,
-  isFunction,
-  map,
-  reduce,
-  set,
-  trim
-} from 'lodash'
+import filter from 'lodash/filter'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import isFunction from 'lodash/isFunction'
+import map from 'lodash/map'
+import reduce from 'lodash/reduce'
+import set from 'lodash/set'
+import trim from 'lodash/trim'
 
 const requiredPaths = elements =>
   map(filter(elements, { required: true }), 'name')

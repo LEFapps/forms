@@ -1,4 +1,5 @@
 import React, { createContext, useContext } from 'react'
+import { renderToString } from 'react-dom/server'
 import isString from 'lodash/isString'
 import get from 'lodash/get'
 import head from 'lodash/head'
@@ -8,15 +9,17 @@ import identity from 'lodash/identity'
 export const translatorContext = createContext({
   languages: ['default'],
   currentLanguage: 'default',
-  component: identity,
+  component: ({ _id }) => _id,
   getTranslation: identity,
   translations: []
 })
 
-export const translatorText = (text, options) => {
-  const { translator: customTranslator, getDefault, getString } = options || {}
+const Translated = ({
+  text,
+  options: { translator: customTranslator, getDefault }
+}) => {
   const translator = customTranslator || useContext(translatorContext)
-  const { component: Translate, getTranslation, translations } = translator
+  const { component: Translate } = translator || {}
 
   if (!text) return ''
   if (isString(text)) return text
@@ -25,27 +28,17 @@ export const translatorText = (text, options) => {
     ? get(translator, 'default', get(translator, 'currentLanguage', 'default'))
     : get(translator, 'currentLanguage', get(translator, 'default', 'default'))
 
-  const def = text.default || text.translate
+  const def = text.default || text.translate || text._id
 
   if (text[lang]) return text[lang]
   if (text.translate) {
-    if (getString) {
-      if (getTranslation && translations) {
-        getTranslation(
-          { _id: text.translate },
-          { language: lang, skipSettings: true }
-        )
-        return (
-          (translations[text.translate] &&
-            translations[text.translate][lang]) ||
-          def
-        )
-      } else return def
-    } else {
-      if (Translate) {
-        return <Translate _id={text.translate} getString={getString} />
-      } else return def
-    }
+    if (Translate) {
+      return <Translate _id={text.translate} />
+    } else return def
   } else if (text.default) return text.default
+  else if (text._id) return text._id
   return head(map(text))
 }
+
+export default (text = '', options = {}) =>
+  renderToString(<Translated text={text} options={options} />)

@@ -6,7 +6,7 @@ import isBoolean from 'lodash/isBoolean'
 import isPlainObject from 'lodash/isPlainObject'
 import get from 'lodash/get'
 
-import { translatorText } from '../../helpers/translator'
+import translatorText from '../../helpers/translator'
 
 const columns = ({ elements, attributes }) =>
   (attributes && attributes.columns ? attributes.columns : elements || []).map(
