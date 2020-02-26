@@ -38,8 +38,10 @@ class FormComposer extends Component {
   }
   render () {
     const { formAttributes } = this.props
+    const className =
+      'lefappsForms ' + ((formAttributes && formAttributes.className) || '')
     return (
-      <Form onSubmit={this._onSubmit} {...formAttributes}>
+      <Form onSubmit={this._onSubmit} {...formAttributes} className={className}>
         <Row>{this.renderElements(this.props)}</Row>
         {this.props.children}
       </Form>

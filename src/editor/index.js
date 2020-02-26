@@ -2,16 +2,33 @@ import React, { useState } from 'react'
 import { Container } from 'reactstrap'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import EditorCard from './EditorCard'
+import Insert from './Insert'
 
 const warn = (action = '', options = []) =>
   console.warn(
     `Action ${action} requires the options { ${options.join(', ')} } to be set.`
   )
 
-const SortableItem = SortableElement(EditorCard)
+const SortableItem = SortableElement(props => (
+  <>
+    <EditorCard {...props} />
+    <Insert
+      onElementSelection={model =>
+        props.modifiers('create', { index: props.sortIndex, model })
+      }
+      library={props.library}
+    />
+  </>
+))
 
 const SortableEditor = SortableContainer(({ items, canMove, ...props }) => (
-  <Container>
+  <Container className={'lefappsForms-editor__container'}>
+    <Insert
+      onElementSelection={model =>
+        props.modifiers('create', { index: 0, model })
+      }
+      library={props.library}
+    />
     {items.map((item, index) => (
       <SortableItem
         {...props}

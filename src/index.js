@@ -25,6 +25,7 @@ import PlaceholderDecorator from './decorators/Placeholder'
 
 import translatorText from './helpers/translator'
 import transformOptions from './helpers/transformOptions'
+import Text from './helpers/Text'
 
 export {
   EasyForm,
@@ -58,4 +59,4 @@ export {
   PlaceholderDecorator
 }
 
-export { transformOptions, translatorText }
+export { transformOptions, translatorText, Text }

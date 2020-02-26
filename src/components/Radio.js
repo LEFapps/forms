@@ -12,7 +12,6 @@ const Radio = props => {
   return (props.element.options || []).map((option, i) => {
     const optionValue = option._id || option.default || option
     const key = (props.element.key || random()) + i
-    console.log(option)
     xProps.custom = {
       id: key,
       type: 'radio',

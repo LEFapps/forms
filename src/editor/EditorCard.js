@@ -7,6 +7,7 @@ import {
   CardTitle,
   Collapse
 } from 'reactstrap'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { Mods, DragHandle } from './EditorHelpers'
 import { ElementEditor } from './EditorCard~'
@@ -57,15 +58,16 @@ const Element = ({ item, modifiers, sortIndex: index, canMove, ...props }) => {
   }
 
   return (
-    <Card className={canMove(1) ? 'mb-1' : ''}>
+    <Card>
       <CardHeader className={'d-flex align-items-center bg-dark text-light'}>
         <Button
-          className={'mr-2'}
+          className={'mr-4'}
           size={'sm'}
           outline={!isOpen}
           onClick={() => setOpen(!isOpen)}
         >
           {item.type}
+          {/* <FontAwesomeIcon icon={getIcon(item.type)} /> */}
         </Button>{' '}
         <strong className={''}>{item.label || item.type}</strong>{' '}
         <Mods {...mods} style={{ zIndex: 20 }} className={'ml-auto'} />

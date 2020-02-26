@@ -66,7 +66,11 @@ class EasyForm {
       const components = this.modifyLibrary(config)
       return (
         <translatorContext.Provider value={props.translator}>
-          <FormEditor library={components} {...props}>
+          <FormEditor
+            library={components}
+            formAttributes={{ className: 'lefappsForms-editor' }}
+            {...props}
+          >
             {props.children}
           </FormEditor>
         </translatorContext.Provider>
