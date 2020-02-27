@@ -24,7 +24,7 @@ const FormGroupDecorator = WrappedComponent => props => {
     )
   return (
     <FormGroup>
-      {label ? <Label for={name}>{labelText}</Label> : null}
+      {(label && <Label for={name}>{labelText}</Label>) || null}
       <WrappedComponent {...props} />
     </FormGroup>
   )

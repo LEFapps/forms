@@ -4,8 +4,8 @@ import { Modal, ModalHeader, ModalBody, Button } from 'reactstrap'
 
 import components from '../components'
 import decorators from '../decorators'
-import { FormEditor } from '../editor'
-import { translatorText, translatorContext } from '../helpers/translator'
+import FormEditor from '../editor'
+import translatorText, { translatorContext } from '../helpers/translator'
 
 const EditorModal = props => {
   const translator = useContext(translatorContext)

@@ -8,7 +8,7 @@ const InfoBoxComponent = ({ element, attributes: propsAttributes }) => {
   const { attributes: elementAttributes } = element
   return (
     <div {...elementAttributes} {...propsAttributes}>
-      <Text content={translatorText(element.label)} />
+      <Text content={translatorText(element.label, { getString: true })} />
     </div>
   )
 }

@@ -38,7 +38,7 @@ const getIcon = type => {
   }
 }
 
-class ElementEditor extends Component {
+export class ElementEditor extends Component {
   constructor (props) {
     super(props)
     // insert middleware into reformed

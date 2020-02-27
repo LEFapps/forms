@@ -40,5 +40,9 @@ const Translated = ({
   return head(map(text))
 }
 
-export default (text = '', options = {}) =>
-  renderToString(<Translated text={text} options={options} />)
+export default (text = '', options = {}) => {
+  const { getString } = options
+  const t = <Translated text={text} options={options} />
+  if (getString) return renderToString(t)
+  return t
+}

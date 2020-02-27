@@ -1,6 +1,7 @@
 import { EasyForm } from './EasyForm'
 import { FormComposer } from './FormComposer'
-// import { ElementEditor, FormEditor } from './FormEditor'
+import FormEditor from './editor'
+import { ElementEditor } from './editor/EditorCard'
 import DefaultComponents from './components'
 import DefaultDecorators from './decorators'
 
@@ -14,6 +15,8 @@ import Divider from './components/Divider'
 import InfoBox from './components/InfoBox'
 import Subform from './components/subform/Subform'
 import Editor from './components/Editor'
+import Input from './components/GenericInput'
+import NoInput from './components/GenericInputNoChildren'
 
 import FormGroupDecorator from './decorators/FormGroup'
 import AttributesDecorator from './decorators/Attributes'
@@ -24,39 +27,40 @@ import NameDecorator from './decorators/Name'
 import PlaceholderDecorator from './decorators/Placeholder'
 
 import translatorText from './helpers/translator'
-import transformOptions from './helpers/transformOptions'
 import Text from './helpers/Text'
 
 export {
   EasyForm,
   FormComposer,
-  // FormEditor,
-  // ElementEditor,
+  FormEditor,
+  ElementEditor,
   DefaultComponents,
   DefaultDecorators
 }
 
 export {
-  Textarea,
-  TextInput,
   Checkbox,
   CheckboxMC,
+  Divider,
+  Editor,
+  InfoBox,
+  Input,
+  NoInput,
   Radio,
   Select,
-  InfoBox,
-  Divider,
   Subform,
-  Editor
+  Textarea,
+  TextInput
 }
 
 export {
-  FormGroupDecorator,
   AttributesDecorator,
-  LayoutDecorator,
-  ValidateDecorator,
   DependentDecorator,
+  FormGroupDecorator,
+  LayoutDecorator,
   NameDecorator,
-  PlaceholderDecorator
+  PlaceholderDecorator,
+  ValidateDecorator
 }
 
-export { transformOptions, translatorText, Text }
+export { translatorText, Text }
