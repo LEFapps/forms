@@ -1,12 +1,5 @@
 import React, { useState } from 'react'
-import {
-  Button,
-  ButtonGroup,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
-} from 'reactstrap'
+import { Button, ButtonGroup, Modal, ModalBody, ModalFooter } from 'reactstrap'
 import { sortableHandle } from 'react-sortable-hoc'
 import translatorText from '../helpers/translator'
 

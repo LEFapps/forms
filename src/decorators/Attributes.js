@@ -1,5 +1,4 @@
 import React from 'react'
-import includes from 'lodash/includes'
 import flip from 'lodash/flip'
 import union from 'lodash/union'
 

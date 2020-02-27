@@ -58,17 +58,21 @@ const FormEditor = ({ initialModel, onChange, sortable, ...props }) => {
         items.splice(i, 0, model)
         break
       case 'update':
-        if (index < 0 || model === undefined)
+        if (index < 0 || model === undefined) {
           return warn(action, ['index', 'model'])
+        }
         items.splice(index, 1, model)
         break
       case 'delete':
-        if (index < 0) return warn(action, ['index'])
+        if (index < 0) {
+          return warn(action, ['index'])
+        }
         items.splice(index, 1)
         break
       case 'move':
-        if (index < 0 || direction === undefined)
+        if (index < 0 || direction === undefined) {
           return warn(action, ['index', 'direction'])
+        }
         items.splice(index, 1)
         items.splice(index + direction, 0, source)
         break
@@ -110,8 +114,8 @@ const FormEditor = ({ initialModel, onChange, sortable, ...props }) => {
       axis={'y'}
       lockAxis={'y'}
       transitionDuration={300}
-      useDragHandle={true}
-      lockToContainerEdges={true}
+      useDragHandle
+      lockToContainerEdges
     />
   )
 }
