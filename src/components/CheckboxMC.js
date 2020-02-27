@@ -4,7 +4,6 @@ import upperCase from 'lodash/upperCase'
 import includes from 'lodash/includes'
 
 import { GenericInputNoChildren } from './GenericInput'
-import transformOptions from '../helpers/transformOptions'
 import translatorText from '../helpers/translator'
 import random from '../helpers/random'
 
@@ -125,10 +124,6 @@ export const config = ({ translator, model }) => {
 }
 
 export const transform = (element, { translator }, saving) => {
-  if (element.options) {
-    const result = transformOptions(element.options, translator || {}, saving)
-    element.options = result
-  }
   if (saving) element.custom = true
   else delete element.custom
   return element

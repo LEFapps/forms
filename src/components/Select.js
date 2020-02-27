@@ -5,7 +5,6 @@ import upperCase from 'lodash/upperCase'
 
 import GenericInput from './GenericInput'
 import translatorText from '../helpers/translator'
-import transformOptions from '../helpers/transformOptions'
 
 const Option = ({ option }) => {
   const [translation, setTranslation] = useState()
@@ -137,14 +136,6 @@ export const config = ({ translator }) => {
       }
     ]
   }
-}
-
-export const transform = (element, { translator }, saving) => {
-  if (element.options) {
-    const result = transformOptions(element.options, translator || {}, saving)
-    element.options = result
-  }
-  return element
 }
 
 export const filter = d => ['placeholder'].includes(d)

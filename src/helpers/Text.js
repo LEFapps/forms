@@ -11,11 +11,14 @@ const md = MarkdownIt({
   .use(MarkdownItAttrs)
   .use(MarkdownItVideo)
 
-const Text = ({ content, className }) => (
-  <div
-    className={'text ' + (className || '')}
-    dangerouslySetInnerHTML={{ __html: md.render(content || '') }}
-  />
-)
+const Text = ({ content, className, tagName }) => {
+  const Tag = tagName || 'div'
+  return (
+    <Tag
+      className={'text ' + (className || '')}
+      dangerouslySetInnerHTML={{ __html: md.render(content || '') }}
+    />
+  )
+}
 
 export default Text

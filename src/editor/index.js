@@ -14,33 +14,35 @@ const SortableItem = SortableElement(props => (
     <EditorCard {...props} />
     <Insert
       onElementSelection={model =>
-        props.modifiers('create', { index: props.sortIndex, model })
+        props.modifiers('create', { index: props.sortIndex + 1, model })
       }
       library={props.library}
     />
   </>
 ))
 
-const SortableEditor = SortableContainer(({ items, canMove, ...props }) => (
-  <Container className={'lefappsForms-editor__container'}>
-    <Insert
-      onElementSelection={model =>
-        props.modifiers('create', { index: 0, model })
-      }
-      library={props.library}
-    />
-    {items.map((item, index) => (
-      <SortableItem
-        {...props}
-        item={item}
-        sortIndex={index}
-        key={index}
-        index={index}
-        canMove={dir => canMove(index, dir)}
+const SortableEditor = SortableContainer(
+  ({ children, items, canMove, ...props }) => (
+    <Container className={'lefappsForms-editor__container'}>
+      <Insert
+        onElementSelection={model =>
+          props.modifiers('create', { index: 0, model })
+        }
+        library={props.library}
       />
-    ))}
-  </Container>
-))
+      {items.map((item, index) => (
+        <SortableItem
+          {...props}
+          item={item}
+          sortIndex={index}
+          key={index}
+          index={index}
+          canMove={dir => canMove(index, dir)}
+        />
+      ))}
+    </Container>
+  )
+)
 
 const FormEditor = ({ initialModel, onChange, sortable, ...props }) => {
   const [elements, setElements] = useState(initialModel || [])
@@ -100,6 +102,7 @@ const FormEditor = ({ initialModel, onChange, sortable, ...props }) => {
 
   return (
     <SortableEditor
+      {...props}
       items={elements}
       onSortEnd={changeOrder}
       modifiers={_modifyModel}
@@ -109,7 +112,6 @@ const FormEditor = ({ initialModel, onChange, sortable, ...props }) => {
       transitionDuration={300}
       useDragHandle={true}
       lockToContainerEdges={true}
-      {...props}
     />
   )
 }

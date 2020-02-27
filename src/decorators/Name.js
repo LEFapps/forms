@@ -4,6 +4,7 @@ import union from 'lodash/union'
 import upperCase from 'lodash/upperCase'
 import kebabCase from 'lodash/kebabCase'
 import isString from 'lodash/isString'
+import map from 'lodash/map'
 
 const NameDecorator = WrappedComponent => props => (
   <WrappedComponent {...props} />
@@ -14,41 +15,19 @@ export const combine = flip(union)
 
 export const config = ({ translator, model }) => {
   const { languages } = translator || {}
-  const base = [
+  return [
     {
-      key: 'name._id',
-      name: 'name._id',
+      key: 'name',
+      name: 'name',
       type: 'text',
       label: {
-        default: '',
-        nl: 'Interne benaming',
-        fr: 'Nom interne',
-        en: 'Internal name'
+        default: 'reference',
+        nl: 'Referentie',
+        fr: 'Référence',
+        en: 'Reference'
       },
-      attributes: {
-        readOnly: true,
-        disabled: true
-      },
-      required: true,
-      layout: { col: { xs: 12 } }
+      required: true
     }
   ]
-  const langs = languages.map((l = '') => ({
-    name: `name.${l}`,
-    type: 'text',
-    label: upperCase(l),
-    layout: {
-      col: { xs: Math.max(3, Math.round(12 / languages.length)) }
-    }
-  }))
-  return base.concat(langs)
 }
 
-export const transform = (element, { translator }, saving) => {
-  const { name } = element
-  if (name && !isString(name)) {
-    const { _id, ...names } = name
-    if (!_id) element.name._id = kebabCase(head(map(names)))
-  }
-  return element
-}

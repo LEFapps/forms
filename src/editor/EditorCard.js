@@ -1,16 +1,11 @@
-import React, { useState } from 'react'
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Collapse
-} from 'reactstrap'
+import React, { useState, Component } from 'react'
+import { Button, Card, CardHeader, CardBody, Collapse } from 'reactstrap'
+import flow from 'lodash/flow'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { Mods, DragHandle } from './EditorHelpers'
-import { ElementEditor } from './EditorCard~'
+import reformed from '../reformed'
+import { FormComposer } from '../FormComposer'
+import { Mods } from './EditorHelpers'
 
 const ElementHeader = ({}) => {}
 
@@ -43,6 +38,35 @@ const getIcon = type => {
   }
 }
 
+class ElementEditor extends Component {
+  constructor (props) {
+    super(props)
+    // insert middleware into reformed
+    // to intercept the setModel call
+    // to push model state
+    // up the hierarchy:
+    this.middleware = modelHandler => {
+      // modelHandler.setModel = flow([
+      //   modelHandler.setModel,
+      //   this.props.setElementModel
+      // ])
+      return modelHandler
+    }
+    this.ElementForm = reformed(this.middleware)(FormComposer)
+  }
+  render () {
+    const elements = this.props.library.get(this.props.type)
+    const Form = this.ElementForm
+    return (
+      <Form {...this.props} elements={(elements && elements.config()) || []}>
+        <Button color={'success'} type={'submit'}>
+          {this.props.buttonText}
+        </Button>
+      </Form>
+    )
+  }
+}
+
 const Element = ({ item, modifiers, sortIndex: index, canMove, ...props }) => {
   const [isOpen, setOpen] = useState(false)
 
@@ -70,14 +94,18 @@ const Element = ({ item, modifiers, sortIndex: index, canMove, ...props }) => {
           {/* <FontAwesomeIcon icon={getIcon(item.type)} /> */}
         </Button>{' '}
         <strong className={''}>{item.label || item.type}</strong>{' '}
-        <Mods {...mods} style={{ zIndex: 20 }} className={'ml-auto'} />
+        <Mods
+          {...mods}
+          style={{ zIndex: 20, whiteSpace: 'nowrap' }}
+          className={'ml-auto'}
+        />
       </CardHeader>
       <Collapse isOpen={isOpen}>
         <CardBody>
           <ElementEditor
-            el={item}
+            type={item.type}
             initialModel={item}
-            setElementModel={console.log}
+            onSubmit={mods.update}
             {...props}
           />
         </CardBody>

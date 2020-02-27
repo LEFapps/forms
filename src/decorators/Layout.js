@@ -4,13 +4,13 @@ import { Col } from 'reactstrap'
 const LayoutDecorator = WrappedComponent => props => {
   if (props.element.layout) {
     return (
-      <Col {...props.element.layout.col}>
+      <Col xs={12} {...props.element.layout.col}>
         <WrappedComponent {...props} />
       </Col>
     )
   } else {
     return (
-      <Col>
+      <Col xs={12}>
         <WrappedComponent {...props} />
       </Col>
     )
