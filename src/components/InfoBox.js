@@ -41,3 +41,5 @@ export const config = ({ translator, model }) => {
 
 export const filter = d =>
   ['attributes', 'formgroup', 'name', 'placeholder', 'validate'].includes(d)
+
+export const icon = 'info'

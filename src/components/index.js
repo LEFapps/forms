@@ -34,7 +34,8 @@ library.forEach((component, name) => {
     config: isFunction(component.config) ? component.config : stubArray,
     transform: isFunction(component.transform) ? component.transform : identity,
     filter: isFunction(component.filter) ? component.filter : stubFalse,
-    hideable: true
+    hideable: true,
+    icon: component.icon || 'pen'
   })
 })
 

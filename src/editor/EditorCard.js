@@ -1,41 +1,10 @@
 import React, { useState } from 'react'
 import { Button, Card, CardHeader, CardBody, Collapse } from 'reactstrap'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import reformed from '../reformed'
 import { FormComposer } from '../FormComposer'
 import { Mods } from './EditorHelpers'
-
-// const ElementHeader = ({}) => {}
-
-// const getIcon = type => {
-//   switch (type) {
-//     case 'textarea':
-//     case 'markdown':
-//       return 'paragraph'
-//     case 'radio':
-//     case 'radio-collection':
-//     case 'select':
-//     case 'select-collection':
-//       return 'check'
-//     case 'checkbox':
-//     case 'checkbox-mc':
-//     case 'checkbox-mc-collection':
-//       return 'check-double'
-//     case 'text':
-//       return 'question'
-//     case 'subform':
-//       return 'tasks'
-//     case 'divider':
-//       return 'grip-lines'
-//     case 'editor':
-//       return 'sliders-h'
-//     case 'infobox':
-//       return 'info'
-//     default:
-//       return 'angle-right'
-//   }
-// }
 
 export const ElementEditor = props => {
   const Form = reformed()(FormComposer)
@@ -63,6 +32,9 @@ const Element = ({ item, modifiers, sortIndex: index, canMove, ...props }) => {
     canMove
   }
 
+  const elements = props.library.get(item && item.type)
+  const { icon = 'pen' } = elements || {}
+
   return (
     <Card>
       <CardHeader className={'d-flex align-items-center bg-dark text-light'}>
@@ -72,10 +44,11 @@ const Element = ({ item, modifiers, sortIndex: index, canMove, ...props }) => {
           outline={!isOpen}
           onClick={() => setOpen(!isOpen)}
         >
-          {item.type}
-          {/* <FontAwesomeIcon icon={getIcon(item.type)} /> */}
+          <FontAwesomeIcon icon={icon} />
         </Button>{' '}
-        <strong className={''}>{item.label || item.type}</strong>{' '}
+        <strong onClick={() => setOpen(!isOpen)}>
+          {item.name || item.type}
+        </strong>{' '}
         <Mods
           {...mods}
           style={{ zIndex: 20, whiteSpace: 'nowrap' }}

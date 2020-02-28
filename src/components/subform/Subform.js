@@ -244,3 +244,5 @@ export const config = ({ translator, model }) => [
 ]
 
 export const filter = d => ['placeholder'].includes(d)
+
+export const icon = 'tasks'

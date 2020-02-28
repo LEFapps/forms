@@ -33,3 +33,5 @@ export const config = () => [
     layout: { col: { xs: 6, md: 4 } }
   }
 ]
+
+export const icon = 'paragraph'

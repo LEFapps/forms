@@ -139,3 +139,5 @@ export const config = ({ translator }) => {
 }
 
 export const filter = d => ['placeholder'].includes(d)
+
+export const icon = 'check'

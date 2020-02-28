@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Container } from 'reactstrap'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import EditorCard from './EditorCard'
 import Insert from './Insert'
@@ -23,7 +22,7 @@ const SortableItem = SortableElement(props => (
 
 const SortableEditor = SortableContainer(
   ({ children, items, canMove, ...props }) => (
-    <Container className={'lefappsForms-editor__container'}>
+    <div className={'lefappsForms-editor__container'}>
       <Insert
         onElementSelection={model =>
           props.modifiers('create', { index: 0, model })
@@ -40,7 +39,7 @@ const SortableEditor = SortableContainer(
           canMove={dir => canMove(index, dir)}
         />
       ))}
-    </Container>
+    </div>
   )
 )
 

@@ -28,6 +28,7 @@ import PlaceholderDecorator from './decorators/Placeholder'
 
 import translatorText from './helpers/translator'
 import Text from './helpers/Text'
+import './helpers/icons'
 
 export {
   EasyForm,

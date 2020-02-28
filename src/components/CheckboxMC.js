@@ -130,3 +130,5 @@ export const transform = (element, { translator }, saving) => {
 }
 
 export const filter = d => ['placeholder'].includes(d)
+
+export const icon = 'check-double'
