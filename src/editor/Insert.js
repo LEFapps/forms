@@ -3,7 +3,6 @@ import {
   ButtonDropdown,
   DropdownMenu,
   DropdownToggle,
-  ButtonGroup,
   DropdownItem
 } from 'reactstrap'
 import translatorText from '../helpers/translator'
@@ -27,26 +26,24 @@ const Insert = ({ library, onElementSelection }) => {
         &nbsp;
       </DropdownToggle>
       <DropdownMenu>
-        <ButtonGroup vertical>
-          {elements
-            .filter(
-              visibleElements.length === 0 ||
-                visibleElements.length === elements.length
-                ? stubTrue
-                : hideable
-            )
-            .map(type => (
-              <DropdownItem
-                key={type}
-                onClick={() => {
-                  setOpen(!isOpen)
-                  onElementSelection && onElementSelection({ type })
-                }}
-              >
-                {capitalize(type)}
-              </DropdownItem>
-            ))}
-        </ButtonGroup>
+        {elements
+          .filter(
+            visibleElements.length === 0 ||
+              visibleElements.length === elements.length
+              ? stubTrue
+              : hideable
+          )
+          .map(type => (
+            <DropdownItem
+              key={type}
+              onClick={() => {
+                setOpen(!isOpen)
+                onElementSelection && onElementSelection({ type })
+              }}
+            >
+              {capitalize(type)}
+            </DropdownItem>
+          ))}
       </DropdownMenu>
     </ButtonDropdown>
   )

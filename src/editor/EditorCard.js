@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, CardHeader, CardBody, Collapse } from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, Collapse, Row } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import reformed from '../reformed'
@@ -11,9 +11,11 @@ export const ElementEditor = props => {
   const elements = props.library.get(props.type)
   return (
     <Form {...props} elements={(elements && elements.config()) || []}>
-      <Button color={'success'} type={'submit'}>
-        {props.buttonText}
-      </Button>
+      <Row className={'lefappsForms-editor__buttons'}>
+        <Button color={'success'} type={'submit'}>
+          {props.buttonText || 'Update element'}
+        </Button>
+      </Row>
     </Form>
   )
 }
