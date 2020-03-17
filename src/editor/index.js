@@ -20,28 +20,26 @@ const SortableItem = SortableElement(props => (
   </>
 ))
 
-const SortableEditor = SortableContainer(
-  ({ children, items, canMove, ...props }) => (
-    <div className={'lefappsForms-editor__container'}>
-      <Insert
-        onElementSelection={model =>
-          props.modifiers('create', { index: 0, model })
-        }
-        library={props.library}
+const SortableEditor = SortableContainer(({ items, canMove, ...props }) => (
+  <div className={'lefappsForms-editor__container'}>
+    <Insert
+      onElementSelection={model =>
+        props.modifiers('create', { index: 0, model })
+      }
+      library={props.library}
+    />
+    {items.map((item, index) => (
+      <SortableItem
+        {...props}
+        item={item}
+        sortIndex={index}
+        key={index}
+        index={index}
+        canMove={dir => canMove(index, dir)}
       />
-      {items.map((item, index) => (
-        <SortableItem
-          {...props}
-          item={item}
-          sortIndex={index}
-          key={index}
-          index={index}
-          canMove={dir => canMove(index, dir)}
-        />
-      ))}
-    </div>
-  )
-)
+    ))}
+  </div>
+))
 
 const FormEditor = ({ initialModel, onChange, sortable, ...props }) => {
   const [elements, setElements] = useState(initialModel || [])

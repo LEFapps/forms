@@ -12,9 +12,11 @@ export const ElementEditor = props => {
   return (
     <Form {...props} elements={(elements && elements.config()) || []}>
       <Row className={'lefappsForms-editor__buttons'}>
-        <Button color={'success'} type={'submit'}>
-          {props.buttonText || 'Update element'}
-        </Button>
+        {props.children || (
+          <Button color={'success'} type={'submit'}>
+            {props.buttonText || 'Apply changes'}
+          </Button>
+        )}
       </Row>
     </Form>
   )
