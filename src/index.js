@@ -28,6 +28,7 @@ import PlaceholderDecorator from './decorators/Placeholder'
 
 import translatorText from './helpers/translator'
 import Text from './helpers/Text'
+import { MarkDownHelp } from './components/markdown/mdHelp'
 import './helpers/icons'
 
 export {
@@ -64,4 +65,4 @@ export {
   ValidateDecorator
 }
 
-export { translatorText, Text }
+export { translatorText, Text, MarkDownHelp }

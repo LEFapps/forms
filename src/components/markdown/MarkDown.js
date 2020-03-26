@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import applyTool, { toolbar, toolbarGroups, hasTool } from './toolbar'
 import Md from '../../helpers/Text'
+import { MarkDownHelp } from './mdHelp'
 
 class MarkDown extends React.Component {
   constructor (props) {
@@ -73,13 +74,15 @@ class MarkDown extends React.Component {
               ))}
             </ButtonGroup>
           ))}
-          <Button
-            style={{ marginLeft: 'auto' }}
-            className={'md-editor__toggle'}
-            onClick={() => this.setState({ preview: !preview })}
-          >
-            <FontAwesomeIcon icon={preview ? 'pencil-alt' : 'eye'} />
-          </Button>
+          <div style={{ marginLeft: 'auto' }}>
+            <MarkDownHelp style={{ marginLeft: 'auto' }} />{' '}
+            <Button
+              className={'md-editor__toggle'}
+              onClick={() => this.setState({ preview: !preview })}
+            >
+              <FontAwesomeIcon icon={preview ? 'pencil-alt' : 'eye'} />
+            </Button>
+          </div>
         </CardHeader>
         <CardBody
           className={

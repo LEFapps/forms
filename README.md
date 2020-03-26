@@ -8,21 +8,23 @@ A library of default components and one for decorators is provided. You can exte
 
 A form editor is also available, with which you can modify form elements.
 
-***
+---
 
 ## Contents
 
 1. [**Easyform**: getting started](#easyform)
-  - [Available props](#props)
-  - [Configuration (library)](#configuration)
-  - [Elements blueprint](#elements)
+
+- [Available props](#props)
+- [Configuration (library)](#configuration)
+- [Elements blueprint](#elements)
+
 2. [Modifying **libraries**](#modifying-libraries)
 3. [**Editing** forms](#editing-forms)
 4. [Building your own **components**](#components)
 5. [Building your own **decorators**](#decorators)
 6. [Integrating **translations**](#translations)
 
-***
+---
 
 ## EasyForm
 
@@ -46,13 +48,14 @@ class Example extends React.Component {
     // e.preventDefault() has already been called of course
     console.log(model)
   }
-  render() {
+  render () {
     return (
       <MyForm
         elements={formElements}
-        initialModel={{bar: "Example text"}}
-        onSubmit={this._onSubmit}>
-        <button type="submit">Submit</button>
+        initialModel={{ bar: 'Example text' }}
+        onSubmit={this._onSubmit}
+      >
+        <button type='submit'>Submit</button>
       </MyForm>
     )
   }
@@ -61,12 +64,12 @@ class Example extends React.Component {
 
 ### Props
 
-Prop | Required? | Notes
-:---: | :---: | ---
-[elements](#elements) | yes | array of form elements
-onSubmit | yes | function to call when form gets submitted<br>_gets the form model as only parameter_
-initialModel || default form values (in the same format as the form model)
-onStateChange || perform transormations on the model<br>_gets the model as only parameter, **expects a (modified) model to be returned again**_
+|         Prop          | Required? | Notes                                                                                                                          |
+| :-------------------: | :-------: | ------------------------------------------------------------------------------------------------------------------------------ |
+| [elements](#elements) |    yes    | array of form elements                                                                                                         |
+|       onSubmit        |    yes    | function to call when form gets submitted<br>_gets the form model as only parameter_                                           |
+|     initialModel      |           | default form values (in the same format as the form model)                                                                     |
+|     onStateChange     |           | perform transormations on the model<br>_gets the model as only parameter, **expects a (modified) model to be returned again**_ |
 
 ### Configuration
 
@@ -85,63 +88,62 @@ The component library defaults to `DefaultComponents`, which is a simple library
 For example, you might only want to apply the standard `FormGroup` decorator:
 
 ```jsx
-const MyForm = new EasyForm().instance({decorators:["formgroup"]})
+const MyForm = new EasyForm().instance({ decorators: ['formgroup'] })
 ```
 
 Note that the decorators are applied _in sequence_, either the "natural" sequence in the `DecoratorLibrary` or the sequence in the `instance` arguments (applied left to right). This is important if you need to be certain of the position of a wrapper in the hierarchy.
 
 Note that the `attributes` from the element are applied directly to the `Input` component by the `Textarea` component. This is an example of a _convention_ from this specific component library. Similarly, `name` and `type` are applied as you would expect.
 
->**Architectural note:** you (probably) only need to make one `EasyForm` instance per "type" of form in your application. You can simply reuse it as a component throughout your application.
+> **Architectural note:** you (probably) only need to make one `EasyForm` instance per "type" of form in your application. You can simply reuse it as a component throughout your application.
 
 ### Elements
 
-Property | Required? | Default | Type | Notes
---- | --- | --- | --- | ---
-**name** | yes || `String` | defines the structure in the form model[*](#model)
-**type** | yes || `String` | defines the type of input (see components folder)
-**label** ||| `String`<br>`Object`[*](#translations) | input label
-**options** | _select<br>chekbox(-mc)<br>radio_ | `[]` | `[String]`<br>`[Object]`[*](#translations) | available values
-**required** || `false` | `Bool` | default **validation decorator** is applied when `true`
-**schema** ||| `String`<br>`Object`[*](#translations) | help text when field is invalid
-**dependent** ||| `Object` | dynamically show or hide element, based on value of other element<br>needs **dependent decorator**
-**layout** ||| `Object` | config for default **layout decorator**<br>uses bootstrap grid
-**attributes** ||| `Object` | passed attributes are applied directly to input element<br>_e.g.: `rows` for textarea_
-**key** ||| `String` | only necessary if multiple elements with the same name are present<br>_e.g.: when using dependent fields_ (React needs different keys)
+| Property       | Required?                         | Default | Type                                        | Notes                                                                                                                                  |
+| -------------- | --------------------------------- | ------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **name**       | yes                               |         | `String`                                    | defines the structure in the form model[\*](#model)                                                                                    |
+| **type**       | yes                               |         | `String`                                    | defines the type of input (see components folder)                                                                                      |
+| **label**      |                                   |         | `String`<br>`Object`[\*](#translations)     | input label                                                                                                                            |
+| **options**    | _select<br>chekbox(-mc)<br>radio_ | `[]`    | `[String]`<br>`[Object]`[\*](#translations) | available values                                                                                                                       |
+| **required**   |                                   | `false` | `Bool`                                      | default **validation decorator** is applied when `true`                                                                                |
+| **schema**     |                                   |         | `String`<br>`Object`[\*](#translations)     | help text when field is invalid                                                                                                        |
+| **dependent**  |                                   |         | `Object`                                    | dynamically show or hide element, based on value of other element<br>needs **dependent decorator**                                     |
+| **layout**     |                                   |         | `Object`                                    | config for default **layout decorator**<br>uses bootstrap grid                                                                         |
+| **attributes** |                                   |         | `Object`                                    | passed attributes are applied directly to input element<br>_e.g.: `rows` for textarea_                                                 |
+| **key**        |                                   |         | `String`                                    | only necessary if multiple elements with the same name are present<br>_e.g.: when using dependent fields_ (React needs different keys) |
 
 Blueprint of an element:
 
 ```json
 {
-  "name" : "name.supports.nesting",
-  "type" : "text|textarea|select|radio|checkbox|checkbox-mc|divider|infobox",
-  "label" : "LabelText",
-  "attributes" : {
-    "placeholder" : "Placeholder",
+  "name": "name.supports.nesting",
+  "type": "text|textarea|select|radio|checkbox|checkbox-mc|divider|infobox",
+  "label": "LabelText",
+  "attributes": {
+    "placeholder": "Placeholder",
     "size": 12,
-    "rows" : 5
+    "rows": 5
   },
-  "required" : true,
-  "dependent" : {
-    "on" : "dependentOn",
-    "operator" : "in|gt|gte|lt|lte|is|isnt|…",
-    "values" : "value or array of values"
+  "required": true,
+  "dependent": {
+    "on": "dependentOn",
+    "operator": "in|gt|gte|lt|lte|is|isnt|…",
+    "values": "value or array of values"
   },
   "schema": {
     "description": "HelpText",
     "invalid": "HelpText when invalid"
   },
-  "layout" : {
-    "col" : {
-      "xs" : 12,
-      "md" : 6
+  "layout": {
+    "col": {
+      "xs": 12,
+      "md": 6
     },
-    "inline" : true
+    "inline": true
   },
-  "options" : ["~red", "~blue"]
+  "options": ["~red", "~blue"]
 }
 ```
-
 
 ### Model
 
@@ -151,7 +153,7 @@ const elements = [
   { name: 'address.street' },
   { name: 'address.number' },
   { name: 'address.zip' },
-  { name: 'address.city' },
+  { name: 'address.city' }
 ]
 
 const onSubmit = model => {
@@ -189,9 +191,12 @@ const MyTranslatedForm = withTranslator(MyForm)
 or
 
 ```jsx
-const MyDecorators = DefaultDecorators.subset(["formgroup","layout"])
-const MyComponents = DefaultComponents.subset(["textarea","checkbox"])
-const MyForm = new EasyForm({library:MyComponents,decorators:MyDecorators}).instance()
+const MyDecorators = DefaultDecorators.subset(['formgroup', 'layout'])
+const MyComponents = DefaultComponents.subset(['textarea', 'checkbox'])
+const MyForm = new EasyForm({
+  library: MyComponents,
+  decorators: MyDecorators
+}).instance()
 ```
 
 See [components](#components) and [decorators](#decorators) for more info.
@@ -207,18 +212,18 @@ const MyFormEditor = new EasyForm().editor()
 const MyTranslatedFormEditor = withTranslator(MyFormEditor)
 
 class Example extends Component {
-  _onSubmit = (formElements) => {
+  _onSubmit = formElements => {
     // this gets called when the form editor is saved
     // e.preventDefault() has already been called of course
-    console.log(formElements);
+    console.log(formElements)
   }
-  render() {
+  render () {
     return (
       <MyTranslatedFormEditor
         initialModel={formElements}
         onSubmit={this._onSubmit}
       >
-        <Button type="submit">Submit</Button>
+        <Button type='submit'>Submit</Button>
       </MyFormEditor>
     )
   }
@@ -291,8 +296,8 @@ When adding a component, you can for example do it like this:
 const easyForm = new EasyForm()
 const path = '../imports/components/TextComponent'
 easyForm.addComponent('mytext', {
-    component: require(path).default,
-    config: require(path).config
+  component: require(path).default,
+  config: require(path).config
 })
 ```
 
@@ -307,8 +312,11 @@ Let's assume for instance that we would like to wrap every form component in a `
 ```jsx
 const FormGroupDecorator = WrappedComponent => props => (
   <FormGroup>
-    {props.element.label?<Label for={props.element.name}>{props.element.label}</Label>:null}
-    <WrappedComponent {...props} /> // don't forget to "push down" the props into the wrapped component
+    {props.element.label ? (
+      <Label for={props.element.name}>{props.element.label}</Label>
+    ) : null}
+    <WrappedComponent {...props} /> // don't forget to "push down" the props into
+    the wrapped component
   </FormGroup>
 )
 
@@ -345,10 +353,10 @@ You also need to add it to the `DecoratorLibrary`, for example like this:
 const easyForm = new EasyForm()
 const decorator = require('../imports/decorators/FormGroupDecorator')
 easyForm.addDecorator('myformgroup', {
-    decorator: decorator.default,
-    config: isArray(decorator.config) ? decorator.config : [],
-    combine: isFunction(decorator.combine) ? decorator.combine : union,
-    filter: isFunction(decorator.filter) ? decorator.filter : stubTrue,
+  decorator: decorator.default,
+  config: isArray(decorator.config) ? decorator.config : [],
+  combine: isFunction(decorator.combine) ? decorator.combine : union,
+  filter: isFunction(decorator.filter) ? decorator.filter : stubTrue
 })
 ```
 
@@ -367,15 +375,15 @@ const formElements = [
     label: 'Fill your foo',
     type: 'textarea',
     attributes: {
-      rows: 5,
-    },
+      rows: 5
+    }
   },
   {
     key: 'bar',
     name: 'bar',
     label: 'Add your bar',
     type: 'text'
-  },
+  }
 ]
 ```
 
@@ -420,7 +428,8 @@ const label = {
   en: 'EN Label'
 }
 
-const getLabel = ({ translator }) => translatorText(label, translator, forceDefault) || 'fallback'
+const getLabel = ({ translator }) =>
+  translatorText(label, translator, forceDefault) || 'fallback'
 // returns 'NL Label' if translator.currentLanguage == 'nl'
 // returns 'EN Label' if translator.currentLanguage is undefined, but default language == 'en'
 // returns label.default if translator is undefined
@@ -435,9 +444,20 @@ const getLabel = ({ translator }) => translatorText(label, translator, forceDefa
 ### MarkDown
 
 Setting `md: true` on a **textarea** will provide you with an experimental(!) MarkDown editor. Include the following Fontawesome Icons when using this:
+
 ```JSX
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faBold, faGripLines, faHeading, faItalic, faLink, faList, faListOl, faPencilAlt, faQuoteRight, faStrikethrough } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faBold, faGripLines, faHeading, faItalic, faLink, faList, faListOl, faPencilAlt, faQuoteRight, faStrikethrough)
 ```
+
+You can use the built-in help modal to help your users use the markdown syntax:
+
+```JS
+import { MarkDownHelp } from '@lefapps/forms'
+
+const TextAreaHelp = () => <MarkDownHelp />
+```
+
+Options to add extra info from plugins will be added in future releases.
