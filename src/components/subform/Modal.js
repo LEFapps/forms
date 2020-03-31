@@ -17,7 +17,12 @@ const ActualForm = ({ element, modal, model, onCancel, onSave, readOnly }) => {
     element && element.attributes ? element.attributes.size || 'lg' : 'lg'
   decorators.apply(componentLib)
   const modalForm = (
-    <Modal isOpen={modal} toggle={onCancel} size={size}>
+    <Modal
+      isOpen={modal}
+      toggle={onCancel}
+      size={size}
+      className={element.attributes.className}
+    >
       <ModalHeader toggle={onCancel}>
         {translatorText(element.label)}
       </ModalHeader>
