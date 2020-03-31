@@ -1,3 +1,5 @@
+import isFunction from 'lodash/isFunction'
+
 const toolbarGroups = [
   [
     {
@@ -150,7 +152,15 @@ const _checkTool = (part, { prepend, append }) => {
 const hasTool = (value, cursor, tool) =>
   _checkTool(_toolParts(value, cursor, tool)[1], tool)
 
-const applyTool = (value, cursor, { prepend, append }) => {
+const applyTool = async (value, cursor, { prepend, append, middleware }) => {
+  if (middleware && isFunction(middleware)) {
+    const result = await middleware({ value, cursor })
+    if (result) {
+      value = result.value || value
+      cursor = result.cursor || cursor
+    }
+  }
+
   const toolApplied = _toolParts(value, cursor, { prepend, append })
   const applied = _checkTool(toolApplied[1], { prepend, append })
 
