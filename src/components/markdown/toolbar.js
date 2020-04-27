@@ -152,55 +152,62 @@ const _checkTool = (part, { prepend, append }) => {
 const hasTool = (value, cursor, tool) =>
   _checkTool(_toolParts(value, cursor, tool)[1], tool)
 
-const applyTool = async (value, cursor, { prepend, append, middleware }) => {
-  if (middleware && isFunction(middleware)) {
-    const result = await middleware({ value, cursor })
-    if (result) {
-      value = result.value || value
-      cursor = result.cursor || cursor
-    }
-  }
+const applyTool = (value, cursor, { prepend, append, middleware }) => {
+  const common = (value, cursor) => {
+    const toolApplied = _toolParts(value, cursor, { prepend, append })
+    const applied = _checkTool(toolApplied[1], { prepend, append })
 
-  const toolApplied = _toolParts(value, cursor, { prepend, append })
-  const applied = _checkTool(toolApplied[1], { prepend, append })
-
-  // apply tool — inline
-  if (prepend && append) {
-    // undo tool
-    if (applied) {
+    // apply tool — inline
+    if (prepend && append) {
+      // undo tool
+      if (applied) {
+        return (
+          toolApplied[0] +
+          toolApplied[1].replace(prepend, '').replace(append, '') +
+          toolApplied[2]
+        )
+      }
       return (
-        toolApplied[0] +
-        toolApplied[1].replace(prepend, '').replace(append, '') +
-        toolApplied[2]
+        value.slice(0, cursor[0]) +
+        prepend +
+        value.slice(cursor[0], cursor[1]) +
+        append +
+        value.slice(cursor[1])
       )
     }
-    return (
-      value.slice(0, cursor[0]) +
-      prepend +
-      value.slice(cursor[0], cursor[1]) +
-      append +
-      value.slice(cursor[1])
-    )
+
+    // apply tool - block
+    const lines = value.split('\n')
+    const startLine = _find(lines, cursor[0], '\n')
+    const endLine = _find(lines, cursor[1], '\n')
+    return lines
+      .slice(0, startLine)
+      .concat(
+        lines
+          .slice(startLine, endLine + 1)
+          .map(
+            l =>
+              (applied ? '' : prepend) +
+              l.replace(prepend, '').replace(append, '') +
+              (applied ? '' : append)
+          )
+      )
+      .concat(lines.slice(endLine + 1))
+      .join('\n')
   }
 
-  // apply tool - block
-  const lines = value.split('\n')
-  const startLine = _find(lines, cursor[0], '\n')
-  const endLine = _find(lines, cursor[1], '\n')
-  return lines
-    .slice(0, startLine)
-    .concat(
-      lines
-        .slice(startLine, endLine + 1)
-        .map(
-          l =>
-            (applied ? '' : prepend) +
-            l.replace(prepend, '').replace(append, '') +
-            (applied ? '' : append)
-        )
-    )
-    .concat(lines.slice(endLine + 1))
-    .join('\n')
+  return new Promise(resolve => {
+    if (middleware && isFunction(middleware)) {
+      middleware({ value, cursor }).then(result => {
+        console.log(result)
+        if (result) {
+          value = result.value || value
+          cursor = result.cursor || cursor
+        }
+        resolve(common(value, cursor))
+      })
+    } else resolve(common(value, cursor))
+  })
 }
 
 export default applyTool
