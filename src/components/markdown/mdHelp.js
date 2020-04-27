@@ -66,10 +66,10 @@ export const MarkDownHelp = ({ ...props }) => {
                 <tr>
                   <th>Quote</th>
                   <td>
-                    <pre>></pre>
+                    <pre>&gt;</pre>
                   </td>
                   <td>
-                    <pre>> Quoted paragraph text</pre>
+                    <pre>&gt; Quoted paragraph text</pre>
                     <hr />
                     <pre>
                       {
