@@ -199,7 +199,6 @@ const applyTool = (value, cursor, { prepend, append, middleware }) => {
   return new Promise(resolve => {
     if (middleware && isFunction(middleware)) {
       middleware({ value, cursor }).then(result => {
-        console.log(result)
         if (result) {
           value = result.value || value
           cursor = result.cursor || cursor
