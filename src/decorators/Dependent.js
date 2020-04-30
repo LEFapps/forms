@@ -10,7 +10,7 @@ import compact from 'lodash/compact'
 import map from 'lodash/map'
 import merge from 'lodash/merge'
 
-const dependency = ({ on, operator, values }) => model => {
+export const dependency = ({ on, operator, values }) => model => {
   const value = get(model, on)
   if (isUndefined(operator) && isUndefined(values)) return !isEmpty(value)
   else if (isUndefined(operator)) {
