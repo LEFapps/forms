@@ -44,15 +44,17 @@ const columnValue = (data, { name, type, options = [] }) => {
     case type === 'subform':
       return value && `${value.length} ×`
     default:
-      if (isArray(value))
+      if (isArray(value)) {
         return value.map(v => translatorText(fromOptions(v))).join(', ')
+      }
       if (isPlainObject(value)) return JSON.stringify(value).substring(0, 64)
-      if (isBoolean(value))
+      if (isBoolean(value)) {
         return (
           <span className={`text-${value ? 'success' : 'danger'}`}>
             {value ? '✓' : '✗'}
           </span>
         )
+      }
       return translatorText(fromOptions(value))
   }
 }
