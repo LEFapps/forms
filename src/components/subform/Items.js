@@ -15,7 +15,8 @@ const columns = ({ elements, attributes }) =>
       const label = isString(col) ? col : col.label
       const el = elements.find(e => e.name === name) || {}
       const type = col.type || el.type
-      return { name, label, type }
+      const options = el.options
+      return { name, label, type, options }
     }
   )
 
@@ -32,6 +33,27 @@ const matchSearch = (key, values) => {
             .indexOf(k.toLowerCase()) >= 0
       )
     )
+  }
+}
+
+const columnValue = (data, { name, type, options = [] }) => {
+  const value = get(data, name)
+  const fromOptions = v =>
+    options.find(option => ((option && option._id) || option) === v) || v
+  switch (true) {
+    case type === 'subform':
+      return value && `${value.length} ×`
+    default:
+      if (isArray(value))
+        return value.map(v => translatorText(fromOptions(v))).join(', ')
+      if (isPlainObject(value)) return JSON.stringify(value).substring(0, 64)
+      if (isBoolean(value))
+        return (
+          <span className={`text-${value ? 'success' : 'danger'}`}>
+            {value ? '✓' : '✗'}
+          </span>
+        )
+      return translatorText(fromOptions(value))
   }
 }
 
@@ -68,11 +90,14 @@ class Items extends React.Component {
                 <Input
                   type={'search'}
                   onChange={this.initSearch}
-                  placeholder={translatorText({
-                    nl: 'Zoeken',
-                    fr: 'Rechercher',
-                    en: 'Live Search'
-                  })}
+                  placeholder={translatorText(
+                    {
+                      nl: 'Zoeken',
+                      fr: 'Rechercher',
+                      en: 'Live Search'
+                    },
+                    { getString: true }
+                  )}
                 />
               </InputGroup>
             </th>
@@ -88,29 +113,10 @@ class Items extends React.Component {
                 <td style={{ verticalAlign: 'middle', textAlign: 'right' }}>
                   {1 + i}.
                 </td>
-                {cols.map(({ name, type }, j) => {
-                  const colValue = get(d, name)
+                {cols.map((col, j) => {
                   return (
                     <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
-                      {type === 'subform' ? (
-                        colValue ? (
-                          `${colValue.length} ×`
-                        ) : (
-                          '—'
-                        )
-                      ) : isArray(colValue) ? (
-                        colValue.join(', ')
-                      ) : isPlainObject(colValue) ? (
-                        JSON.stringify(colValue).substring(0, 64)
-                      ) : isBoolean(colValue) ? (
-                        colValue ? (
-                          <span className={'text-success'}>✓</span>
-                        ) : (
-                          <span className={'text-danger'}>✗</span>
-                        )
-                      ) : (
-                        translatorText(get(d, name))
-                      )}
+                      {columnValue(d, col)}
                     </td>
                   )
                 })}
