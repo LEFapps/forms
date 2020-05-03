@@ -9,19 +9,26 @@ import decorators from '../../decorators'
 import components from '../../components'
 import translatorText from '../../helpers/translator'
 
-const ActualForm = ({ element, modal, model, onCancel, onSave, readOnly }) => {
+const ActualForm = ({
+  element = {},
+  modal,
+  model,
+  onCancel,
+  onSave,
+  readOnly
+}) => {
   const body = document.getElementsByTagName('body')[0]
   const ReformedFormComposer = reformed()(FormComposer)
   const componentLib = components.clone()
-  const size =
-    element && element.attributes ? element.attributes.size || 'lg' : 'lg'
+  const size = element.attributes ? element.attributes.size || 'lg' : 'lg'
   decorators.apply(componentLib)
   const modalForm = (
     <Modal
       isOpen={modal}
       toggle={onCancel}
       size={size}
-      className={element.attributes.className}
+      className={element.attributes && element.attributes.className}
+      wrapClassName={'admin-dashboard__style'}
     >
       <ModalHeader toggle={onCancel}>
         {translatorText(element.label)}
