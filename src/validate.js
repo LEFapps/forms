@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import filter from 'lodash/filter'
 import get from 'lodash/get'
-import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
 import isFunction from 'lodash/isFunction'
 import map from 'lodash/map'
@@ -51,17 +50,17 @@ const validate = WrappedForm =>
       return errors
     }
     skipHidden (doc) {
-      const result = this.props.elements.reduce((a, { name, dependent }) => {
+      return this.props.elements.reduce(({ ...a }, { name, dependent }) => {
         if (dependent && !dependency(dependent)(doc)) {
           // element is hidden
           return a
         }
         if (has(doc, name)) {
-          return { ...a, ...pick(doc, name) }
+          set(a, name, get(doc, name))
+          return a
         }
         return a
-      }, {})
-      return result
+      }, this.props.initialModel || {})
     }
     validatedOnStateChange (doc) {
       if (this.state.submitted) {
