@@ -4,3 +4,4 @@ src
 docs
 _site
 _pages
+*.code-workspace
