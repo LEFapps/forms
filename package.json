@@ -55,6 +55,10 @@
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-standard": "^4.0.0",
     "markdown-it": "^8.4.2",
+    "markdown-it-attrs": "^3.0.1",
+    "markdown-it-implicit-figures": "^0.9.0",
+    "markdown-it-picture": "0.0.1",
+    "markdown-it-video": "^0.6.3",
     "react": "^16.8.5",
     "rimraf": "^2.6.3",
     "watch": "^1.0.2"

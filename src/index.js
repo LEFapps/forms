@@ -14,6 +14,7 @@ import Divider from './components/Divider'
 import InfoBox from './components/InfoBox'
 import Subform from './components/subform/Subform'
 import Editor from './components/Editor'
+import MarkDown from './components/markdown/MarkDown'
 
 import FormGroupDecorator from './decorators/FormGroup'
 import AttributesDecorator from './decorators/Attributes'
@@ -44,7 +45,8 @@ export {
   InfoBox,
   Divider,
   Subform,
-  Editor
+  Editor,
+  MarkDown
 }
 
 export {
