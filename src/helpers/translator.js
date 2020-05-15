@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from 'react'
 import { renderToString } from 'react-dom/server'
 import isString from 'lodash/isString'
+import isNumber from 'lodash/isNumber'
 import get from 'lodash/get'
 import head from 'lodash/head'
 import map from 'lodash/map'
@@ -22,7 +23,7 @@ const Translated = ({
   const { component: Translate } = translator || {}
 
   if (!text) return ''
-  if (isString(text)) return text
+  if (isString(text) || isNumber(text)) return text
 
   const lang = getDefault
     ? get(translator, 'default', get(translator, 'currentLanguage', 'default'))
