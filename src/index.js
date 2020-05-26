@@ -48,14 +48,13 @@ export {
   Editor,
   InfoBox,
   Input,
+  MarkDown,
   NoInput,
   Radio,
   Select,
   Subform,
   Textarea,
-  TextInput,
-  Editor,
-  MarkDown
+  TextInput
 }
 
 export {

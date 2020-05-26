@@ -11,7 +11,10 @@
     "dev": "watch 'npm run build-dev' src",
     "prepublish": "npm run clean && npm run lint && npm run build"
   },
-  "keywords": ["forms", "reformed"],
+  "keywords": [
+    "forms",
+    "reformed"
+  ],
   "author": "LEF",
   "homepage": "https://github.com/LEFapps/forms#readme",
   "repository": {
