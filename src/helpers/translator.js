@@ -19,7 +19,8 @@ const Translated = ({
   text,
   options: { translator: customTranslator, getDefault }
 }) => {
-  const translator = customTranslator || useContext(translatorContext)
+  const contextTranslator = useContext(translatorContext)
+  const translator = customTranslator || contextTranslator
   const { component: Translate } = translator || {}
 
   if (!text) return ''
