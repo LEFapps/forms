@@ -17,6 +17,7 @@ import Subform from './components/subform/Subform'
 import Editor from './components/Editor'
 import Input from './components/GenericInput'
 import NoInput from './components/GenericInputNoChildren'
+import MarkDown from './components/markdown/MarkDown'
 
 import FormGroupDecorator from './decorators/FormGroup'
 import AttributesDecorator from './decorators/Attributes'
@@ -52,7 +53,9 @@ export {
   Select,
   Subform,
   Textarea,
-  TextInput
+  TextInput,
+  Editor,
+  MarkDown
 }
 
 export {
