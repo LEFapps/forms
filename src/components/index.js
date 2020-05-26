@@ -23,6 +23,7 @@ const library = new Library([
   ['url', require('./GenericInputNoChildren')],
   ['editor', require('./Editor')],
   ['subform', require('./subform/Subform')],
+  ['time', require('./GenericInputNoChildren')],
   ['datetime-local', require('./GenericInputNoChildren')]
 ])
 
