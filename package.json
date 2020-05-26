@@ -30,6 +30,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
     "@fortawesome/react-fontawesome": "^0.1.8",
     "lodash": "^4.17.11",
+    "markdown-it-figure-caption": "^0.1.0",
     "prop-types": "^15.7.2",
     "react-reformed": "2.0.0",
     "react-sortable-hoc": "^1.11.0",
@@ -58,10 +59,8 @@
     "eslint-plugin-standard": "^4.0.0",
     "markdown-it": "^8.4.2",
     "markdown-it-attrs": "^3.0.1",
-    "markdown-it-implicit-figures": "^0.9.0",
     "markdown-it-picture": "0.0.1",
     "markdown-it-video": "^0.6.3",
-    "react": "^16.8.5",
     "rimraf": "^2.6.3",
     "watch": "^1.0.2"
   }

@@ -28,8 +28,6 @@ class MarkDown extends React.Component {
   checkTool ({ target }) {
     clearTimeout(this.timer)
     const cursor = [target.selectionStart, target.selectionEnd]
-    this.props.setCursorPosition &&
-      this.props.setCursorPosition(target.selectionEnd)
     this.timer = setTimeout(() => {
       const hasTools = this.state.toolbar
         .flat()
@@ -40,7 +38,7 @@ class MarkDown extends React.Component {
         )
         .filter(t => !!t)
       this.setState({ hasTools })
-    }, 200)
+    }, 0)
   }
   applyTool (tool, { name, value, onChange }) {
     const input = document.getElementById(this.state.id)
