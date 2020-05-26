@@ -1,14 +1,18 @@
 import React from 'react'
-import { get, castArray, clone, cloneDeep } from 'lodash'
 import { Row, Col, Card, CardHeader, CardBody, Button } from 'reactstrap'
+import get from 'lodash/get'
+import castArray from 'lodash/castArray'
+import clone from 'lodash/clone'
+import cloneDeep from 'lodash/cloneDeep'
 
 import ActualForm from './Modal'
 import Items from './Items'
-import { translatorText } from '../../helpers/translator'
+import translatorText from '../../helpers/translator'
 
-class SubForm extends React.Component {
+export default class SubForm extends React.Component {
   constructor (props) {
     super(props)
+    this.displayName = 'SubForm'
     this.state = {
       currentIndex: -1,
       modalIsOpen: false,
@@ -91,14 +95,11 @@ class SubForm extends React.Component {
   }
   removeItem (index) {
     const { value } = this._getValue()
-    const removeText = translatorText(
-      {
-        nl: `Bent u zeker dat u item ${1 + index} wil verwijderen?`,
-        fr: `Supprimer item ${1 + index}?`,
-        en: `Are you sure you want to remove item ${1 + index}?`
-      },
-      this.props.translator
-    )
+    const removeText = translatorText({
+      nl: `Bent u zeker dat u item ${1 + index} wil verwijderen?`,
+      fr: `Supprimer item ${1 + index}?`,
+      en: `Are you sure you want to remove item ${1 + index}?`
+    })
     const confirmed = confirm(removeText)
     if (value[index] && confirmed) this._modifyModel('delete', { index })
   }
@@ -118,10 +119,15 @@ class SubForm extends React.Component {
     if (value) this._modifyModel('move', { index, direction, model: value })
   }
   render () {
-    const { element, translator } = this.props
+    const { element } = this.props
     const { data, currentIndex } = this.state
     const min = get(element, 'attributes.min', 0)
     const max = get(element, 'attributes.max', 0)
+    const readOnly = get(element, 'attributes.disabled')
+    const duplicates = get(element, 'attributes.duplicates', true)
+    const move = get(element, 'attributes.move', true)
+    const remove = get(element, 'attributes.remove', true)
+    const edit = get(element, 'attributes.edit', true)
     return (
       <Card>
         <CardHeader>
@@ -147,12 +153,9 @@ class SubForm extends React.Component {
                 color={'success'}
                 size={'sm'}
                 onClick={() => this.toggleForm(-1)}
-                disabled={!!max && data.length >= max}
+                disabled={readOnly || (!!max && data.length >= max)}
               >
-                {translatorText(
-                  { nl: 'Toevoegen', fr: 'Ajouter', en: 'Add' },
-                  translator
-                )}
+                {translatorText({ nl: 'Toevoegen', fr: 'Ajouter', en: 'Add' })}
               </Button>
             </Col>
           </Row>
@@ -160,12 +163,19 @@ class SubForm extends React.Component {
         <CardBody className={'small'}>
           <Items
             items={data}
-            remove={data.length > min ? this.removeItem : false}
-            edit={this.toggleForm}
-            move={this.moveItem}
-            duplicate={!!max && data.length >= max ? false : this.duplicateItem}
+            remove={
+              !remove || readOnly || data.length <= min
+                ? false
+                : this.removeItem
+            }
+            edit={!edit ? false : this.toggleForm}
+            move={!move || readOnly ? false : this.moveItem}
+            duplicate={
+              !duplicates || readOnly || (!!max && data.length >= max)
+                ? false
+                : this.duplicateItem
+            }
             element={element}
-            translator={translator}
           />
         </CardBody>
         <ActualForm
@@ -174,16 +184,14 @@ class SubForm extends React.Component {
           modal={this.state.modalIsOpen}
           onCancel={this._closeForm}
           onSave={this.saveItem}
-          translator={translator}
+          readOnly={readOnly}
         />
       </Card>
     )
   }
 }
 
-SubForm.displayName = 'SubForm'
-
-const config = ({ translator, model }) => [
+export const config = ({ translator, model }) => [
   {
     key: 'subform.divider.1',
     type: 'divider',
@@ -235,6 +243,6 @@ const config = ({ translator, model }) => [
   }
 ]
 
-export default SubForm
+export const filter = d => ['placeholder'].includes(d)
 
-export { config }
+export const icon = 'tasks'

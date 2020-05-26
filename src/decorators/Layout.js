@@ -1,22 +1,22 @@
 import React from 'react'
 import { Col } from 'reactstrap'
-import { includes } from 'lodash'
 
 const LayoutDecorator = WrappedComponent => props => {
   if (props.element.layout) {
     return (
-      <Col {...props.element.layout.col}>
+      <Col xs={12} {...props.element.layout.col}>
         <WrappedComponent {...props} />
       </Col>
     )
   } else {
     return (
-      <Col>
+      <Col xs={12}>
         <WrappedComponent {...props} />
       </Col>
     )
   }
 }
+export default LayoutDecorator
 
 const layout = { col: { md: '3', sm: '6', xs: '12' } }
 const options = [
@@ -35,7 +35,7 @@ const options = [
   { _id: 1, default: '1 / 12' }
 ]
 
-const config = ({ translator, model }) => [
+export const config = ({ translator, model }) => [
   {
     key: 'layout.divider',
     type: 'divider',
@@ -80,14 +80,3 @@ const config = ({ translator, model }) => [
     layout
   }
 ]
-
-const filter = key =>
-  !includes(
-    [
-      /* 'divider' */
-    ],
-    key
-  )
-
-export default LayoutDecorator
-export { config, filter }

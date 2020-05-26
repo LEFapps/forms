@@ -5,28 +5,33 @@ import { isEmpty } from 'lodash'
 
 import { FormComposer } from '../../FormComposer'
 import reformed from '../../reformed'
-import decorators from '../../Decorators'
-import components from '../../Components'
-import { translatorText } from '../../helpers/translator'
+import decorators from '../../decorators'
+import components from '../../components'
+import translatorText from '../../helpers/translator'
 
 const ActualForm = ({
-  element,
+  element = {},
   modal,
   model,
   onCancel,
   onSave,
-  translator
+  readOnly
 }) => {
   const body = document.getElementsByTagName('body')[0]
   const ReformedFormComposer = reformed()(FormComposer)
   const componentLib = components.clone()
-  const size =
-    element && element.attributes ? element.attributes.size || 'lg' : 'lg'
+  const size = element.attributes ? element.attributes.size || 'lg' : 'lg'
   decorators.apply(componentLib)
   const modalForm = (
-    <Modal isOpen={modal} toggle={onCancel} size={size}>
+    <Modal
+      isOpen={modal}
+      toggle={onCancel}
+      size={size}
+      className={element.attributes && element.attributes.className}
+      wrapClassName={'admin-dashboard__style'}
+    >
       <ModalHeader toggle={onCancel}>
-        {translatorText(element.label, translator)}
+        {translatorText(element.label)}
       </ModalHeader>
       <ModalBody>
         <ReformedFormComposer
@@ -34,22 +39,26 @@ const ActualForm = ({
           elements={element.elements}
           initialModel={model}
           onSubmit={onSave}
-          translator={translator}
+          readOnly={readOnly}
         >
-          <Button color={'warning'} onClick={onCancel}>
-            {translatorText(
-              { nl: 'Annuleren', fr: 'Annuler', en: 'Cancel' },
-              translator
-            )}
-          </Button>{' '}
-          <Button color={'success'} type={'submit'}>
-            {translatorText(
-              isEmpty(model)
-                ? { nl: 'Toevoegen', fr: 'Ajouter', en: 'Add' }
-                : { nl: 'Bijwerken', fr: 'Actualiser', en: 'Update' },
-              translator
-            )}
-          </Button>
+          {readOnly ? null : (
+            <>
+              <Button color={'warning'} onClick={onCancel}>
+                {translatorText({
+                  nl: 'Annuleren',
+                  fr: 'Annuler',
+                  en: 'Cancel'
+                })}
+              </Button>{' '}
+              <Button color={'success'} type={'submit'}>
+                {translatorText(
+                  isEmpty(model)
+                    ? { nl: 'Toevoegen', fr: 'Ajouter', en: 'Add' }
+                    : { nl: 'Bijwerken', fr: 'Actualiser', en: 'Update' }
+                )}
+              </Button>
+            </>
+          )}
         </ReformedFormComposer>
       </ModalBody>
     </Modal>

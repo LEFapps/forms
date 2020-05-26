@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import {
-  filter,
-  get,
-  isEmpty,
-  isFunction,
-  map,
-  reduce,
-  set,
-  trim
-} from 'lodash'
+import filter from 'lodash/filter'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import isFunction from 'lodash/isFunction'
+import map from 'lodash/map'
+import reduce from 'lodash/reduce'
+import has from 'lodash/has'
+import set from 'lodash/set'
+import trim from 'lodash/trim'
+
+import { dependency } from './decorators/Dependent'
 
 const requiredPaths = elements =>
   map(filter(elements, { required: true }), 'name')
@@ -18,6 +19,10 @@ const missingPaths = (doc, elements) => {
   return reduce(
     paths,
     (errors, path) => {
+      const element = elements.find(({ name }) => name === path)
+      if (element && element.dependent && !dependency(element.dependent)(doc)) {
+        return errors
+      }
       const value = get(doc, path)
       if (value === undefined) set(errors, path, true)
       else if (value === false) set(errors, path, true)
@@ -30,20 +35,7 @@ const missingPaths = (doc, elements) => {
     {}
   )
 }
-/*
-const assembleSchema = elements => {
-  const paths = requiredPaths(elements)
-  const required = reduce(paths, (acc, path) => set(acc, path, true), {})
-  const schema = (obj) => reduce(obj,
-    (acc, value, key) => {
-      if (isObject(value)) { acc.properties[key] = schema(value) } else { acc.required.push(key) }
-      return acc
-    }
-    ,
-    { required: [], properties: {} })
-  return schema(required)
-}
-*/
+
 const validate = WrappedForm =>
   class Validate extends Component {
     constructor (props) {
@@ -57,28 +49,35 @@ const validate = WrappedForm =>
       const errors = missingPaths(doc, this.props.elements)
       return errors
     }
+    skipHidden (doc) {
+      return this.props.elements.reduce(({ ...a }, { name, dependent }) => {
+        if (dependent && !dependency(dependent)(doc)) {
+          // element is hidden
+          return a
+        }
+        if (has(doc, name)) {
+          set(a, name, get(doc, name))
+          return a
+        }
+        return a
+      }, this.props.initialModel || {})
+    }
     validatedOnStateChange (doc) {
       if (this.state.submitted) {
         this.setState({ errors: this.validate(doc) })
       }
       if (isFunction(this.props.onStateChange)) {
-        return this.props.onStateChange(doc)
+        return this.props.onStateChange(this.skipHidden(doc))
       } else {
-        return doc
+        return this.skipHidden(doc)
       }
     }
     validatedOnSubmit (doc) {
       this.setState({ submitted: true })
       const errors = this.validate(doc)
       let valid = isEmpty(errors)
-      /*
-      const schema = assembleSchema(this.props.elements)
-      console.log(schema)
-      const validate = new Ajv().compile(schema)
-      const valid = validate(doc) */
       if (valid && isFunction(this.props.onSubmit)) {
-        // this.setState({})
-        this.props.onSubmit(doc)
+        this.props.onSubmit(this.skipHidden(doc))
       } else {
         this.setState({ errors }, () => {
           const invalidElement = document.querySelector('.is-invalid')

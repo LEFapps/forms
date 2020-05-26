@@ -1,19 +1,22 @@
 import { EasyForm } from './EasyForm'
 import { FormComposer } from './FormComposer'
-import { ElementEditor, FormEditor } from './FormEditor'
-import DefaultComponents from './Components'
-import DefaultDecorators from './Decorators'
+import FormEditor from './editor'
+import { ElementEditor } from './editor/EditorCard'
+import DefaultComponents from './components'
+import DefaultDecorators from './decorators'
 
 import Textarea from './components/Textarea'
 import TextInput from './components/Text'
 import Checkbox from './components/Checkbox'
 import CheckboxMC from './components/CheckboxMC'
 import Radio from './components/Radio'
-import Select, { transformOptions } from './components/Select'
+import Select from './components/Select'
 import Divider from './components/Divider'
 import InfoBox from './components/InfoBox'
 import Subform from './components/subform/Subform'
 import Editor from './components/Editor'
+import Input from './components/GenericInput'
+import NoInput from './components/GenericInputNoChildren'
 import MarkDown from './components/markdown/MarkDown'
 
 import FormGroupDecorator from './decorators/FormGroup'
@@ -24,7 +27,10 @@ import ValidateDecorator from './decorators/Validate'
 import NameDecorator from './decorators/Name'
 import PlaceholderDecorator from './decorators/Placeholder'
 
-import { translatorText } from './helpers/translator'
+import translatorText from './helpers/translator'
+import Text from './helpers/Text'
+import { MarkDownHelp } from './components/markdown/mdHelp'
+import './helpers/icons'
 
 export {
   EasyForm,
@@ -36,27 +42,29 @@ export {
 }
 
 export {
-  Textarea,
-  TextInput,
   Checkbox,
   CheckboxMC,
+  Divider,
+  Editor,
+  InfoBox,
+  Input,
+  MarkDown,
+  NoInput,
   Radio,
   Select,
-  InfoBox,
-  Divider,
   Subform,
-  Editor,
-  MarkDown
+  Textarea,
+  TextInput
 }
 
 export {
-  FormGroupDecorator,
   AttributesDecorator,
-  LayoutDecorator,
-  ValidateDecorator,
   DependentDecorator,
+  FormGroupDecorator,
+  LayoutDecorator,
   NameDecorator,
-  PlaceholderDecorator
+  PlaceholderDecorator,
+  ValidateDecorator
 }
 
-export { transformOptions, translatorText }
+export { translatorText, Text, MarkDownHelp }

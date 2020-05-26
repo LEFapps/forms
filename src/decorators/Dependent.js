@@ -1,47 +1,37 @@
 import React from 'react'
-import {
-  get,
-  isEmpty,
-  isUndefined,
-  isArray,
-  castArray,
-  intersection,
-  includes,
-  compact,
-  map,
-  merge
-} from 'lodash'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import isUndefined from 'lodash/isUndefined'
+import isArray from 'lodash/isArray'
+import castArray from 'lodash/castArray'
+import intersection from 'lodash/intersection'
+import includes from 'lodash/includes'
+import compact from 'lodash/compact'
+import map from 'lodash/map'
+import merge from 'lodash/merge'
 
-const dependency = ({ on, operator, values }) => model => {
+export const dependency = ({ on, operator, values }) => model => {
   const value = get(model, on)
   if (isUndefined(operator) && isUndefined(values)) return !isEmpty(value)
   else if (isUndefined(operator)) {
     if (isEmpty(values)) return isEmpty(value)
     else {
-      return !isEmpty(
-        intersection(
-          castArray(value),
-          isArray(values)
-            ? values
-            : includes(values, ',')
-              ? values.split(',')
-              : castArray(values)
-        )
-      )
+      const arrayValue = castArray(value)
+      if (isArray(values)) {
+        return !isEmpty(intersection(arrayValue, values))
+      } else if (includes(values, ',')) {
+        return !isEmpty(intersection(arrayValue, values.split(',')))
+      } else return !isEmpty(intersection(arrayValue, castArray(values)))
     }
   } else {
     switch (operator) {
       case 'in':
-        return !isEmpty(
-          intersection(
-            castArray(value),
-            isArray(values)
-              ? values
-              : includes(values, ',')
-                ? values.split(',')
-                : castArray(values)
-          )
-        )
+        const arrayValue = castArray(value)
+        if (isArray(values)) {
+          return !isEmpty(intersection(arrayValue, values))
+        } else if (includes(values, ',')) {
+          return !isEmpty(intersection(arrayValue, values.split(',')))
+        } else return !isEmpty(intersection(arrayValue, castArray(values)))
       case 'gt':
         return values > value
       case 'gte':
@@ -68,94 +58,96 @@ const Dependent = WrappedComponent => props => {
   }
   return <WrappedComponent {...props} />
 }
-
-const config = ({ model }) => [
-  {
-    key: 'dependent.divider',
-    type: 'divider',
-    layout: { col: { xs: 12 } }
-  },
-  {
-    key: 'dependent.infobox',
-    type: 'infobox',
-    label: '**Field display depends on other field**',
-    layout: { col: { xs: 12 } }
-  },
-  {
-    key: 'dependent.on',
-    name: 'dependent.on',
-    type: model ? 'select' : 'text',
-    label: 'Identifier of other field',
-    options: model
-      ? compact(
-        map(model, () =>
-          model.name ? merge({ _id: model.name }, model.label) : false
-        )
-      )
-      : [],
-    attributes: {
-      placeholder: 'Field identifier'
-    },
-    layout: { col: { xs: 12, sm: 12, md: 4 } }
-  },
-  {
-    key: 'dependent.operator',
-    name: 'dependent.operator',
-    type: 'select',
-    label: 'Condition',
-    layout: { col: { xs: 12, sm: 5, md: 3 } },
-    dependent: { on: 'dependent.on' }, // oh yes :)
-    options: [
-      {
-        _id: '',
-        default: '… has any value.'
-      },
-      {
-        _id: 'is',
-        default: '… is exactly …'
-      },
-      {
-        _id: 'isnt',
-        default: '… has any value, except …'
-      },
-      {
-        _id: 'in',
-        default: '… contains …'
-      },
-      {
-        _id: 'gt',
-        default: '… is greater than …'
-      },
-      {
-        _id: 'gte',
-        default: '… is greater or equal to …'
-      },
-      {
-        _id: 'lt',
-        default: '… is less than …'
-      },
-      {
-        _id: 'lte',
-        default: '… is less or equal to …'
-      }
-    ]
-  },
-  {
-    key: 'dependent.values',
-    name: 'dependent.values',
-    type: 'text',
-    label: 'Value',
-    layout: { col: { xs: 12, sm: 7, md: '5' } },
-    dependent: {
-      on: 'dependent.operator',
-      operator: 'in',
-      values: ['in', 'gt', 'gte', 'lt', 'lte', 'is', 'isnt']
-    },
-    attributes: {
-      placeholder: 'Blank unless value matters'
-    }
-  }
-]
-
 export default Dependent
-export { config }
+
+export const config = ({ model }) => {
+  let options = []
+  if (model) {
+    options = compact(
+      map(model, () =>
+        model.name ? merge({ _id: model.name }, model.label) : false
+      )
+    )
+  }
+  return [
+    {
+      key: 'dependent.divider',
+      type: 'divider',
+      layout: { col: { xs: 12 } }
+    },
+    {
+      key: 'dependent.infobox',
+      type: 'infobox',
+      label: '**Field display depends on other field**',
+      layout: { col: { xs: 12 } }
+    },
+    {
+      key: 'dependent.on',
+      name: 'dependent.on',
+      type: model ? 'select' : 'text',
+      label: 'Identifier of other field',
+      options,
+      attributes: {
+        placeholder: 'Field identifier'
+      },
+      layout: { col: { xs: 12, sm: 12, md: 4 } }
+    },
+    {
+      key: 'dependent.operator',
+      name: 'dependent.operator',
+      type: 'select',
+      label: 'Condition',
+      layout: { col: { xs: 12, sm: 5, md: 3 } },
+      dependent: { on: 'dependent.on' }, // oh yes :)
+      options: [
+        {
+          _id: '',
+          default: '… has any value.'
+        },
+        {
+          _id: 'is',
+          default: '… is exactly …'
+        },
+        {
+          _id: 'isnt',
+          default: '… has any value, except …'
+        },
+        {
+          _id: 'in',
+          default: '… contains …'
+        },
+        {
+          _id: 'gt',
+          default: '… is greater than …'
+        },
+        {
+          _id: 'gte',
+          default: '… is greater or equal to …'
+        },
+        {
+          _id: 'lt',
+          default: '… is less than …'
+        },
+        {
+          _id: 'lte',
+          default: '… is less or equal to …'
+        }
+      ]
+    },
+    {
+      key: 'dependent.values',
+      name: 'dependent.values',
+      type: 'text',
+      label: 'Value',
+      layout: { col: { xs: 12, sm: 7, md: '5' } },
+      dependent: {
+        on: 'dependent.operator',
+        operator: 'in',
+        values: ['in', 'gt', 'gte', 'lt', 'lte', 'is', 'isnt']
+      },
+      attributes: {
+        placeholder: 'Blank unless value matters'
+      }
+    }
+  ]
+}

@@ -1,12 +1,13 @@
 import React from 'react'
+import get from 'lodash/get'
+import upperCase from 'lodash/upperCase'
+
 import { GenericInputNoChildren } from './GenericInput'
-import { transformOptions } from './Select'
-import { get, upperCase } from 'lodash'
-import { translatorText } from '../helpers/translator'
+import translatorText from '../helpers/translator'
 import random from '../helpers/random'
 
 const Radio = props => {
-  const { translator, bindInput, ...xProps } = props
+  const { bindInput, ...xProps } = props
   return (props.element.options || []).map((option, i) => {
     const optionValue = option._id || option.default || option
     const key = (props.element.key || random()) + i
@@ -14,7 +15,7 @@ const Radio = props => {
       id: key,
       type: 'radio',
       value: optionValue,
-      label: translatorText(option, translator),
+      label: translatorText(option),
       checked: get(props.model, props.element.name) === optionValue,
       inline: !!get(props.element, 'layout.inline', undefined)
     }
@@ -35,10 +36,9 @@ const Radio = props => {
     )
   })
 }
+export default Radio
 
-Radio.displayName = 'Radio'
-
-const config = ({ translator }) => {
+export const config = ({ translator }) => {
   const { languages } = translator || {}
   return [
     {
@@ -114,15 +114,12 @@ const config = ({ translator }) => {
   ]
 }
 
-const transform = (element, { translator }, saving) => {
-  if (element.options) {
-    const result = transformOptions(element.options, translator || {}, saving)
-    element.options = result
-  }
+export const transform = (element, { translator }, saving) => {
   if (saving) element.custom = true
   else delete element.custom
   return element
 }
 
-export default Radio
-export { config, transform }
+export const filter = d => ['placeholder'].includes(d)
+
+export const icon = 'check'

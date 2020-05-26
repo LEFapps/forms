@@ -1,11 +1,12 @@
 import React from 'react'
 import reformed from './reformed'
 import validate from './validate'
-import ComponentLibrary from './Components'
-import DecoratorLibrary from './Decorators'
+import ComponentLibrary from './components'
+import DecoratorLibrary from './decorators'
 import { FormComposer } from './FormComposer'
-import { FormEditor } from './FormEditor'
+import FormEditor from './editor'
 import { isEmpty, set } from 'lodash'
+import { translatorContext } from './helpers/translator'
 
 class EasyForm {
   constructor ({
@@ -51,9 +52,11 @@ class EasyForm {
       set(config, 'translator', props.translator)
       const components = this.modifyLibrary(config)
       return (
-        <ReformedFormComposer library={components} {...props}>
-          {props.readOnly ? null : props.children}
-        </ReformedFormComposer>
+        <translatorContext.Provider value={props.translator}>
+          <ReformedFormComposer library={components} {...props}>
+            {props.readOnly ? null : props.children}
+          </ReformedFormComposer>
+        </translatorContext.Provider>
       )
     }
   }
@@ -62,9 +65,15 @@ class EasyForm {
       set(config, 'translator', props.translator)
       const components = this.modifyLibrary(config)
       return (
-        <FormEditor library={components} {...props}>
-          {props.children}
-        </FormEditor>
+        <translatorContext.Provider value={props.translator}>
+          <FormEditor
+            library={components}
+            formAttributes={{ className: 'lefappsForms-editor' }}
+            {...props}
+          >
+            {props.children}
+          </FormEditor>
+        </translatorContext.Provider>
       )
     }
   }

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Form, Row } from 'reactstrap'
-import { get, set } from 'lodash'
+import get from 'lodash/get'
+import set from 'lodash/set'
 
-const renderElements = (element, library, additionalProps, index) => {
+const renderElement = (element, library, additionalProps, index) => {
   if (library.has(element.type)) {
     let Component = library.get(element.type).component
     const key = `${element.name}${element.key || index}`
@@ -32,13 +33,15 @@ class FormComposer extends Component {
   renderElements (props) {
     const { elements, library, ...additionalProps } = props
     return elements.map((element, index) =>
-      renderElements(element, library, additionalProps, index)
+      renderElement(element, library, additionalProps, index)
     )
   }
   render () {
     const { formAttributes } = this.props
+    const className =
+      'lefappsForms ' + ((formAttributes && formAttributes.className) || '')
     return (
-      <Form onSubmit={this._onSubmit} {...formAttributes}>
+      <Form onSubmit={this._onSubmit} {...formAttributes} className={className}>
         <Row>{this.renderElements(this.props)}</Row>
         {this.props.children}
       </Form>

@@ -1,7 +1,9 @@
 import React from 'react'
 import { FormFeedback, FormText } from 'reactstrap'
-import { get, includes, upperCase } from 'lodash'
-import { translatorText } from '../helpers/translator'
+import get from 'lodash/get'
+import upperCase from 'lodash/upperCase'
+
+import translatorText from '../helpers/translator'
 
 const Validate = WrappedComponent => props => {
   const { description, invalid } = props.element.schema || {}
@@ -18,14 +20,15 @@ const Validate = WrappedComponent => props => {
       <WrappedComponent {...xProps} attributes={attributes} />
       {feedback ? (
         <feedback.component>
-          {translatorText(feedback.description, props.translator)}
+          {translatorText(feedback.description)}
         </feedback.component>
       ) : null}
     </>
   )
 }
+export default Validate
 
-const config = ({ translator, model }) =>
+export const config = ({ translator, model }) =>
   [
     {
       key: 'validate.divider',
@@ -97,8 +100,3 @@ const config = ({ translator, model }) =>
         }
       }))
     )
-
-const filter = key => !includes(['divider', 'infobox'], key)
-
-export default Validate
-export { config, filter }

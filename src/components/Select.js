@@ -1,26 +1,30 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import isArray from 'lodash/isArray'
+import isString from 'lodash/isString'
+import upperCase from 'lodash/upperCase'
+
 import GenericInput from './GenericInput'
-import {
-  isArray,
-  isString,
-  isPlainObject,
-  upperCase,
-  fromPairs,
-  forEach,
-  reduce,
-  kebabCase,
-  includes,
-  assign,
-  size
-} from 'lodash'
-import { translatorText } from '../helpers/translator'
+import translatorText from '../helpers/translator'
+
+const Option = ({ option }) => {
+  const [translation, setTranslation] = useState()
+  useEffect(() => {
+    if (!translation) {
+      setTranslation(translatorText(option, { getString: true }))
+    }
+  })
+  return (
+    <option value={option._id || option}>
+      {(isString(translation) && translation) ||
+        (isString(option._id) && option._id) ||
+        (isString(option) && option)}
+    </option>
+  )
+}
 
 const Select = props => {
-  const { element, translator } = props
+  const { element } = props
   const options = element.options || []
-  // if (get(element, 'attributes.multiple', false) === 'checkbox') {
-  //   return <SelectMulti {...props} />
-  // } else {
   const hasEmptyOption = isArray(options)
     ? options.find(option => !option || !option._id || option._id === '~')
     : !options
@@ -32,19 +36,14 @@ const Select = props => {
         </option>
       ) : null}
       {options.map((option, index) => (
-        <option
-          key={`${element.name}${element.key}-option-${index}`}
-          value={option._id}
-        >
-          {translatorText(option, translator)}
-        </option>
+        <Option key={index} option={option} />
       ))}
     </GenericInput>
   )
-  // }
 }
+export default Select
 
-const config = ({ translator }) => {
+export const config = ({ translator }) => {
   const { languages } = translator || {}
   if (languages) {
     const headerField = [
@@ -139,71 +138,6 @@ const config = ({ translator }) => {
   }
 }
 
-/* Transformation of options
- * To make it easier to fill options (newlines in textarea),
- * these need to be transformed before saving or retrieving.
- */
+export const filter = d => ['placeholder'].includes(d)
 
-const transformOptions = (defaultOptions, translator, saving) => {
-  const optionDelimiter = '\n'
-  const optionId = value => '~' + kebabCase(value)
-  const { languages, currentLanguage } = translator
-  if (isString(defaultOptions) && saving) {
-    if (languages) {
-      /* 'nl\nnl2' => [{_id:'~nl',nl:'nl','en':'nl'},{_id:'~nl2',nl:'nl2','en':'nl2'}] */
-      return defaultOptions
-        .split(optionDelimiter)
-        .map(option =>
-          assign(
-            { _id: optionId(option) },
-            fromPairs(languages.map(l => [l, option]))
-          )
-        )
-    } else {
-      /* 'nl\nnl2' => [{_id:'~nl',default:'nl'},{_id:'~nl2',default:'nl2'}] */
-      return defaultOptions.split(optionDelimiter).map(option => ({
-        _id: optionId(option),
-        [currentLanguage || 'default']: option
-      }))
-    }
-  } else if (isPlainObject(defaultOptions) && saving) {
-    /* {nl:'nl\nnl2',en:'en\nen2'} => [{_id:'~nl',nl:'nl',en:'en'},{_id:'~nl2',nl:'nl2',en:'en2'}] */
-    const reducer = (result, options, lang) => {
-      options.split(optionDelimiter).map((option, key) => {
-        if (!result[key]) result[key] = {}
-        result[key][lang] = lang === '_id' ? optionId(option) : option
-      })
-      return result
-    }
-    return reduce(defaultOptions, reducer, [])
-  } else if (isArray(defaultOptions) && !saving) {
-    /* [{_id:'~nl',nl:'nl',en:'en'},{_id:'~nl2',nl:'nl2',en:'en2'}] => {nl:'nl\nnl2',en:'en\nen2'} */
-    const excludeKeys = ['default']
-    const reducer = (result, option) => {
-      forEach(option, (o, lang) => {
-        if (!includes(excludeKeys, lang)) {
-          if (result[lang]) result[lang] += '\n' + o
-          else result[lang] = o
-        }
-      })
-      if (size(option) && !size(result)) {
-        result = translatorText(option, translator)
-      }
-      return result
-    }
-    return defaultOptions.reduce(reducer, {})
-  } else return defaultOptions
-}
-
-const transform = (element, { translator }, saving) => {
-  if (element.options) {
-    const result = transformOptions(element.options, translator || {}, saving)
-    element.options = result
-  }
-  return element
-}
-
-export default Select
-
-export { config, transform }
-export { transformOptions }
+export const icon = 'check'

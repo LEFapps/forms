@@ -1,21 +1,23 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { FormEditor } from '../FormEditor'
-import components from '../Components'
-import decorators from '../Decorators'
 import { Modal, ModalHeader, ModalBody, Button } from 'reactstrap'
-import { translatorText } from '../helpers/translator'
+
+import components from '../components'
+import decorators from '../decorators'
+import FormEditor from '../editor'
+import translatorText, { translatorContext } from '../helpers/translator'
 
 const EditorModal = props => {
-  const { bindInput, element, el, translator, modal, onCancel } = props
+  const translator = useContext(translatorContext)
+  const { bindInput, element, el, isOpen, onCancel } = props
   const body = document.getElementsByTagName('body')[0]
   const componentLib = components.clone()
   decorators.apply(componentLib, { translator })
   const { onChange, value } = bindInput(element.name)
   const editorForm = (
-    <Modal isOpen={modal} toggle={onCancel} size={'lg'}>
+    <Modal isOpen={isOpen} toggle={onCancel} size={'lg'}>
       <ModalHeader toggle={onCancel}>
-        {translatorText(el ? el.label : element.label, translator)}
+        {translatorText(el ? el.label : element.label)}
       </ModalHeader>
       <ModalBody>
         <FormEditor
@@ -32,34 +34,31 @@ const EditorModal = props => {
   return ReactDOM.createPortal(editorForm, body)
 }
 
-class Editor extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = { modal: false }
-  }
-  render () {
-    const buttonText = {
-      default: 'Configure',
-      nl: 'Configureer formulier',
-      fr: 'Configurer formulaire',
-      en: 'Configure Form'
-    }
-    return (
-      <div>
-        <Button onClick={() => this.setState({ modal: true })} color={'info'}>
-          {translatorText(buttonText, this.props.translator)}
-        </Button>
-        <EditorModal
-          key={this.props.element.name + 'Editor'}
-          {...this.props}
-          {...this.state}
-          onCancel={() => this.setState({ modal: false })}
-        />
-      </div>
-    )
-  }
+const buttonText = {
+  default: 'Configure',
+  nl: 'Configureer formulier',
+  fr: 'Configurer formulaire',
+  en: 'Configure Form'
+}
+
+const Editor = props => {
+  const [modal, setModal] = useState(false)
+  return (
+    <div>
+      <Button onClick={() => setModal(true)} color={'info'}>
+        {translatorText(buttonText)}
+      </Button>
+      <EditorModal
+        key={props.element.name + 'Editor'}
+        {...props}
+        isOpen={modal}
+        onCancel={() => setModal(false)}
+      />
+    </div>
+  )
 }
 
 Editor.displayName = 'Input'
-
 export default Editor
+
+export const icon = 'sliders-h'

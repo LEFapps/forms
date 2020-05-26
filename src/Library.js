@@ -1,4 +1,7 @@
-import { map, isFunction, difference, cloneDeep } from 'lodash'
+import map from 'lodash/map'
+import isFunction from 'lodash/isFunction'
+import difference from 'lodash/difference'
+import cloneDeep from 'lodash/cloneDeep'
 
 class Library extends Map {
   /*
@@ -43,7 +46,6 @@ class DecoratorLibrary extends Library {
     this.forEach((source, sourceKey) => {
       const decorator = grab(source, 'decorator', isFunction, sourceKey)
       const combine = grab(source, 'combine', isFunction, sourceKey)
-      const filter = grab(source, 'filter', isFunction, sourceKey)
       const decoratorConfig = grab(source, 'config', isFunction, sourceKey)
       const decoratorTransform = grab(
         source,
@@ -54,8 +56,9 @@ class DecoratorLibrary extends Library {
       source.transformer = (element, saving) =>
         decoratorTransform(element, context, saving)
       componentLibrary.forEach((target, targetKey) => {
-        // is this decorator interested?
-        if (filter(targetKey)) {
+        const filter = grab(target, 'filter', isFunction, targetKey)
+        // is this decorator needed?
+        if (!filter(sourceKey)) {
           // apply the decorator
           const originalDisplayName =
             target.component.displayName || target.component.name || 'Component'
@@ -74,8 +77,8 @@ class DecoratorLibrary extends Library {
           target.transformer = (element, saving) =>
             componentTransform(element, context, saving)
         } else {
-          // const info = `${sourceKey} is not interested in ${targetKey}`
-          // if (console.info) console.info(info)
+          const info = `Component “${targetKey}” does not need Decorator “${sourceKey}”`
+          if (console.debug) console.debug(info)
           // else console.log(info)
         }
       })

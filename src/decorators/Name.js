@@ -1,26 +1,25 @@
 import React from 'react'
-import { includes, flip, union } from 'lodash'
+import flip from 'lodash/flip'
+import union from 'lodash/union'
 
-const NameDecorator = WrappedComponent => props => {
-  return <WrappedComponent {...props} />
-}
+const NameDecorator = WrappedComponent => props => (
+  <WrappedComponent {...props} />
+)
+export default NameDecorator
 
-const filter = key => !includes(['divider', 'infobox'], key)
-const combine = flip(union)
+export const combine = flip(union)
 
-const config = ({ translator, model }) => [
+export const config = ({ translator, model }) => [
   {
     key: 'name',
     name: 'name',
     type: 'text',
-    label: 'Field identifier',
-    attributes: {
-      placeholder: 'Technical name for field'
+    label: {
+      default: 'reference',
+      nl: 'Referentie',
+      fr: 'Référence',
+      en: 'Reference'
     },
-    required: true,
-    layout: { col: { xs: 12, sm: 6 } }
+    required: true
   }
 ]
-
-export default NameDecorator
-export { filter, config, combine }

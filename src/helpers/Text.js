@@ -2,7 +2,6 @@ import React from 'react'
 import MarkdownIt from 'markdown-it'
 import MarkdownItAttrs from 'markdown-it-attrs'
 import MarkdownItVideo from 'markdown-it-video'
-// import MarkdownItPicture from 'markdown-it-picture'
 import MarkdownItFigures from 'markdown-it-figure-caption'
 
 const md = MarkdownIt({
@@ -12,14 +11,16 @@ const md = MarkdownIt({
 })
   .use(MarkdownItAttrs)
   .use(MarkdownItVideo)
-  // .use(MarkdownItPicture)
   .use(MarkdownItFigures)
 
-const Text = ({ content, className }) => (
-  <div
-    className={'text ' + (className || '')}
-    dangerouslySetInnerHTML={{ __html: md.render(content || '') }}
-  />
-)
+const Text = ({ content, className, tagName }) => {
+  const Tag = tagName || 'div'
+  return (
+    <Tag
+      className={'text ' + (className || '')}
+      dangerouslySetInnerHTML={{ __html: md.render(content || '') }}
+    />
+  )
+}
 
 export default Text

@@ -2,7 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import assign from 'object-assign'
 import hoistNonReactStatics from 'hoist-non-react-statics'
-import { set, get, identity, isFunction } from 'lodash'
+import set from 'lodash/set'
+import get from 'lodash/get'
+import identity from 'lodash/identity'
+import isFunction from 'lodash/isFunction'
 
 class ModelHandlerWrapper {
   constructor ({ getState, setState, onStateChange }) {
@@ -30,9 +33,7 @@ const makeWrapper = middleware => WrappedComponent => {
   class FormWrapper extends React.Component {
     constructor (props, ctx) {
       super(props, ctx)
-      this.state = {
-        model: props.initialModel || {}
-      }
+      this.state = { model: props.initialModel || {} }
     }
 
     makeHelpers (modelHandler) {
@@ -75,6 +76,7 @@ const makeWrapper = middleware => WrappedComponent => {
         },
         this.makeHelpers(modelHandler)
       )
+
       return React.createElement(WrappedComponent, nextProps)
     }
   }
