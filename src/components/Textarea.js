@@ -2,6 +2,8 @@ import React from 'react'
 
 import { GenericInputNoChildren } from './GenericInput'
 import MarkDown from './markdown/MarkDown'
+import Text from '../helpers/Text'
+import translate from '../helpers/translator'
 
 const Textarea = props => {
   const element = { ...props.element }
@@ -11,6 +13,12 @@ const Textarea = props => {
   return <GenericInputNoChildren {...props} element={element} />
 }
 export default Textarea
+
+const TextareaResult = ({ element: { name, md }, initialModel: model }) => {
+  const content = model[name]
+  return md ? <Text content={content || ''} /> : <p>{content}</p>
+}
+export { TextareaResult as result }
 
 export const config = () => [
   {

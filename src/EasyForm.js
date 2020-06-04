@@ -5,6 +5,7 @@ import ComponentLibrary from './components'
 import DecoratorLibrary from './decorators'
 import { FormComposer } from './FormComposer'
 import FormEditor from './editor'
+import FormResults from './results'
 import { isEmpty, set } from 'lodash'
 import { translatorContext } from './helpers/translator'
 
@@ -73,6 +74,23 @@ class EasyForm {
           >
             {props.children}
           </FormEditor>
+        </translatorContext.Provider>
+      )
+    }
+  }
+  results (config = {}) {
+    return props => {
+      set(config, 'translator', props.translator)
+      const components = this.modifyLibrary(config)
+      return (
+        <translatorContext.Provider value={props.translator}>
+          <FormResults
+            library={components}
+            formAttributes={{ className: 'lefappsForms-results' }}
+            {...props}
+          >
+            {props.children}
+          </FormResults>
         </translatorContext.Provider>
       )
     }

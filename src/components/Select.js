@@ -43,6 +43,26 @@ const Select = props => {
 }
 export default Select
 
+const SelectResult = ({
+  element: { name, options = [] },
+  initialModel: model = {}
+}) => (
+  <ol>
+    {options.map((option, key) => {
+      const isSelected = model[name] === (option._id || option)
+      return (
+        <li
+          key={key}
+          className={isSelected ? 'font-weight-bold text-primary' : ''}
+        >
+          {translatorText(option)}
+        </li>
+      )
+    })}
+  </ol>
+)
+export { SelectResult as result }
+
 export const config = ({ translator }) => {
   const { languages } = translator || {}
   if (languages) {
