@@ -1,6 +1,6 @@
 ---
 sidebar:
-  nav: "docs"
+  nav: 'docs'
 ---
 
 # Composition based forms
@@ -11,7 +11,15 @@ A composed form requires a **Library** that provides a component for every type 
 
 A library of default components and one for decorators is provided. You can extend or modify these default libraries, by adding, removing or replacing components or decorators. This is how you customize behaviour for a specific application.
 
-A **form editor** is also available, with which you can modify form elements.
+## Extras
+
+A **form editor** is available, with which you can modify form elements:
+
+`new EasyForm().editor()`
+
+A **form results view** is available, which formats the user’s input in text format:
+
+`new EasyForm().results()`
 
 # Getting started
 
@@ -38,10 +46,6 @@ const MyForm = props => {
 }
 ```
 
-
-
-
-
-***
+---
 
 [components](components)
