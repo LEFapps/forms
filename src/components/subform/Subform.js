@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Row, Col, Card, CardHeader, CardBody, Button } from 'reactstrap'
 import get from 'lodash/get'
 import castArray from 'lodash/castArray'
@@ -190,6 +190,34 @@ export default class SubForm extends React.Component {
     )
   }
 }
+
+const SubFormResult = ({
+  element: { name, elements = [] },
+  initialModel: model = {}
+}) => {
+  const values = model[name] || []
+  return (
+    <ol>
+      {values.map((value, index) => {
+        return (
+          <li key={index}>
+            <dl>
+              {elements.map(({ name, label }, key) => {
+                return (
+                  <Fragment key={key}>
+                    <dt>{translatorText(label)}</dt>
+                    <dd>{value[name]}</dd>
+                  </Fragment>
+                )
+              })}
+            </dl>
+          </li>
+        )
+      })}
+    </ol>
+  )
+}
+export { SubFormResult as result }
 
 export const config = ({ translator, model }) => [
   {

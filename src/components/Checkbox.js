@@ -30,6 +30,16 @@ const Checkbox = props => {
 }
 export default Checkbox
 
+const CheckboxResult = ({ element: { name }, initialModel: model = {} }) => {
+  const isChecked = model[name]
+  return (
+    <span className={'text-' + (isChecked ? 'success' : 'danger')}>
+      {isChecked ? '✓' : '×'}
+    </span>
+  )
+}
+export { CheckboxResult as result }
+
 export const transform = (element, { translator }, saving) => {
   if (element.label) {
     element.value = `~${kebabCase(

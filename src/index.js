@@ -5,18 +5,20 @@ import { ElementEditor } from './editor/EditorCard'
 import DefaultComponents from './components'
 import DefaultDecorators from './decorators'
 
-import Textarea from './components/Textarea'
-import TextInput from './components/Text'
-import Checkbox from './components/Checkbox'
-import CheckboxMC from './components/CheckboxMC'
-import Radio from './components/Radio'
-import Select from './components/Select'
-import Divider from './components/Divider'
-import InfoBox from './components/InfoBox'
-import Subform from './components/subform/Subform'
-import Editor from './components/Editor'
-import Input from './components/GenericInput'
-import NoInput from './components/GenericInputNoChildren'
+import Textarea, { result as TextareaResult } from './components/Textarea'
+import TextInput, { result as TextInputResult } from './components/Text'
+import Checkbox, { result as CheckboxResult } from './components/Checkbox'
+import CheckboxMC, { result as CheckboxMCResult } from './components/CheckboxMC'
+import Radio, { result as RadioResult } from './components/Radio'
+import Select, { result as SelectResult } from './components/Select'
+import Divider, { result as DividerResult } from './components/Divider'
+import InfoBox, { result as InfoBoxResult } from './components/InfoBox'
+import Subform, { result as SubformResult } from './components/subform/Subform'
+import Editor, { result as EditorResult } from './components/Editor'
+import Input, { result as InputResult } from './components/GenericInput'
+import NoInput, {
+  result as NoInputResult
+} from './components/GenericInputNoChildren'
 
 import FormGroupDecorator from './decorators/FormGroup'
 import AttributesDecorator from './decorators/Attributes'
@@ -42,17 +44,29 @@ export {
 
 export {
   Checkbox,
+  CheckboxResult,
   CheckboxMC,
+  CheckboxMCResult,
   Divider,
+  DividerResult,
   Editor,
+  EditorResult,
   InfoBox,
+  InfoBoxResult,
   Input,
+  InputResult,
   NoInput,
+  NoInputResult,
   Radio,
+  RadioResult,
   Select,
+  SelectResult,
   Subform,
+  SubformResult,
   Textarea,
-  TextInput
+  TextareaResult,
+  TextInput,
+  TextInputResult
 }
 
 export {

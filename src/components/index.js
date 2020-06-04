@@ -32,6 +32,7 @@ const library = new Library([
 library.forEach((component, name) => {
   library.set(name, {
     component: component.default,
+    result: component.result,
     config: isFunction(component.config) ? component.config : stubArray,
     transform: isFunction(component.transform) ? component.transform : identity,
     filter: isFunction(component.filter) ? component.filter : stubFalse,

@@ -58,7 +58,7 @@ const Editor = props => {
   )
 }
 
-Editor.displayName = 'Input'
+Editor.displayName = 'Editor'
 export default Editor
 
 export const icon = 'sliders-h'

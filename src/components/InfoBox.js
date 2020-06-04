@@ -14,6 +14,9 @@ const InfoBoxComponent = ({ element, attributes: propsAttributes }) => {
 }
 export default InfoBoxComponent
 
+const InfoBoxComponentResult = InfoBoxComponent
+export { InfoBoxComponentResult as result }
+
 export const config = ({ translator, model }) => {
   const { languages } = translator || {}
   if (languages) {

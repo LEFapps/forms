@@ -44,5 +44,11 @@ const GenericInputNoChildren = ({ bindInput, element, attributes, custom }) => {
 GenericInput.displayName = 'Input'
 GenericInputNoChildren.displayName = 'Input'
 
+const GenericInputResult = ({
+  element: { name },
+  initialModel: model = {}
+}) => <p className='text-primary'>{model[name]}</p>
+export { GenericInputResult as result }
+
 export default GenericInput
 export { GenericInputNoChildren }
