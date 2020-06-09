@@ -45,9 +45,17 @@ GenericInput.displayName = 'Input'
 GenericInputNoChildren.displayName = 'Input'
 
 const GenericInputResult = ({
-  element: { name },
-  initialModel: model = {}
-}) => <p className='text-primary'>{model[name]}</p>
+  element = {},
+  initialModel: model = {},
+  middleware = () => ({})
+}) => (
+  <p
+    className='text-primary'
+    {...(middleware && middleware({ element, model }))}
+  >
+    {model[element.name]}
+  </p>
+)
 export { GenericInputResult as result }
 
 export default GenericInput

@@ -13,9 +13,21 @@ const Textarea = props => {
 }
 export default Textarea
 
-const TextareaResult = ({ element: { name, md }, initialModel: model }) => {
+const TextareaResult = ({
+  element = {},
+  initialModel: model,
+  middleware = () => ({})
+}) => {
+  const { name, md } = element
   const content = model[name]
-  return md ? <Text content={content || ''} /> : <p>{content}</p>
+  return md ? (
+    <Text
+      content={content || ''}
+      {...(middleware && middleware({ element, model }))}
+    />
+  ) : (
+    <p>{content}</p>
+  )
 }
 export { TextareaResult as result }
 

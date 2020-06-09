@@ -48,23 +48,28 @@ const CheckboxMC = props => {
 export default CheckboxMC
 
 const CheckboxMCResult = ({
-  element: { name, options = [] },
-  initialModel: model = {}
-}) => (
-  <ol>
-    {options.map((option, key) => {
-      const isSelected = model[name] === (option._id || option)
-      return (
-        <li
-          key={key}
-          className={isSelected ? 'font-weight-bold text-primary' : ''}
-        >
-          {translatorText(option)}
-        </li>
-      )
-    })}
-  </ol>
-)
+  element = {},
+  initialModel: model = {},
+  middleware = () => ({})
+}) => {
+  const { name, options = [] } = element
+  return (
+    <ol>
+      {options.map((option, key) => {
+        const isSelected = model[name] === (option._id || option)
+        return (
+          <li
+            key={key}
+            className={isSelected ? 'font-weight-bold text-primary' : ''}
+            {...(middleware && middleware({ element, option, model }))}
+          >
+            {translatorText(option)}
+          </li>
+        )
+      })}
+    </ol>
+  )
+}
 export { CheckboxMCResult as result }
 
 export const config = ({ translator, model }) => {

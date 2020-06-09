@@ -5,9 +5,17 @@ import { config, GenericInputNoChildren } from './GenericInput'
 export default GenericInputNoChildren
 
 const GenericInputNoChildrenResult = ({
-  element: { name },
-  initialModel: model = {}
-}) => <p className='text-primary'>{model[name]}</p>
+  element = {},
+  initialModel: model = {},
+  middleware = () => ({})
+}) => (
+  <p
+    className='text-primary'
+    {...(middleware && middleware({ element, model }))}
+  >
+    {model[element.name]}
+  </p>
+)
 export { GenericInputNoChildrenResult as result }
 
 export { config }

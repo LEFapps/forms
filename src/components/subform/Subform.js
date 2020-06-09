@@ -195,6 +195,7 @@ const SubFormResult = ({
   element: { name, elements = [] },
   initialModel: model = {}
 }) => {
+  // TODO: render form.result()
   const values = model[name] || []
   return (
     <ol>

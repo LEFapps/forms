@@ -30,10 +30,17 @@ const Checkbox = props => {
 }
 export default Checkbox
 
-const CheckboxResult = ({ element: { name }, initialModel: model = {} }) => {
-  const isChecked = model[name]
+const CheckboxResult = ({
+  element = {},
+  initialModel: model = {},
+  middleware = () => ({})
+}) => {
+  const isChecked = model[element.name]
   return (
-    <span className={'text-' + (isChecked ? 'success' : 'danger')}>
+    <span
+      className={'text-' + (isChecked ? 'success' : 'danger')}
+      {...(middleware && middleware({ element, model }))}
+    >
       {isChecked ? '✓' : '×'}
     </span>
   )
