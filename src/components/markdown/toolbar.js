@@ -1,4 +1,5 @@
 import isFunction from 'lodash/isFunction'
+import flatten from 'lodash/flatten'
 
 const toolbarGroups = [
   [
@@ -69,7 +70,7 @@ const toolbarGroups = [
   ]
 ]
 
-const toolbar = toolbarGroups.flat()
+const toolbar = flatten(toolbarGroups)
 
 const _find = (lines, pos, removed) => {
   let cumul = -1

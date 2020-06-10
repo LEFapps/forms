@@ -8,6 +8,7 @@ import {
   ButtonGroup
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import flatten from 'lodash/flatten'
 
 import applyTool, { toolbarGroups, hasTool } from './toolbar'
 import Md from '../../helpers/Text'
@@ -29,8 +30,7 @@ class MarkDown extends React.Component {
     clearTimeout(this.timer)
     const cursor = [target.selectionStart, target.selectionEnd]
     this.timer = setTimeout(() => {
-      const hasTools = this.state.toolbar
-        .flat()
+      const hasTools = flatten(this.state.toolbar)
         .map(({ icon, prepend, append }) =>
           hasTool(target.value, cursor, { icon, prepend, append })
             ? icon
