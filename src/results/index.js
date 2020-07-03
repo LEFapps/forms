@@ -13,7 +13,9 @@ const FormResults = ({
       if (!library.has(element.type)) return null
       const Component = library.get(element.type).result
       if (!Component) return null
-      return <Component key={key} {...props} element={element} />
+      return (
+        <Component key={key} library={library} {...props} element={element} />
+      )
     })}
     {children}
   </section>

@@ -8,6 +8,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import ActualForm from './Modal'
 import Items from './Items'
 import translatorText from '../../helpers/translator'
+import FormResults from '../../results'
 
 export default class SubForm extends React.Component {
   constructor (props) {
@@ -193,7 +194,8 @@ export default class SubForm extends React.Component {
 
 const SubFormResult = ({
   element: { name, elements = [] },
-  initialModel: model = {}
+  initialModel: model = {},
+  ...props
 }) => {
   // TODO: render form.result()
   const values = model[name] || []
@@ -201,17 +203,8 @@ const SubFormResult = ({
     <ol>
       {values.map((value, index) => {
         return (
-          <li key={index}>
-            <dl>
-              {elements.map(({ name, label }, key) => {
-                return (
-                  <Fragment key={key}>
-                    <dt>{translatorText(label)}</dt>
-                    <dd>{value[name]}</dd>
-                  </Fragment>
-                )
-              })}
-            </dl>
+          <li key={index} className='lefappsForms-results__answer-subform'>
+            <FormResults {...props} elements={elements} initialModel={value} />
           </li>
         )
       })}
