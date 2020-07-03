@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Row, Col, Card, CardHeader, CardBody, Button } from 'reactstrap'
 import get from 'lodash/get'
 import castArray from 'lodash/castArray'
