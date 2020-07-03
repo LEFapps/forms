@@ -51,7 +51,8 @@ const RadioResult = ({
         return (
           <li
             key={key}
-            className={isSelected ? 'font-weight-bold text-primary' : ''}
+            className='lefappsForms-results__answer'
+            data-checked={!!isSelected}
             {...(middleware && middleware({ element, option, model }))}
           >
             {translatorText(option)}

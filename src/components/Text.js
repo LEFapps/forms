@@ -10,7 +10,10 @@ const TextResult = ({
   initialModel: model,
   middleware = () => ({})
 }) => (
-  <p {...(middleware && middleware({ element, model }))}>
+  <p
+    className='lefappsForms-results__answer'
+    {...(middleware && middleware({ element, model }))}
+  >
     {model[element.name]}
   </p>
 )

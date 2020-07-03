@@ -22,6 +22,7 @@ const TextareaResult = ({
   const content = model[name]
   return md ? (
     <Text
+      className='lefappsForms-results__answer'
       content={content || ''}
       {...(middleware && middleware({ element, model }))}
     />

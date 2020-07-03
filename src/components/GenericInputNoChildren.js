@@ -10,7 +10,7 @@ const GenericInputNoChildrenResult = ({
   middleware = () => ({})
 }) => (
   <p
-    className='text-primary'
+    className='lefappsForms-results__answer'
     {...(middleware && middleware({ element, model }))}
   >
     {model[element.name]}

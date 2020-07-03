@@ -38,7 +38,8 @@ const CheckboxResult = ({
   const isChecked = model[element.name]
   return (
     <span
-      className={'text-' + (isChecked ? 'success' : 'danger')}
+      className='lefappsForms-results__answer'
+      data-checked={!!isChecked}
       {...(middleware && middleware({ element, model }))}
     >
       {isChecked ? '✓' : '×'}
