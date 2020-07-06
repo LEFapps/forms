@@ -22,12 +22,18 @@ const Option = ({ option }) => {
   )
 }
 
-const Select = props => {
+const Select = ({ middleware, ...props }) => {
   const { element } = props
   const options = element.options || []
   const hasEmptyOption = isArray(options)
     ? options.find(option => !option || !option._id || option._id === '~')
     : !options
+  props.middleware =
+    middleware &&
+    middleware({
+      element: props.element,
+      model: props.model
+    })
   return (
     <GenericInput {...props}>
       {!hasEmptyOption ? (

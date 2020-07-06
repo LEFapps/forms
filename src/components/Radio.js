@@ -7,7 +7,7 @@ import translatorText from '../helpers/translator'
 import random from '../helpers/random'
 
 const Radio = props => {
-  const { bindInput, ...xProps } = props
+  const { bindInput, middleware, ...xProps } = props
   return (props.element.options || []).map((option, i) => {
     const optionValue = option._id || option.default || option
     const key = (props.element.key || random()) + i
@@ -27,6 +27,13 @@ const Radio = props => {
           props.setProperty(name, e.target.checked ? optionValue : undefined)
       }
     }
+    xProps.middleware =
+      middleware &&
+      middleware({
+        element: props.element,
+        model: props.model,
+        option
+      })
     return (
       <GenericInputNoChildren
         key={key}

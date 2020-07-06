@@ -2,7 +2,15 @@ import React from 'react'
 
 import { GenericInputNoChildren } from './GenericInput'
 
-const TextComponent = props => <GenericInputNoChildren {...props} />
+const TextComponent = ({ middleware, ...props }) => {
+  props.middleware =
+    middleware &&
+    middleware({
+      element: props.element,
+      model: props.model
+    })
+  return <GenericInputNoChildren {...props} />
+}
 export default TextComponent
 
 const TextResult = ({

@@ -4,10 +4,16 @@ import { GenericInputNoChildren } from './GenericInput'
 import MarkDown from './markdown/MarkDown'
 import Text from '../helpers/Text'
 
-const Textarea = props => {
+const Textarea = ({ middleware, ...props }) => {
   const element = { ...props.element }
   element.type = 'textarea'
   const { md } = props.element
+  props.middleware =
+    middleware &&
+    middleware({
+      element: props.element,
+      model: props.model
+    })
   if (md) return <MarkDown {...props} element={element} />
   return <GenericInputNoChildren {...props} element={element} />
 }

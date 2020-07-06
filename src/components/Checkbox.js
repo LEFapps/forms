@@ -7,7 +7,7 @@ import { GenericInputNoChildren } from './GenericInput'
 import translatorText from '../helpers/translator'
 
 const Checkbox = props => {
-  const { bindInput, ...xProps } = props
+  const { bindInput, middleware, ...xProps } = props
   xProps.checked = get(props.model, props.element.name, false)
   xProps.custom = {
     id: `${props.element.name}-${random()}`,
@@ -23,6 +23,12 @@ const Checkbox = props => {
       onChange: e => props.setProperty(name, e.target.checked)
     }
   }
+  xProps.middleware =
+    middleware &&
+    middleware({
+      element: props.element,
+      model: props.model
+    })
   if (get(xProps, 'value', '')) {
     xProps.value = translatorText(xProps.value)
   }

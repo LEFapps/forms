@@ -26,12 +26,19 @@ const GenericInput = ({ bindInput, element, attributes, children, custom }) => {
   )
 }
 
-const GenericInputNoChildren = ({ bindInput, element, attributes, custom }) => {
+const GenericInputNoChildren = ({
+  bindInput,
+  element,
+  attributes,
+  custom,
+  middleware = {}
+}) => {
   const { name: names, type, attributes: elementAttributes } = element
   const name = (isString(names) && names) || (names && names._id) || names
   const Tag = custom ? CustomInput : Input
   return (
     <Tag
+      {...middleware}
       type={type}
       {...custom}
       {...bindInput(name)}

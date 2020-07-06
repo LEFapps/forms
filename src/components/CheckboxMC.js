@@ -8,7 +8,7 @@ import translatorText from '../helpers/translator'
 import random from '../helpers/random'
 
 const CheckboxMC = props => {
-  const { bindInput, ...xProps } = props
+  const { bindInput, middleware, ...xProps } = props
   const thisModel = get(props.model, props.element.name, [])
   return (props.element.options || []).map((option, i) => {
     const optionValue = option._id || option.default || option
@@ -36,6 +36,13 @@ const CheckboxMC = props => {
         }
       }
     })
+    xProps.middleware =
+      middleware &&
+      middleware({
+        element: props.element,
+        model: props.model,
+        option
+      })
     return (
       <GenericInputNoChildren
         key={key}
