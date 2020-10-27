@@ -9,7 +9,7 @@ import random from '../helpers/random'
 
 const CheckboxMC = props => {
   const { bindInput, middleware, ...xProps } = props
-  let thisModel = get(props.model, props.element.name, [])
+  const thisModel = get(props.model, props.element.name, [])
   return (props.element.options || []).map((option, i) => {
     const optionValue = option._id || option.default || option
     const key = (props.element.key || random()) + i
@@ -25,7 +25,6 @@ const CheckboxMC = props => {
       name,
       checked: includes(thisModel, optionValue),
       onChange: e => {
-        if (typeof thisModel === 'object') thisModel = Object.values(thisModel) // make sure we are passing an array, not an object
         if (e.target.checked) {
           thisModel.push(optionValue)
           return props.setProperty(name, thisModel)
