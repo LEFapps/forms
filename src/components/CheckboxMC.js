@@ -1,4 +1,5 @@
 import React from 'react'
+import has from 'lodash/has'
 import get from 'lodash/get'
 import upperCase from 'lodash/upperCase'
 import includes from 'lodash/includes'
@@ -11,7 +12,9 @@ const CheckboxMC = props => {
   const { bindInput, middleware, ...xProps } = props
   const thisModel = get(props.model, props.element.name, [])
   return (props.element.options || []).map((option, i) => {
-    const optionValue = option._id || option.default || option
+    const optionValue = has(option, '_id')
+      ? option._id
+      : option.default || option
     const key = (props.element.key || random()) + i
     xProps.custom = {
       id: key,
@@ -63,7 +66,9 @@ const CheckboxMCResult = ({
   return (
     <ol>
       {options.map((option, key) => {
-        const isSelected = model[name] === (option._id || option)
+        const isSelected = model[name].includes(
+          has(option, '_id') ? option._id : option
+        )
         return (
           <li
             key={key}

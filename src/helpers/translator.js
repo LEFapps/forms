@@ -2,6 +2,7 @@ import React, { createContext, useContext } from 'react'
 import { renderToString } from 'react-dom/server'
 import isString from 'lodash/isString'
 import isNumber from 'lodash/isNumber'
+import has from 'lodash/has'
 import get from 'lodash/get'
 import head from 'lodash/head'
 import map from 'lodash/map'
@@ -38,7 +39,7 @@ const Translated = ({
       return <Translate _id={text.translate} />
     } else return def
   } else if (text.default) return text.default
-  else if (text._id) return text._id
+  else if (has(text, '_id')) return text._id
   return head(map(text))
 }
 
