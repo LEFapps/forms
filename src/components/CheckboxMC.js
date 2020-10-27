@@ -64,14 +64,7 @@ const CheckboxMCResult = ({
   return (
     <ol>
       {options.map((option, key) => {
-        let isSelected = false
-        if (typeof model[name] === 'object') {
-          for (let i in model[name]) {
-            if (model[name][i] === (option._id || option)) {
-              isSelected = true
-            }
-          }
-        } else isSelected = model[name] === (option._id || option)
+        const isSelected = model[name] === (option._id || option)
         return (
           <li
             key={key}
