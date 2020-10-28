@@ -67,9 +67,9 @@ const CheckboxMCResult = ({
     <ol>
       {options.map((option, key) => {
         const isSelected = model[name]
-          ? model[name].includes(has(option, '_id'))
+          ? model[name].includes(has(option, '_id')
             ? option._id
-            : option
+            : option)
           : false
         return (
           <li
