@@ -135,7 +135,6 @@ class Items extends React.Component {
                 {cols.map((col, j) => {
                   return (
                     <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
-                      {console.log('col', col)}
                       {columnValue(d, col)}
                     </td>
                   )
