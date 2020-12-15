@@ -16,7 +16,8 @@ const columns = ({ elements, attributes }) =>
       const el = elements.find(e => e.name === name) || {}
       const type = col.type || el.type
       const options = el.options
-      return { name, label, type, options }
+      const component = el.component
+      return { name, label, type, options, component }
     }
   )
 
@@ -36,7 +37,7 @@ const matchSearch = (key, values) => {
   }
 }
 
-const columnValue = (data, { name, type, options = [] }) => {
+const columnValue = (data, { name, type, options = [], component: Comp }) => {
   const value = get(data, name)
   const fromOptions = v =>
     options.find(option => ((option && option._id) || option) === v) || v
@@ -45,16 +46,32 @@ const columnValue = (data, { name, type, options = [] }) => {
       return value && `${value.length} ×`
     default:
       if (isArray(value)) {
-        return value.map(v => translatorText(fromOptions(v))).join(', ')
+        if (Comp) {
+          return value.map((v, i) => (
+            <div key={i}>
+              <Comp value={fromOptions(v)} />
+            </div>
+          ))
+        }
+        return value.map((v, i) => translatorText(fromOptions(v))).join(', ')
       }
-      if (isPlainObject(value)) return JSON.stringify(value).substring(0, 64)
+      if (isPlainObject(value)) {
+        return Comp ? (
+          <Comp {...value} />
+        ) : (
+          JSON.stringify(value).substring(0, 64)
+        )
+      }
       if (isBoolean(value)) {
-        return (
+        return Comp ? (
+          <Comp value={value} />
+        ) : (
           <span className={`text-${value ? 'success' : 'danger'}`}>
             {value ? '✓' : '✗'}
           </span>
         )
       }
+      if (Comp) return <Comp value={fromOptions(value)} />
       return translatorText(fromOptions(value))
   }
 }
@@ -118,6 +135,7 @@ class Items extends React.Component {
                 {cols.map((col, j) => {
                   return (
                     <td style={{ verticalAlign: 'middle' }} key={`${i}.${j}`}>
+                      {console.log('col', col)}
                       {columnValue(d, col)}
                     </td>
                   )
