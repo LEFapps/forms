@@ -21,6 +21,7 @@ const library = new Library([
   ['email', require('./GenericInputNoChildren')],
   ['password', require('./GenericInputNoChildren')],
   ['url', require('./GenericInputNoChildren')],
+  ['upload', require('./Upload')],
   ['editor', require('./Editor')],
   ['subform', require('./subform/Subform')],
   ['time', require('./GenericInputNoChildren')],

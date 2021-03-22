@@ -2,7 +2,7 @@
   "name": "@lefapps/forms",
   "version": "1.8.11",
   "description": "This is a composition based form generator. Every composed form is also [reformed](https://github.com/davezuko/react-reformed), allowing for easy model bindings.",
-  "browser": "./lib/index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "clean": "rimraf lib",
     "lint": "eslint src",
@@ -31,6 +31,7 @@
     "@fortawesome/react-fontawesome": "^0.1.8",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
+    "react": "^17.0.1",
     "react-reformed": "2.0.0",
     "react-sortable-hoc": "^1.11.0",
     "reactstrap": "^7.1.0"
