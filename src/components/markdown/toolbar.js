@@ -62,6 +62,43 @@ const toolbarGroups = [
   ],
   [
     {
+      icon: 'table',
+      title: 'Table',
+      dropdown: [
+        {
+          title: '1 Column',
+          prepend: '\n| ',
+          append: 'Column #1 |\n|    ---    |\n| Row #1    |\n| Row #2    |\n'
+        },
+        {
+          title: '2 Columns',
+          prepend: '\n| ',
+          append:
+            'Column #1 | Column #2 |\n|    ---    |    ---    |\n| Row #1    | Row #1    |\n| Row #2    | Row #2    |\n'
+        },
+        {
+          title: '3 Columns',
+          prepend: '\n| ',
+          append:
+            'Column #1 | Column #2 | Column #3 |\n|    ---    |    ---    |    ---    |\n| Row #1    | Row #1    | Row #1    |\n| Row #2    | Row #2    | Row #2    |\n'
+        },
+        {
+          title: '4 Columns',
+          prepend: '\n| ',
+          append:
+            'Column #1 | Column #2 | Column #3 | #4  |\n|    ---    |    ---    |    ---    | --- |\n| Row #1    | Row #1    | Row #1    | ... |\n| Row #2    | Row #2    | Row #2    | ... |\n'
+        },
+        {
+          title: '5 Columns',
+          prepend: '\n| ',
+          append:
+            'Column #1 | Column #2 | Column #3 | #4  | #5  |\n|    ---    |    ---    |    ---    | --- | --- |\n| Row #1    | Row #1    | Row #1    | ... | ... |\n| Row #2    | Row #2    | Row #2    | ... | ... |\n'
+        }
+      ]
+    }
+  ],
+  [
+    {
       icon: 'grip-lines',
       title: 'Rule',
       prepend: '\n***\n',
