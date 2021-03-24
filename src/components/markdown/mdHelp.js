@@ -56,7 +56,7 @@ export const MarkDownHelp = ({ ...props }) => {
                 </tr>
                 <tr>
                   <th>Paragraph</th>
-                  <td />
+                  <td>(newlines)</td>
                   <td>
                     <pre>Paragraph text</pre>
                     <hr />
