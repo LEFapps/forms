@@ -5,7 +5,11 @@ import {
   CardHeader,
   CardBody,
   Button,
-  ButtonGroup
+  ButtonGroup,
+  UncontrolledButtonDropdown,
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import flatten from 'lodash/flatten'
@@ -71,17 +75,51 @@ class MarkDown extends React.Component {
         <CardHeader className={'d-flex md-editor__head'}>
           {toolbar.map((group, j) => (
             <ButtonGroup key={j}>
-              {group.map(({ icon, title, ...tool }, i) => (
-                <Button
-                  key={i}
-                  onClick={() => this.applyTool(tool, model)}
-                  active={hasTools.includes(icon)}
-                  title={title}
-                  disabled={preview}
-                >
-                  <FontAwesomeIcon icon={icon} />
-                </Button>
-              ))}
+              {group.map(({ icon, title, dropdown, ...tool }, i) =>
+                dropdown ? (
+                  <UncontrolledButtonDropdown key={i}>
+                    <DropdownToggle
+                      caret
+                      title={title}
+                      active={hasTools.includes(icon)}
+                      disabled={preview}
+                    >
+                      <FontAwesomeIcon icon={icon} />
+                    </DropdownToggle>
+                    <DropdownMenu className='mt-0 pt-0'>
+                      <DropdownItem
+                        header
+                        className='bg-light text-primary m-0'
+                      >
+                        {title}
+                      </DropdownItem>
+                      {dropdown.map(
+                        ({ icon: subIcon, title: subTitle, ...tool }, j) => (
+                          <DropdownItem
+                            key={j}
+                            onClick={() => this.applyTool(tool, model)}
+                          >
+                            <small>
+                              {subIcon && <FontAwesomeIcon icon={subIcon} />}
+                              {subTitle}
+                            </small>
+                          </DropdownItem>
+                        )
+                      )}
+                    </DropdownMenu>
+                  </UncontrolledButtonDropdown>
+                ) : (
+                  <Button
+                    key={i}
+                    onClick={() => this.applyTool(tool, model)}
+                    active={hasTools.includes(icon)}
+                    title={title}
+                    disabled={preview}
+                  >
+                    <FontAwesomeIcon icon={icon} />
+                  </Button>
+                )
+              )}
             </ButtonGroup>
           ))}
           <div style={{ marginLeft: 'auto' }}>
