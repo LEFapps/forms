@@ -6,7 +6,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import castArray from 'lodash/castArray'
 
 import translatorText from '../../helpers/translator'
-import Text from '../helpers/Text'
+import Text from '../../helpers/Text'
 
 const defaultHost = `${window.location.protocol}//${window.location.hostname}/`
 
