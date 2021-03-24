@@ -141,6 +141,7 @@ const _toolParts = (value, cursor, { prepend, append }) => {
 }
 
 const _checkTool = (part, { prepend, append }) => {
+  if (!prepend && !append) return false
   const checkPrepend = part
     ? prepend
       ? part.indexOf(prepend) >= 0
@@ -168,6 +169,7 @@ const applyTool = (value, cursor, { prepend, append, middleware }) => {
           toolApplied[2]
         )
       }
+
       return (
         value.slice(0, cursor[0]) +
         prepend +

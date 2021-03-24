@@ -29,6 +29,8 @@ class MarkDown extends React.Component {
   checkTool ({ target }) {
     clearTimeout(this.timer)
     const cursor = [target.selectionStart, target.selectionEnd]
+    this.props.setCursorPosition &&
+      this.props.setCursorPosition(target.selectionEnd)
     this.timer = setTimeout(() => {
       const hasTools = flatten(this.state.toolbar)
         .map(({ icon, prepend, append }) =>
@@ -46,7 +48,11 @@ class MarkDown extends React.Component {
     const cursor = [input.selectionStart, input.selectionEnd]
     applyTool(value, cursor, tool).then(newValue => {
       onChange({ target: { name, value: newValue } }, () => {
-        const newCursor = cursor[1] + newValue.length - value.length
+        const newCursor =
+          cursor[1] +
+          newValue.length -
+          value.length -
+          ((tool.append && tool.append.length) || 0)
         input.setSelectionRange(newCursor, newCursor)
         input.focus()
         this.checkTool({ target: input })
