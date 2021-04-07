@@ -13,6 +13,8 @@ import {
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import flatten from 'lodash/flatten'
+import filter from 'lodash/filter'
+import castArray from 'lodash/castArray'
 
 import applyTool, { toolbarGroups, hasTool } from './toolbar'
 import Md from '../../helpers/Text'
@@ -25,7 +27,7 @@ class MarkDown extends React.Component {
       preview: false,
       id: `textarea-md-${Math.round(Math.random() * 8999999 + 1000000)}`,
       hasTools: [],
-      toolbar: toolbarGroups.concat(props.element.toolbar || [])
+      toolbar: filter(toolbarGroups.concat(props.element.toolbar))
     }
     this.timer = false
     this.checkTool = this.checkTool.bind(this)
@@ -73,9 +75,9 @@ class MarkDown extends React.Component {
     return (
       <Card className={'md-editor'}>
         <CardHeader className={'d-flex md-editor__head'}>
-          {toolbar.map((group, j) => (
+          {toolbar.map((group = [], j) => (
             <ButtonGroup key={j}>
-              {group.map(({ icon, title, dropdown, ...tool }, i) =>
+              {castArray(group).map(({ icon, title, dropdown, ...tool }, i) =>
                 dropdown ? (
                   <UncontrolledButtonDropdown key={i}>
                     <DropdownToggle
