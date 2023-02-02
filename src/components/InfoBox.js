@@ -4,11 +4,17 @@ import upperCase from 'lodash/upperCase'
 import translatorText from '../helpers/translator'
 import Text from '../helpers/Text'
 
-const InfoBoxComponent = ({ element, attributes: propsAttributes }) => {
+const InfoBoxComponent = ({
+  element,
+  attributes: propsAttributes,
+  translator
+}) => {
   const { attributes: elementAttributes } = element
   return (
     <div {...elementAttributes} {...propsAttributes}>
-      <Text content={translatorText(element.label, { getString: true })} />
+      <Text
+        content={translatorText(element.label, { getString: true, translator })}
+      />
     </div>
   )
 }
