@@ -31,7 +31,9 @@ const Translated = ({
     ? get(translator, 'default', get(translator, 'currentLanguage', 'default'))
     : get(translator, 'currentLanguage', get(translator, 'default', 'default'))
 
-  const def = text.default || text.translate || text._id
+  const def =
+    // text.default || text.translate || text._id || text[Object.keys(text)[0]]
+    text.default || text.translate || text._id || head(map(text))
 
   if (text[lang]) return text[lang]
   if (text.translate) {
@@ -40,7 +42,7 @@ const Translated = ({
     } else return def
   } else if (text.default) return text.default
   else if (has(text, '_id')) return text._id
-  return head(map(text))
+  return head(map(text)) | ''
 }
 
 export default (text = '', options = {}) => {
