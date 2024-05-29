@@ -17,6 +17,7 @@ import { faParagraph } from '@fortawesome/free-solid-svg-icons/faParagraph'
 import { faPen } from '@fortawesome/free-solid-svg-icons/faPen'
 import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion'
 import { faQuoteRight } from '@fortawesome/free-solid-svg-icons/faQuoteRight'
+import { faTable } from '@fortawesome/free-solid-svg-icons/faTable'
 import { faSlidersH } from '@fortawesome/free-solid-svg-icons/faSlidersH'
 import { faStrikethrough } from '@fortawesome/free-solid-svg-icons/faStrikethrough'
 import { faTasks } from '@fortawesome/free-solid-svg-icons/faTasks'
@@ -33,6 +34,7 @@ library.add(
   faList,
   faListOl,
   faQuoteRight,
+  faTable,
   faStrikethrough
 )
 
